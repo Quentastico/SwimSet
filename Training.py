@@ -3,7 +3,7 @@
 ## IMPORTS
 
 import numpy as np
-from utils.py import pickDistance
+from utils import pickDistance
 
 ## GLOBAL VARIABLES
 
