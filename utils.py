@@ -1,4 +1,5 @@
 import numpy as np
+import globals
 
 # Tool function that picks a random distance between two min and max values
 def pickDistance(minValue, maxValue, avValue, stepDistance):
@@ -30,3 +31,23 @@ def pickDistance(minValue, maxValue, avValue, stepDistance):
     finalValue = maxValue
 
   return finalValue
+
+# Make a tool function that allows cutting a set into increasing/decreasing distances
+def cutSetStaged(distance, minBlocks):
+  # Distance: this is the distance (m) of the set of interest
+  # minBlocks: This is the minimal number of blocks allowed in this set
+  optionBlocks = []
+  for step in np.arange(stepBlockDistance, distance + stepBlockDistance, stepBlockDistance):
+    for start in np.arange(minSegmentDistance, distance + stepBlockDistance, stepBlockDistance):
+
+      # Calculating the discrimant (Note that this is always strictly positive)
+      delta = (start - step/2)*(start - step/2) + 2*step*distance
+
+      # Calculating the positive solution
+      positiveSolution = (step/2-start+np.sqrt(delta))/step
+
+      # Check if the solution is an integer and save the array if there are at least minBlocks segments
+      if (positiveSolution == np.floor(positiveSolution)) & (positiveSolution>= minBlocks):
+        optionBlocks.append([int(positiveSolution), start, step])
+
+  return optionBlocks
