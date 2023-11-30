@@ -21,6 +21,33 @@ avSetDistance = 600
 
 
 
+## SET
+
+# Defining the different types of variation withtin a set
+variationTypes = ["equal", "increasing", "decreasing", "pyramid"]
+
+# What is the minimal difference between two blocks (various routines)
+stepBlockDistance = 25
+
+# Minimal number of blocks in the case of an "increase" type of set
+minBlocksIncrease = 3
+
+# Minimal number of blocks in the case of a decrease type of set
+minBlocksDecrease = 3
+
+# Minimal number of blocks in the case of a pyramid (divided by 2)
+minBlocksPyramid = 2
+
+
+## BLOCK
+
+# Minimum value for a block distance (m)
+minBlockDistance = 50
+
+# Minimum and maximum numbers of segments per block
+minSegmentNumber = 2
+maxSegmentNumber = 3
+
 ## SEGMENT
 
 # Minimum value for a segment distance (m)
