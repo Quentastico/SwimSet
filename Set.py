@@ -2,6 +2,7 @@
 
 import numpy as np
 import globals
+from utils import cutSetStaged
 
 class Set:
 

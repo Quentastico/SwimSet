@@ -1,5 +1,8 @@
 import numpy as np
 import globals
+from utils import pickDistance
+from Segment import Segment
+
 
 class Block:
 
