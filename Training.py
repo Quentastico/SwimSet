@@ -12,6 +12,7 @@ class Training:
   def __init__(self, totalDistance, numberSets = None):
 
     globals.inititalise() # This imports the various global variables
+    print(globals.minTotalDistance)
 
     #Attributes
     self.totalDistance = totalDistance # Total distance of the training session (m)
