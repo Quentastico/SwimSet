@@ -35,11 +35,11 @@ class Block:
   def setDistanceSegments(self):
 
     # Determining the number of segments randomly between the minimum and maximum numbers
-    numberSegments = np.random.randint(low=minSegmentNumber, high=maxSegmentNumber+1)
+    numberSegments = np.random.randint(low=globals.minSegmentNumber, high=globals.maxSegmentNumber+1)
 
     # Checking that the number of segments are compatible with the distance
-    if self.distance/numberSegments < minSegmentDistance:
-      numberSegments = int(np.floor(self.distance/minSegmentDistance))
+    if self.distance/numberSegments < globals.minSegmentDistance:
+      numberSegments = int(np.floor(self.distance/globals.minSegmentDistance))
 
     # Attributing random values within the block
 
@@ -49,16 +49,16 @@ class Block:
     else:
 
       #Initialise the loop by setting the min and max values
-      minValue = minSegmentDistance
+      minValue = globals.minSegmentDistance
       avValue = self.distance / numberSegments
 
       for i in np.arange(numberSegments-1):
 
         # Setting the max Distance
-        maxValue = self.distance - np.array(self.listSegmentDistance).sum() - (numberSegments - 1 - i) * minSegmentDistance
+        maxValue = self.distance - np.array(self.listSegmentDistance).sum() - (numberSegments - 1 - i) * globals.minSegmentDistance
 
         # Picking a random distance in the given interval and add it to the list
-        newDistanceValue = pickDistance(minValue, maxValue, avValue, minSegmentDistance)
+        newDistanceValue = pickDistance(minValue, maxValue, avValue, globals.minSegmentDistance)
         self.listSegmentDistance.append(int(newDistanceValue))
 
       # At the end of the loop (or if there is only one set), the last set is defined

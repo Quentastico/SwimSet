@@ -20,7 +20,7 @@ class Set:
   def setDistanceVariation(self):
 
     # 1. Setting the type of variation
-    self.distanceVariation = variationTypes[np.random.randint(low=0, high=len(variationTypes))]
+    self.distanceVariation = globals.variationTypes[np.random.randint(low=0, high=len(globals.variationTypes))]
 
     # 2. Calling the right method
     if self.distanceVariation == "equal":
@@ -42,7 +42,7 @@ class Set:
 
     optionDistanceBlock = []
 
-    for distance in np.arange(minBlockDistance, self.distance + stepBlockDistance, stepBlockDistance):
+    for distance in np.arange(globals.minBlockDistance, self.distance + globals.stepBlockDistance, globals.stepBlockDistance):
       if self.distance / distance == np.floor(self.distance / distance):
         optionDistanceBlock.append(distance)
 
@@ -58,7 +58,7 @@ class Set:
   def increasingBlocks(self):
 
     # Finding all the ways to cut the set
-    optionBlocks = cutSetStaged(distance = self.distance, minBlocks = minBlocksIncrease)
+    optionBlocks = cutSetStaged(distance = self.distance, minBlocks = globals.minBlocksIncrease)
 
     # Choosing a random way
     selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
@@ -71,7 +71,7 @@ class Set:
   def decreasingBlocks(self):
 
     # Finding all the ways to cut the set
-    optionBlocks = cutSetStaged(distance = self.distance, minBlocks = minBlocksDecrease)
+    optionBlocks = cutSetStaged(distance = self.distance, minBlocks = globals.minBlocksDecrease)
 
     # Choosing a random way
     selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
@@ -85,7 +85,7 @@ class Set:
   def pyramidBlocks(self):
 
     # Finding all the ways to cut half the set
-    optionBlocks = cutSetStaged(distance = self.distance/2, minBlocks = minBlocksPyramid)
+    optionBlocks = cutSetStaged(distance = self.distance/2, minBlocks = globals.minBlocksPyramid)
 
     # Choosing a random way
     selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
