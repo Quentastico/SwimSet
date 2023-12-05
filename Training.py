@@ -11,8 +11,6 @@ class Training:
   # Initialisation function
   def __init__(self, totalDistance, numberSets = None):
 
-    print("this has worked")
-
     #Attributes
     self.totalDistance = totalDistance # Total distance of the training session (m)
     self.warmupDistance = None # Warmup distance (m)
