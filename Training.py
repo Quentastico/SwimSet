@@ -21,8 +21,8 @@ class Training:
     self.setList = [] # List of sets
 
     # Data Check 1 - Checking that the total distance if higher than the minimal limit
-    if self.totalDistance < minTotalDistance:
-      print("Please enter a distance value higher than the minimal allowed value: "+ str(minTotalDistance) + "m")
+    if self.totalDistance < globals.minTotalDistance:
+      print("Please enter a distance value higher than the minimal allowed value: "+ str(globals.minBlockDistance) + "m")
       return
 
     # Data Scheck 2 - Checking that the distance is a multiple of 100
@@ -48,12 +48,12 @@ class Training:
 
   # Method to determine the warmup distance
   def setWarmupDistance(self):
-    self.warmupDistance = max(minWarmupDistance, 100 * np.round(fracWarmupDistance * self.totalDistance / 100))
+    self.warmupDistance = max(globals.minWarmupDistance, 100 * np.round(globals.fracWarmupDistance * self.totalDistance / 100))
 
 
   # Method to determine the cooldown distance
   def setCooldownDistance(self):
-    self.cooldownDistance = min(100*np.ceil(fracCooldownDistance * self.totalDistance / 100), maxCooldownDistance)
+    self.cooldownDistance = min(100*np.ceil(globals.fracCooldownDistance * self.totalDistance / 100), globals.maxCooldownDistance)
 
 
   # Method to determine the right number of sets
@@ -61,14 +61,14 @@ class Training:
 
     # Case 1 - The user has entered a valid value: we want to make sure that on average, the minimum set distance is higher than the minimal value allowed
     if self.numberSets is not None:
-      if self.mainsetDistance / self.numberSets < minSetDistance:
+      if self.mainsetDistance / self.numberSets < globals.minSetDistance:
         print("Careful: the number of sets is too high for the selected distance")
         # In this case, we set the number of sets so that the distance per set is equal to the minimal allowed value
-        self.numberSets = int(np.floor(self.mainsetDistance / minSetDistance))
+        self.numberSets = int(np.floor(self.mainsetDistance / globals.minSetDistance))
 
     # Case 2: The user has entered no value
     else:
-      self.numberSets = int(np.round(self.mainsetDistance / avSetDistance))
+      self.numberSets = int(np.round(self.mainsetDistance / globals.avSetDistance))
 
   # Method to determine the list of the lengths of the sets
   def setSetDistances(self):
@@ -76,14 +76,14 @@ class Training:
     if self.numberSets > 1:
 
       #Initialise the loop by setting the min and max values
-      minValue = minSetDistance
+      minValue = globals.minSetDistance
       avValue = self.mainsetDistance / self.numberSets
 
 
       for i in np.arange(self.numberSets-1):
 
         # Setting the max Distance
-        maxValue = self.mainsetDistance - np.array(self.setDistanceList).sum() - (self.numberSets - 1 - i) * minSetDistance
+        maxValue = self.mainsetDistance - np.array(self.setDistanceList).sum() - (self.numberSets - 1 - i) * globals.minSetDistance
 
         # Picking a random distance in the given interval and add it to the list
         newDistanceValue = pickDistance(minValue, maxValue, avValue, 100)
