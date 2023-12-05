@@ -11,6 +11,8 @@ class Training:
   # Initialisation function
   def __init__(self, totalDistance, numberSets = None):
 
+    globals.inititalise() # This imports the various global variables
+
     #Attributes
     self.totalDistance = totalDistance # Total distance of the training session (m)
     self.warmupDistance = None # Warmup distance (m)
