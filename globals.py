@@ -1,8 +1,10 @@
 #TRAINING
 
-# Minimum total distance for a set
-global minTotalDistance
-minTotalDistance = 500
+def inititalise():
+
+    # Minimum total distance for a set
+    global minTotalDistance
+    minTotalDistance = 500
 
 # Minimum warmup distance for any size of training set (m)
 minWarmupDistance = 200
