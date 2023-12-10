@@ -23,6 +23,10 @@ class Set:
     # Create the Blocks which are part of the Set
     self.createBlocks()
 
+  def info(self):
+
+    print("This set: DISTANCE: " + str(self.distance) + " - VARIATION TYPE: " + str(self.distanceVariation) + " - BLOCK DISTANCES: " + str(self.listBlockDistance))
+
   def setDistanceVariation(self):
 
     # 1. Setting the type of variation
