@@ -40,10 +40,9 @@ class Block:
   def copy(self):
 
     # Initialising the object
-    newBlock = Block()
+    newBlock = Block(distance = self.distance)
 
     # Copying the properties
-    newBlock.distance = self.distance
     newBlock.randomDef = self.randomDef
     newBlock.breakDuration = self.breakDuration
     newBlock.duration = self.duration
