@@ -3,6 +3,8 @@
 import numpy as np
 import globals
 from utils import cutSetStaged
+from Block import Block
+import utils
 
 class Set:
 
@@ -13,9 +15,13 @@ class Set:
     self.distance = distance # Distance of the set (m)
     self.distanceVariation = None # Type of variation of distances for the different blocks composing the Set
     self.listBlockDistance = [] # List of the distances of the block composing the set (in m)
+    self.listBlocks = [] # List of the block objects that will compose the Set
 
     # Finding the distances of the Blocks
     self.setDistanceVariation()
+
+    # Create the Blocks which are part of the Set
+    self.createBlocks()
 
   def setDistanceVariation(self):
 
@@ -94,4 +100,35 @@ class Set:
     increasePyramid = np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])
     decreasePyramid = np.flip(increasePyramid)
     self.listBlockDistance = np.concatenate([increasePyramid, decreasePyramid])
+
+  # Function which defines the list of Blocks which compose the Set
+  def createBlocks(self):
+
+    # Case 1: All the blocks have the same distance ("constant") - then can allow blocks to have Segments
+    if self.distanceVariation == "equal":
+
+      # Here we will have to code something
+      print("to be coded")
+
+    else: 
+
+      # We create a first block that contains exaclty one segment
+      firstBlock = Block(distance=self.listBlockDistance[0], nSegments=1)
+      print("The first block has been created and has one segment")
+      firstBlock.listSegment[0].info()
+
+      # Then we decide if the intensity will increase, decrease or be constant from one block to the other
+      relOptionIntensity = globals.optionIntensity[self.distanceVariation]
+      selOptionIntensity = relOptionIntensity[np.random.randint(low=0, high=len(relOptionIntensity))]
+
+      # Then we set the intensities over the entire blocks
+      listIntensities = utils.setIntensities(nBlocks=len(self.listBlockDistance), optionIntensity=selOptionIntensity, minIntensity=globals.minIntensity, maxIntensity=globals.maxIntensity)
+
+
+
+
+
+
+
+
 

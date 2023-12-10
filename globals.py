@@ -48,6 +48,12 @@ minBlockDistance = 50
 minSegmentNumber = 2
 maxSegmentNumber = 3
 
+# Options considered for the variation of intensity from one block to the other
+optionIntensity = {"equal": ["intensityIncrease", "intensityConstant"], 
+                   "increasing": ["intensityDecrease", "intensityConstant"], 
+                   "decreasing": ["intensityIncrease", "intensityConstant"], 
+                   "pyramid":["intensityConstant"]}
+
 ## SEGMENT
 
 # Minimum value for a segment distance (m)

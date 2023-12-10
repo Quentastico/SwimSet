@@ -7,7 +7,7 @@ from Segment import Segment
 class Block:
 
   # Initialisation function
-  def __init__(self, distance, randomDef = True, listSegment = [], listSegmentDistance = []):
+  def __init__(self, distance, randomDef = True, listSegment = [], listSegmentDistance = [], nSegments = None):
 
     # Attributes
     self.distance = distance # Block distance (in m)
@@ -16,6 +16,7 @@ class Block:
     self.duration = None # Duration of the entire block (in s)
     self.listSegment = listSegment # List that contains all the segment composing the block
     self.listSegmentDistance = listSegmentDistance # List that contains the distance of the Segments composing the Block
+    self.nSegments = nSegments # Number of segments in the block (can be user-defined)
 
     if self.randomDef:
 
@@ -26,7 +27,6 @@ class Block:
       # Creation of the list of the Segments attached to this object
       self.listSegment = []
       for segmentDistance in self.listSegmentDistance:
-        print(segmentDistance)
         newSegment = Segment(distance=segmentDistance, randomDef=True)
         self.listSegment.append(newSegment)
 
@@ -34,28 +34,30 @@ class Block:
   # Definition of the function that splits the block distance into segments
   def setDistanceSegments(self):
 
-    # Determining the number of segments randomly between the minimum and maximum numbers
-    numberSegments = np.random.randint(low=globals.minSegmentNumber, high=globals.maxSegmentNumber+1)
+    # Determining the number of segments randomly between the minimum and maximum numbers (if not already user-defined)
+    if self.nSegments is None:  
 
-    # Checking that the number of segments are compatible with the distance
-    if self.distance/numberSegments < globals.minSegmentDistance:
-      numberSegments = int(np.floor(self.distance/globals.minSegmentDistance))
+      self.nSegments = np.random.randint(low=globals.minSegmentNumber, high=globals.maxSegmentNumber+1)
+
+      # Checking that the number of segments are compatible with the distance
+      if self.distance/self.nSegments < globals.minSegmentDistance:
+        self.nSegments = int(np.floor(self.distance/globals.minSegmentDistance))
 
     # Attributing random values within the block
 
-    if numberSegments == 1:
+    if self.nSegments == 1:
       self.listSegmentDistance.append(self.distance)
 
     else:
 
       #Initialise the loop by setting the min and max values
       minValue = globals.minSegmentDistance
-      avValue = self.distance / numberSegments
+      avValue = self.distance / self.nSegments
 
-      for i in np.arange(numberSegments-1):
+      for i in np.arange(self.nSegments-1):
 
         # Setting the max Distance
-        maxValue = self.distance - np.array(self.listSegmentDistance).sum() - (numberSegments - 1 - i) * globals.minSegmentDistance
+        maxValue = self.distance - np.array(self.listSegmentDistance).sum() - (self.nSegments - 1 - i) * globals.minSegmentDistance
 
         # Picking a random distance in the given interval and add it to the list
         newDistanceValue = pickDistance(minValue, maxValue, avValue, globals.minSegmentDistance)
