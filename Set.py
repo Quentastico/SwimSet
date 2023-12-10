@@ -119,7 +119,6 @@ class Set:
       # We create a first block that contains exaclty one segment
       firstBlock = Block(distance=self.listBlockDistance[0], nSegments=1)
       print("The first block has been created and has one segment")
-      firstBlock.listSegment[0].info()
 
       # Then we decide if the intensity will increase, decrease or be constant from one block to the other
       relOptionIntensity = globals.optionIntensity[self.distanceVariation]
@@ -134,13 +133,15 @@ class Set:
       firstBlock.listSegment[0].intensity = listIntensities[0]
       self.listBlocks.append(firstBlock)
 
+      firstBlock.listSegment[0].info()
+
       # Then we create the series of the other Blocks composing the segment
       if len(self.listBlockDistance) > 1:
 
         for i in np.arange(len(self.listBlockDistance)-1):
 
           # First we make a copy of the first Block created
-          newBlock = firstBlock
+          newBlock = firstBlock.copy()
 
           # Then we only change the intensity & distance of this first block
           print(i)
