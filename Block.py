@@ -30,6 +30,10 @@ class Block:
         newSegment = Segment(distance=segmentDistance, randomDef=True)
         self.listSegment.append(newSegment)
 
+  def info(self):
+
+    print("This block: DISTANCE: " + str(self.distance) + " - SEGMENT DISTANCE: " + str(self.listSegmentDistance))
+
 
   # Definition of the function that splits the block distance into segments
   def setDistanceSegments(self):
