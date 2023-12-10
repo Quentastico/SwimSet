@@ -30,9 +30,30 @@ class Block:
         newSegment = Segment(distance=segmentDistance, randomDef=True)
         self.listSegment.append(newSegment)
 
+  # Making a function to provide info on a set
   def info(self):
 
     print("This block: DISTANCE: " + str(self.distance) + " - SEGMENT DISTANCE: " + str(self.listSegmentDistance))
+
+  # Making a function that copies an existing block
+
+  def copy(self):
+
+    # Initialising the object
+    newBlock = Block()
+
+    # Copying the properties
+    newBlock.distance = self.distance
+    newBlock.randomDef = self.randomDef
+    newBlock.breakDuration = self.breakDuration
+    newBlock.duration = self.duration
+    newBlock.listSegment = self.listSegment
+    newBlock.listSegmentDistance = self.listSegmentDistance
+    newBlock.nSegments = self.nSegments
+
+    # returning the new object
+    return newBlock
+
 
 
   # Definition of the function that splits the block distance into segments
