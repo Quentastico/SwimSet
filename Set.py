@@ -143,6 +143,9 @@ class Set:
           newBlock = firstBlock
 
           # Then we only change the intensity & distance of this first block
+          print(i)
+          print("New block distance: " + str (self.listBlockDistance[i+1]))
+          print("New block intensity: " + str (listIntensities[i+1]))
           newBlock.listSegment[0].distance = self.listBlockDistance[i+1]
           newBlock.listSegment[0].intensity = listIntensities[i+1]
 
