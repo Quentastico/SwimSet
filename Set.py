@@ -120,9 +120,35 @@ class Set:
       # Then we decide if the intensity will increase, decrease or be constant from one block to the other
       relOptionIntensity = globals.optionIntensity[self.distanceVariation]
       selOptionIntensity = relOptionIntensity[np.random.randint(low=0, high=len(relOptionIntensity))]
+      print(selOptionIntensity)
 
-      # Then we set the intensities over the entire blocks
+      # Then we determine the intensities over the entire blocks
       listIntensities = utils.setIntensities(nBlocks=len(self.listBlockDistance), optionIntensity=selOptionIntensity, minIntensity=globals.minIntensity, maxIntensity=globals.maxIntensity)
+      print(listIntensities)
+
+      # Finally we force the intensity of firstBlock to be equal to the first intensity and we add it to the list of blocks
+      firstBlock.listSegment[0].intensity = listIntensities[0]
+      self.listBlocks.append(firstBlock)
+
+      # Then we create the series of the other Blocks composing the segment
+      if len(self.listBlockDistance) > 1:
+
+        for i in np.arange(len(self.listBlockDistance)-1):
+
+          # First we make a copy of the first Block created
+          newBlock = firstBlock
+
+          # Then we only change the intensity & distance of this first block
+          newBlock.listSegment[0].distance = self.listBlockDistance[i+1]
+          newBlock.listSegment[0].intensity = listIntensities[i+1]
+
+          # And finally we add each block to the list of blocks
+          self.listBlocks.append(newBlock)
+
+          
+
+
+
 
 
 
