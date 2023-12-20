@@ -46,9 +46,15 @@ class Block:
     newBlock.randomDef = self.randomDef
     newBlock.breakDuration = self.breakDuration
     newBlock.duration = self.duration
-    newBlock.listSegment = self.listSegment
     newBlock.listSegmentDistance = self.listSegmentDistance
     newBlock.nSegments = self.nSegments
+
+    # Copying the list of segments - This needs to be performed Segment after Segment
+    newBlock.listSegment = []
+
+    for segment in self.listSegment:
+      newSegment = segment.copy()
+      newBlock.listSegment.append(newSegment)
 
     # returning the new object
     return newBlock
