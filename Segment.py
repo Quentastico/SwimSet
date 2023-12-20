@@ -20,6 +20,20 @@ class Segment:
       self.setEquipment()
       self.setIntensity()
 
+  # Copy method
+  def copy(self):
+
+    # Initialisation of the new object
+    newSegment = Segment(distance=self.distance)
+
+    # Copying the properties
+    newSegment.randomDef = self.randomDef
+    newSegment.stroke = self.stroke
+    newSegment.equipment = self.equipment
+    newSegment.intensity = self.intensity
+    newSegment.duration = self.duration
+
+    return newSegment
 
   # Method setting  the stroke
   # Note: Maybe add an option for freestyle only, freestyle and form only, and drill + breath pattern + kicks optional
