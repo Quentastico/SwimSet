@@ -126,7 +126,7 @@ class Set:
       print(selOptionIntensity)
 
       # Then we determine the intensities over the entire blocks
-      listIntensities = utils.setIntensities(nBlocks=len(self.listBlockDistance), optionIntensity=selOptionIntensity, minIntensity=globals.minIntensity, maxIntensity=globals.maxIntensity)
+      listIntensities = utils.setIntensities(nBlocks=len(self.listBlockDistance), optionIntensity=selOptionIntensity, minIntensity=globals.minIntensity, maxIntensity=globals.maxIntensity, selectedIntensity=firstBlock.listSegment[0].intensity)
       print(listIntensities)
 
       # Finally we force the intensity of firstBlock to be equal to the first intensity and we add it to the list of blocks
