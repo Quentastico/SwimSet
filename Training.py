@@ -45,6 +45,9 @@ class Training:
     # Determination of the distances of the sets
     self.setSetDistances()
 
+    # Creation of the Sets
+    self.createSets()
+
 
   # Method to determine the warmup distance
   def setWarmupDistance(self):
@@ -91,6 +94,13 @@ class Training:
 
     # At the end of the loop (or if there is only one set), the last set is defined
     self.setDistanceList.append(int(self.mainsetDistance - np.array(self.setDistanceList).sum()))
+  
+  # Creation of the Sets
+  def createSets(self):
+
+    for distance in self.setDistanceList:
+      newSet = Set(distance=distance)
+      self.setList.append(newSet)
 
   # Creating an info method
   def info(self):
