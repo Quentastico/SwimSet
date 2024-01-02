@@ -132,8 +132,6 @@ class Set:
       firstBlock.listSegment[0].intensity = listIntensities[0]
       self.listBlocks.append(firstBlock)
 
-      firstBlock.listSegment[0].info()
-
       # Then we create the series of the other Blocks composing the segment
       if len(self.listBlockDistance) > 1:
 
@@ -142,8 +140,9 @@ class Set:
           # First we make a copy of the first Block created
           newBlock = firstBlock.copy()
 
-          # We then change the distcnae of this new block
+          # We then change the distance and list of distance segments of this new block
           newBlock.distance = self.listBlockDistance[i+1]
+          newBlock.listSegmentDistance = [self.listBlockDistance[i+1]]
 
           # Then we only change the intensity & distance of this first block
           newBlock.listSegment[0].distance = self.listBlockDistance[i+1]
