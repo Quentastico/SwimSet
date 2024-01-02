@@ -4,21 +4,19 @@ import numpy as np
 class Segment:
 
   # Initialisation function
-  def __init__ (self, distance, randomDef = True):
+  def __init__ (self, distance):
 
     #Attributes
     self.distance = distance # Segment distance in m
-    self.randomDef = randomDef # If True, then the segment characteristics are defined randomly.
     self.stroke = None # Segment stroke
     self.equipment = None # Equipment used fior this segment
     self.intensity = None # Intensity of the training
     self.duration = None # Duration of the segment (in seconds)
 
-    if self.randomDef:
-
-      self.setStroke()
-      self.setEquipment()
-      self.setIntensity()
+    # Setting the different characteristics of the Segment
+    self.setStroke()
+    self.setEquipment()
+    self.setIntensity()
 
   # Copy method
   def copy(self):

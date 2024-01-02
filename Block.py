@@ -7,28 +7,24 @@ from Segment import Segment
 class Block:
 
   # Initialisation function
-  def __init__(self, distance, randomDef = True, listSegment = [], listSegmentDistance = [], nSegments = None):
+  def __init__(self, distance, nSegments = None):
 
     # Attributes
     self.distance = distance # Block distance (in m)
-    self.randomDef = randomDef # If true, then we define a complete random Block; otherwise, some elements are user-defined.
     self.breakDuration = None # Duration of the break after each block (in s)
     self.duration = None # Duration of the entire block (in s)
-    self.listSegment = listSegment # List that contains all the segment composing the block
-    self.listSegmentDistance = listSegmentDistance # List that contains the distance of the Segments composing the Block
+    self.listSegment = [] # List that contains all the segment composing the block
+    self.listSegmentDistance = [] # List that contains the distance of the Segments composing the Block
     self.nSegments = nSegments # Number of segments in the block (can be user-defined)
 
-    if self.randomDef:
+    # Definition of the list of the Segments composing the Block
+    self.setDistanceSegments()
 
-      # Definition of the list of the Segments composing the Block
-      self.listSegmentDistance = []
-      self.setDistanceSegments()
-
-      # Creation of the list of the Segments attached to this object
-      self.listSegment = []
-      for segmentDistance in self.listSegmentDistance:
-        newSegment = Segment(distance=segmentDistance, randomDef=True)
-        self.listSegment.append(newSegment)
+    # Creation of the list of the Segments attached to this object
+    self.listSegment = []
+    for segmentDistance in self.listSegmentDistance:
+      newSegment = Segment(distance=segmentDistance, randomDef=True)
+      self.listSegment.append(newSegment)
 
   # Making a function to provide info on a block
   def info(self):
