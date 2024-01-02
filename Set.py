@@ -120,16 +120,13 @@ class Set:
 
       # We create a first block that contains exaclty one segment
       firstBlock = Block(distance=self.listBlockDistance[0], nSegments=1)
-      print("The first block has been created and has one segment")
 
       # Then we decide if the intensity will increase, decrease or be constant from one block to the other
       relOptionIntensity = globals.optionIntensity[self.distanceVariation]
       selOptionIntensity = relOptionIntensity[np.random.randint(low=0, high=len(relOptionIntensity))]
-      print(selOptionIntensity)
 
       # Then we determine the intensities over the entire blocks
       listIntensities = utils.setIntensities(nBlocks=len(self.listBlockDistance), optionIntensity=selOptionIntensity, minIntensity=globals.minIntensity, maxIntensity=globals.maxIntensity, selectedIntensity=firstBlock.listSegment[0].intensity)
-      print(listIntensities)
 
       # Finally we force the intensity of firstBlock to be equal to the first intensity and we add it to the list of blocks
       firstBlock.listSegment[0].intensity = listIntensities[0]
@@ -145,10 +142,10 @@ class Set:
           # First we make a copy of the first Block created
           newBlock = firstBlock.copy()
 
+          # We then change the distcnae of this new block
+          newBlock.distance = self.listBlockDistance[i+1]
+
           # Then we only change the intensity & distance of this first block
-          print(i)
-          print("New block distance: " + str (self.listBlockDistance[i+1]))
-          print("New block intensity: " + str (listIntensities[i+1]))
           newBlock.listSegment[0].distance = self.listBlockDistance[i+1]
           newBlock.listSegment[0].intensity = listIntensities[i+1]
 
