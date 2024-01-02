@@ -91,3 +91,12 @@ class Training:
 
     # At the end of the loop (or if there is only one set), the last set is defined
     self.setDistanceList.append(int(self.mainsetDistance - np.array(self.setDistanceList).sum()))
+
+  # Creating an info method
+  def info(self):
+
+    print("SET - Distance: " + str(self.distance))
+    print(" WARM UP - Distance: " + str(self.warmupDistance))
+    for set in self.setList:
+      set.info()
+    print(" COOL DOWN - Distance: " + str(self.cooldownDistance))

@@ -30,10 +30,13 @@ class Block:
         newSegment = Segment(distance=segmentDistance, randomDef=True)
         self.listSegment.append(newSegment)
 
-  # Making a function to provide info on a set
+  # Making a function to provide info on a block
   def info(self):
 
-    print("This block: DISTANCE: " + str(self.distance) + " - SEGMENT DISTANCE: " + str(self.listSegmentDistance))
+    print("   BLOCK: Distance: " + str(self.distance) + ", List of segment distances: " + str(self.listSegmentDistance))
+    for segment in self.listSegment:
+      segment.info()
+
 
   # Making a function that copies an existing block
 

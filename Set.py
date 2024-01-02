@@ -25,7 +25,9 @@ class Set:
 
   def info(self):
 
-    print("This set: DISTANCE: " + str(self.distance) + " - VARIATION TYPE: " + str(self.distanceVariation) + " - BLOCK DISTANCES: " + str(self.listBlockDistance))
+    print("  SET - Distance: " + str(self.distance) + ", Variation of distance: " + str(self.distanceVariation) + ", List of Block distances: " + str(self.listBlockDistance))
+    for block in self.listBlocks:
+      block.info()
 
   def setDistanceVariation(self):
 

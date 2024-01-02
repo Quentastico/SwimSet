@@ -54,7 +54,7 @@ class Segment:
 
   # Method to dsplay the infos of a given segment
   def info(self):
-    print("This segment is " + self.stroke + ", has a distance of " + str(self.distance) + ", " + str(self.equipment) + " for equipment, and intensity of " + str(self.intensity))
+    print("    SEGMENT: Stroke: " + self.stroke + ", Distance: " + str(self.distance) + ", Equipment: " + str(self.equipment) + ", Intensity: " + str(self.intensity))
 
   # Method to set the duration
   # Here instead of random, there is a need to calculate the right duration as a function of everything else
