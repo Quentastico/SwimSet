@@ -175,12 +175,14 @@ def setStrokes(nBlocks):
 
     # We first select two random form strokes
     selStroke1 = globals.formStrokeTypes[np.random.randint(len(globals.formStrokeTypes))]
-    selStroke2 = globals.formStrokeTypes.remove(selStroke1)[np.random.randint(len(globals.formStrokeTypes)-1)]
+    newFormStrokeTypes = globals.formStrokeTypes.copy()
+    newFormStrokeTypes.remove(selStroke1)
+    selStroke2 = globals.newFormStrokeTypes[np.random.randint(len(globals.formStrokeTypes)-1)]
 
     # We then alternate the strokes
     for i in np.arange(nBlocks):
 
-      if i == np.floor(i/2):
+      if i/2 == np.floor(i/2):
         listStrokes.append(selStroke2)
       else:
         listStrokes.append(selStroke1)
