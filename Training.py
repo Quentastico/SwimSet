@@ -5,6 +5,7 @@
 import numpy as np
 from utils import pickDistance
 import globals
+import Set
 
 class Training:
 
