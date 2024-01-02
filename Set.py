@@ -150,7 +150,7 @@ class Set:
       if selOptionVariationBlock == "stroke":
 
         # We determine the list of strokes:
-        listStrokes = utils.setStrokes(nBlocks=len(self.listBlocksDistance))
+        listStrokes = utils.setStrokes(nBlocks=len(self.listBlockDistance))
 
         # We then generate the blocks composing the Set
         for i in np.arange(len(self.listBlockDistance)):
