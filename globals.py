@@ -38,6 +38,16 @@ minBlocksDecrease = 3
 # Minimal number of blocks in the case of a pyramid (divided by 2)
 minBlocksPyramid = 2
 
+# Options considered for the variation of intensity from one block to the other
+optionIntensity = {"equal": ["intensityIncrease"], 
+                   "increasing": ["intensityDecrease", "intensityConstant"], 
+                   "decreasing": ["intensityIncrease", "intensityConstant"], 
+                   "pyramid":["intensityConstant"]}
+
+# Options considered when all blocks in a set all have equal distance - we fix the block structure and make one segment in this block vary from one block to the other. 
+# This option tells what can vary from one block to the other
+optionVariationBlock = ["intensity", "stroke"]
+
 
 ## BLOCK
 
@@ -48,11 +58,7 @@ minBlockDistance = 50
 minSegmentNumber = 2
 maxSegmentNumber = 3
 
-# Options considered for the variation of intensity from one block to the other
-optionIntensity = {"equal": ["intensityIncrease", "intensityConstant"], 
-                   "increasing": ["intensityDecrease", "intensityConstant"], 
-                   "decreasing": ["intensityIncrease", "intensityConstant"], 
-                   "pyramid":["intensityConstant"]}
+
 
 ## SEGMENT
 
@@ -67,6 +73,7 @@ stepSegmentDistance = 25
 
 # Definition of the different types of stroke
 strokeTypes = ["freestyle", "form", "drill", "breathPattern", "kick"]
+formStrokeTypes = ["butterfly", "backstroke", "breaststroke"]
 
 # Definition of the possible equipment
 equipmentTypes = ["pullBuoy", "fins", "paddles", None]

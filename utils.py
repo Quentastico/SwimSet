@@ -151,3 +151,38 @@ def setIntensities(nBlocks, optionIntensity, minIntensity, maxIntensity, selecte
             listIntensities.append(int(maxIntensity-i))
 
   return listIntensities
+
+def setStrokes(nBlocks):
+  # This function sets the successive values of stroke in the block in a logical manner
+
+  listStrokes = []
+
+  # Case 1: a multiple of 4 = Then we rotate through all four strokes
+  if nBlocks/4 == np.floor(nBlocks/4):
+
+    # We just concatenate the stroke vector as many times as necessary
+    for i in np.arange(np.floor(nBlocks/4)):
+      listStrokes += globals.formStrokeTypes + ["freestyle"]
+
+  # Case 2: a multiple of 3 only = Then we rotate through the form strokes only
+  elif nBlocks/3 == np.floor(nBlocks/3):
+
+    for i in np.arange(np.floor(nBlocks/3)):
+      listStrokes += globals.formStrokeTypes
+
+  # Case 3: nBlocks is neither a multiple of 3 nor 4, then we just pick two random form strokes and we alternate
+  else:
+
+    # We first select two random form strokes
+    selStroke1 = globals.formStrokeTypes[np.random.randint(len(globals.formStrokeTypes))]
+    selStroke2 = globals.formStrokeTypes.remove(selStroke1)[np.random.randint(len(globals.formStrokeTypes)-1)]
+
+    # We then alternate the strokes
+    for i in np.arange(nBlocks):
+
+      if i == np.floor(i/2):
+        listStrokes.append(selStroke2)
+      else:
+        listStrokes.append(selStroke1)
+
+  return listStrokes

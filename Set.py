@@ -113,8 +113,59 @@ class Set:
     # Case 1: All the blocks have the same distance ("constant") - then can allow blocks to have Segments
     if self.distanceVariation == "equal":
 
-      # Here we will have to code something
-      print("to be coded")
+      # We first create a block that will be random and add it to the list of Blocks
+      modelBlock = Block(distance=self.listBlockDistance[0])
+      # self.listBlocks.append(firstBlock)
+
+      # We then extract the number of segments in this first block and choose the segment that will change from one block to the other
+      nSegments = modelBlock.nSegments
+      changingSegmentIndex = np.random.randint(nSegments)
+
+      # We then determine what will change in the changing segment
+      selOptionVariationBlock = globals.optionVariationBlock[np.random.randint(len(globals.optionVariationBlock))]
+
+      # Case 1.1: Changing intensity
+      if selOptionVariationBlock == "intensity":
+
+        # We first select the type of variation of intensity
+        relOptionIntensity = globals.optionIntensity[self.distanceVariation]
+        selOptionIntensity = relOptionIntensity[np.random.randint(len(relOptionIntensity))]
+
+        # We then determine the list of intensities
+        listIntensities = utils.setIntensities(nBlocks=len(self.listBlockDistance), optionIntensity=selOptionIntensity, minIntensity=globals.minIntensity, maxIntensity=globals.maxIntensity, selectedIntensity=modelBlock.listSegment[0].intensity)
+
+        # We then generate the blocks composing the Set
+        for i in np.arange(len(self.listBlockDistance)):
+
+          # We create a copy of the modelBlock
+          newBlock = modelBlock.copy()
+
+          # We then change the intensity of the changing segment in this block
+          newBlock.listSegment[changingSegmentIndex].intensity = listIntensities[i]
+
+          # We then add the new block into the list of blocks
+          self.listBlocks.append(newBlock)
+
+      # Case 1.2.: Changing stroke
+      if selOptionVariationBlock == "stroke":
+
+        # We determine the list of strokes:
+        listStrokes = utils.setStrokes(nBlocks=len(self.listBlocksDistance))
+
+        # We then generate the blocks composing the Set
+        for i in np.arange(len(self.listBlockDistance)):
+
+          # We create c opy of the modelBlock
+          newBlock = modelBlock.copy()
+
+          # We then change the stroke of the changing segment in the block
+          newBlock.listSegment[changingSegmentIndex].stroke = listStrokes[i]
+
+          # We then add the block to the list in the Set
+          self.listBlocks.append(newBlock)
+
+
+
 
     else: 
 
@@ -123,7 +174,7 @@ class Set:
 
       # Then we decide if the intensity will increase, decrease or be constant from one block to the other
       relOptionIntensity = globals.optionIntensity[self.distanceVariation]
-      selOptionIntensity = relOptionIntensity[np.random.randint(low=0, high=len(relOptionIntensity))]
+      selOptionIntensity = relOptionIntensity[np.random.randint(len(relOptionIntensity))]
 
       # Then we determine the intensities over the entire blocks
       listIntensities = utils.setIntensities(nBlocks=len(self.listBlockDistance), optionIntensity=selOptionIntensity, minIntensity=globals.minIntensity, maxIntensity=globals.maxIntensity, selectedIntensity=firstBlock.listSegment[0].intensity)
