@@ -99,9 +99,11 @@ class Training:
   # Creation of the Sets
   def createSets(self):
 
-    for distance in self.setDistanceList:
-      newSet = Set(distance=distance)
-      self.setList.append(newSet)
+    print("to be coded")
+
+    #for distance in self.setDistanceList:
+      #newSet = Set(distance=distance)
+      #self.setList.append(newSet)
 
   # Creating an info method
   def info(self):
