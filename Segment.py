@@ -25,7 +25,6 @@ class Segment:
     newSegment = Segment(distance=self.distance)
 
     # Copying the properties
-    newSegment.randomDef = self.randomDef
     newSegment.stroke = self.stroke
     newSegment.equipment = self.equipment
     newSegment.intensity = self.intensity
