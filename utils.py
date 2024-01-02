@@ -177,7 +177,7 @@ def setStrokes(nBlocks):
     selStroke1 = globals.formStrokeTypes[np.random.randint(len(globals.formStrokeTypes))]
     newFormStrokeTypes = globals.formStrokeTypes.copy()
     newFormStrokeTypes.remove(selStroke1)
-    selStroke2 = globals.newFormStrokeTypes[np.random.randint(len(globals.formStrokeTypes)-1)]
+    selStroke2 = newFormStrokeTypes[np.random.randint(len(globals.formStrokeTypes)-1)]
 
     # We then alternate the strokes
     for i in np.arange(nBlocks):
