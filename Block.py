@@ -23,7 +23,7 @@ class Block:
     # Creation of the list of the Segments attached to this object
     self.listSegment = []
     for segmentDistance in self.listSegmentDistance:
-      newSegment = Segment(distance=segmentDistance, randomDef=True)
+      newSegment = Segment(distance=segmentDistance)
       self.listSegment.append(newSegment)
 
   # Making a function to provide info on a block
@@ -42,7 +42,6 @@ class Block:
     newBlock = Block(distance = self.distance)
 
     # Copying the properties
-    newBlock.randomDef = self.randomDef
     newBlock.breakDuration = self.breakDuration
     newBlock.duration = self.duration
     newBlock.listSegmentDistance = self.listSegmentDistance
