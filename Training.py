@@ -9,10 +9,10 @@ import globals
 class Training:
 
   # Initialisation function
-  def __init__(self, totalDistance, numberSets = None):
+  def __init__(self, distance, numberSets = None):
 
     #Attributes
-    self.totalDistance = totalDistance # Total distance of the training session (m)
+    self.distance = distance # Total distance of the training session (m)
     self.warmupDistance = None # Warmup distance (m)
     self.cooldownDistance = None # Cooldown distance (m)
     self.mainsetDistance = None # Main Set distance (m)
@@ -21,12 +21,12 @@ class Training:
     self.setList = [] # List of sets
 
     # Data Check 1 - Checking that the total distance if higher than the minimal limit
-    if self.totalDistance < globals.minTotalDistance:
+    if self.distance < globals.minTotalDistance:
       print("Please enter a distance value higher than the minimal allowed value: "+ str(globals.minBlockDistance) + "m")
       return
 
     # Data Scheck 2 - Checking that the distance is a multiple of 100
-    if self.totalDistance / 100 != np.floor(self.totalDistance / 100):
+    if self.distance / 100 != np.floor(self.distance / 100):
       print("Please enter a distance being a multiple of 100m")
       return
 
@@ -37,7 +37,7 @@ class Training:
     self.setCooldownDistance()
 
     # Calculation of the mainset distance
-    self.mainsetDistance = self.totalDistance - self.warmupDistance - self.cooldownDistance
+    self.mainsetDistance = self.distance - self.warmupDistance - self.cooldownDistance
 
     # Determination of the number of sets
     self.setNumberSets()
@@ -48,12 +48,12 @@ class Training:
 
   # Method to determine the warmup distance
   def setWarmupDistance(self):
-    self.warmupDistance = max(globals.minWarmupDistance, 100 * np.round(globals.fracWarmupDistance * self.totalDistance / 100))
+    self.warmupDistance = max(globals.minWarmupDistance, 100 * np.round(globals.fracWarmupDistance * self.distance / 100))
 
 
   # Method to determine the cooldown distance
   def setCooldownDistance(self):
-    self.cooldownDistance = min(100*np.ceil(globals.fracCooldownDistance * self.totalDistance / 100), globals.maxCooldownDistance)
+    self.cooldownDistance = min(100*np.ceil(globals.fracCooldownDistance * self.distance / 100), globals.maxCooldownDistance)
 
 
   # Method to determine the right number of sets
