@@ -9,7 +9,8 @@ class Block:
   # Initialisation function
   def __init__(self, distance, nSegments = None):
 
-    # Attributes
+    # 1. ATTRIBUTES
+
     self.distance = distance # Block distance (in m)
     self.breakDuration = None # Duration of the break after each block (in s)
     self.duration = None # Duration of the entire block (in s)
@@ -17,50 +18,19 @@ class Block:
     self.listSegmentDistance = [] # List that contains the distance of the Segments composing the Block
     self.nSegments = nSegments # Number of segments in the block (can be user-defined)
 
+    # 2. SEGMENT DISTANCES
+
     # Definition of the list of the Segments composing the Block
-    self.setDistanceSegments()
+    self.setSegmentDistances()
+
+    # 3. SEGMENT CREATION
 
     # Creation of the list of the Segments attached to this object
-    self.listSegment = []
-    for segmentDistance in self.listSegmentDistance:
-      newSegment = Segment(distance=segmentDistance)
-      self.listSegment.append(newSegment)
-
-  # Making a function to provide info on a block
-  def info(self):
-
-    print("   BLOCK: Distance: " + str(self.distance) + ", List of segment distances: " + str(self.listSegmentDistance))
-    for segment in self.listSegment:
-      segment.info()
-
-
-  # Making a function that copies an existing block
-
-  def copy(self):
-
-    # Initialising the object
-    newBlock = Block(distance = self.distance)
-
-    # Copying the properties
-    newBlock.breakDuration = self.breakDuration
-    newBlock.duration = self.duration
-    newBlock.listSegmentDistance = self.listSegmentDistance
-    newBlock.nSegments = self.nSegments
-
-    # Copying the list of segments - This needs to be performed Segment after Segment
-    newBlock.listSegment = []
-
-    for segment in self.listSegment:
-      newSegment = segment.copy()
-      newBlock.listSegment.append(newSegment)
-
-    # returning the new object
-    return newBlock
-
+    self.createSegments()
 
 
   # Definition of the function that splits the block distance into segments
-  def setDistanceSegments(self):
+  def setSegmentDistances(self):
 
     # Determining the number of segments randomly between the minimum and maximum numbers (if not already user-defined)
     if self.nSegments is None:  
@@ -93,3 +63,42 @@ class Block:
 
       # At the end of the loop (or if there is only one set), the last set is defined
       self.listSegmentDistance.append(int(self.distance - np.array(self.listSegmentDistance).sum()))
+
+
+  # Method to create segments 
+  def createSegments(self):
+
+    for segmentDistance in self.listSegmentDistance:
+      newSegment = Segment(distance=segmentDistance)
+      self.listSegment.append(newSegment)
+
+
+  # Making a function that copies an existing block
+  def copy(self):
+
+    # Initialising the object
+    newBlock = Block(distance = self.distance)
+
+    # Copying the properties
+    newBlock.breakDuration = self.breakDuration
+    newBlock.duration = self.duration
+    newBlock.listSegmentDistance = self.listSegmentDistance
+    newBlock.nSegments = self.nSegments
+
+    # Copying the list of segments - This needs to be performed Segment after Segment
+    newBlock.listSegment = []
+
+    for segment in self.listSegment:
+      newSegment = segment.copy()
+      newBlock.listSegment.append(newSegment)
+
+    # returning the new object
+    return newBlock
+
+
+  # Making a function to provide info on a block
+  def info(self):
+
+    print("   BLOCK: Distance: " + str(self.distance) + ", List of segment distances: " + str(self.listSegmentDistance))
+    for segment in self.listSegment:
+      segment.info()
