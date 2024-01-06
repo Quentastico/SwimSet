@@ -66,7 +66,7 @@ optionIntensity = {"equal": ["intensityIncrease"],
                    "increasing": ["intensityDecrease", "intensityConstant"], 
                    "decreasing": ["intensityIncrease", "intensityConstant"], 
                    "pyramid":["intensityConstant"], 
-                   "distanceRep":["intensityConstant", "intensityIncrease"]}
+                   "distanceRep":["intensityConstant"]}
 
 # Options considered when all blocks in a set all have equal distance
 # The process for equal blocks within a set is that we create a first block structure with one or multiple segment(s). 
