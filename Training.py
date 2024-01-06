@@ -12,41 +12,48 @@ class Training:
   # Initialisation function
   def __init__(self, distance, numberSets = None):
 
-    #Attributes
+    # 1. ATTRIBUTE DEFINITION
+
     self.distance = distance # Total distance of the training session (m)
     self.warmupDistance = None # Warmup distance (m)
     self.cooldownDistance = None # Cooldown distance (m)
     self.mainsetDistance = None # Main Set distance (m)
     self.numberSets = numberSets # Number of sets in the main set (can be user-defined)
-    self.setDistanceList = [] # List of the distances of the sets
-    self.setList = [] # List of sets
+    self.listSetDistance = [] # List of the distances of the sets
+    self.listSet = [] # List of sets
 
-    # Data Check 1 - Checking that the total distance if higher than the minimal limit
+    # 2. DATA CHECKS
+
+    # 2.1. Data Check 1 - Checking that the total distance if higher than the minimal limit
     if self.distance < globals.minTotalDistance:
       print("Please enter a distance value higher than the minimal allowed value: "+ str(globals.minBlockDistance) + "m")
       return
 
-    # Data Scheck 2 - Checking that the distance is a multiple of 100
+    # 2.2. Data Check 2 - Checking that the distance is a multiple of 100
     if self.distance / 100 != np.floor(self.distance / 100):
       print("Please enter a distance being a multiple of 100m")
       return
 
-    # Calculation of the warmup distance
+    # 3. DISTANCES
+
+    # 3.1. Calculation of the warmup distance
     self.setWarmupDistance()
 
-    # Calculation of the cool down distance
+    # 3.2. Calculation of the cool down distance
     self.setCooldownDistance()
 
-    # Calculation of the mainset distance
+    # 3.3. Calculation of the mainset distance
     self.mainsetDistance = self.distance - self.warmupDistance - self.cooldownDistance
 
-    # Determination of the number of sets
+    # 3.4. Determination of the number of sets
     self.setNumberSets()
 
-    # Determination of the distances of the sets
+    # 3.5. Determination of the distances of the sets
     self.setSetDistances()
 
-    # Creation of the Sets
+    # 4. CREATION OF THE SETS
+
+    # 4.1. Creation of the Sets
     self.createSets()
 
 
@@ -83,31 +90,30 @@ class Training:
       minValue = globals.minSetDistance
       avValue = self.mainsetDistance / self.numberSets
 
-
       for i in np.arange(self.numberSets-1):
 
         # Setting the max Distance
-        maxValue = self.mainsetDistance - np.array(self.setDistanceList).sum() - (self.numberSets - 1 - i) * globals.minSetDistance
+        maxValue = self.mainsetDistance - np.array(self.listSetDistance).sum() - (self.numberSets - 1 - i) * globals.minSetDistance
 
         # Picking a random distance in the given interval and add it to the list
         newDistanceValue = pickDistance(minValue, maxValue, avValue, 100)
-        self.setDistanceList.append(int(newDistanceValue))
+        self.listSetDistance.append(int(newDistanceValue))
 
     # At the end of the loop (or if there is only one set), the last set is defined
-    self.setDistanceList.append(int(self.mainsetDistance - np.array(self.setDistanceList).sum()))
+    self.listSetDistance.append(int(self.mainsetDistance - np.array(self.listSetDistance).sum()))
   
   # Creation of the Sets
   def createSets(self):
 
-    for distance in self.setDistanceList:
+    for distance in self.listSetDistance:
       newSet = Set(distance=distance)
-      self.setList.append(newSet)
+      self.listSet.append(newSet)
 
   # Creating an info method
   def info(self):
 
     print("SET - Distance: " + str(self.distance))
     print(" WARM UP - Distance: " + str(self.warmupDistance))
-    for set in self.setList:
+    for set in self.listSet:
       set.info()
     print(" COOL DOWN - Distance: " + str(self.cooldownDistance))

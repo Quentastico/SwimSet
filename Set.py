@@ -11,25 +11,25 @@ class Set:
   # Initialisation function
   def __init__(self, distance):
 
-    # Attributes
+    # 1. ATTRIBUTES
+
     self.distance = distance # Distance of the set (m)
     self.distanceVariation = None # Type of variation of distances for the different blocks composing the Set
     self.listBlockDistance = [] # List of the distances of the block composing the set (in m)
-    self.listBlocks = [] # List of the block objects that will compose the Set
+    self.listBlock = [] # List of the block objects that will compose the Set
 
-    # Finding the distances of the Blocks
-    self.setDistanceVariation()
+    # 2. BLOCK DISTANCES
+
+    # Finding the distances of the blocks composing the Set
+    self.setBlockDistances()
+
+    # 3. CREATION OF THE BLOCKS
 
     # Create the Blocks which are part of the Set
     self.createBlocks()
 
-  def info(self):
 
-    print("  SET - Distance: " + str(self.distance) + ", Variation of distance: " + str(self.distanceVariation) + ", List of Block distances: " + str(self.listBlockDistance))
-    for block in self.listBlocks:
-      block.info()
-
-  def setDistanceVariation(self):
+  def setBlockDistances(self):
 
     # 1. Setting the type of variation
     self.distanceVariation = globals.variationTypes[np.random.randint(low=0, high=len(globals.variationTypes))]
@@ -46,6 +46,7 @@ class Set:
 
     if self.distanceVariation == "pyramid":
       self.pyramidBlocks()
+
 
   # Note: Maybe ensure that the blocks do not exceed a certain value
   def equalBlocks(self):
@@ -65,6 +66,7 @@ class Set:
     for i in np.arange(int(self.distance / blockDistance)):
       self.listBlockDistance.append(blockDistance)
 
+
   # Note: ensure that the blocks are not increasing too much
   # Note: Maybe choose in priorty high numbers of blocks
   def increasingBlocks(self):
@@ -78,6 +80,7 @@ class Set:
     # Constracting the distances of the blocks withtin the set
     self.listBlockDistance = np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])
 
+
   # Note: ensure that the blocks are not increasing too much
   # Note: Maybe choose in priorty high numbers of blocks
   def decreasingBlocks(self):
@@ -90,6 +93,7 @@ class Set:
 
     # Constracting the distances of the blocks withtin the set
     self.listBlockDistance = np.flip(np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2]))
+
 
   # Note: ensure that the blocks are not increasing too much
   # Note: Maybe choose in priorty high numbers of blocks
@@ -107,6 +111,7 @@ class Set:
     decreasePyramid = np.flip(increasePyramid)
     self.listBlockDistance = np.concatenate([increasePyramid, decreasePyramid])
 
+
   # Function which defines the list of Blocks which compose the Set
   def createBlocks(self):
 
@@ -115,7 +120,7 @@ class Set:
 
       # We first create a block that will be random and add it to the list of Blocks
       modelBlock = Block(distance=self.listBlockDistance[0])
-      # self.listBlocks.append(firstBlock)
+      # self.listBlock.append(firstBlock)
 
       # We then extract the number of segments in this first block and choose the segment that will change from one block to the other
       nSegments = modelBlock.nSegments
@@ -144,7 +149,7 @@ class Set:
           newBlock.listSegment[changingSegmentIndex].intensity = listIntensities[i]
 
           # We then add the new block into the list of blocks
-          self.listBlocks.append(newBlock)
+          self.listBlock.append(newBlock)
 
       # Case 1.2.: Changing stroke
       if selOptionVariationBlock == "stroke":
@@ -162,10 +167,7 @@ class Set:
           newBlock.listSegment[changingSegmentIndex].stroke = listStrokes[i]
 
           # We then add the block to the list in the Set
-          self.listBlocks.append(newBlock)
-
-
-
+          self.listBlock.append(newBlock)
 
     else: 
 
@@ -181,7 +183,7 @@ class Set:
 
       # Finally we force the intensity of firstBlock to be equal to the first intensity and we add it to the list of blocks
       firstBlock.listSegment[0].intensity = listIntensities[0]
-      self.listBlocks.append(firstBlock)
+      self.listBlock.append(firstBlock)
 
       # Then we create the series of the other Blocks composing the segment
       if len(self.listBlockDistance) > 1:
@@ -200,18 +202,12 @@ class Set:
           newBlock.listSegment[0].intensity = listIntensities[i+1]
 
           # And finally we add each block to the list of blocks
-          self.listBlocks.append(newBlock)
-
-          
+          self.listBlock.append(newBlock)
 
 
+  # Info method        
+  def info(self):
 
-
-
-
-
-
-
-
-
-
+    print("  SET - Distance: " + str(self.distance) + ", Variation of distance: " + str(self.distanceVariation) + ", List of Block distances: " + str(self.listBlockDistance))
+    for block in self.listBlock:
+      block.info()
