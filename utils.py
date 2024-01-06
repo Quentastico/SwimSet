@@ -75,10 +75,6 @@ def cutSetDistanceRep(distance):
         # Check if the sum is equal to the total distance; if yes, we keep the combo
         if result == distance:
           optionCombos.append([n, start, step])
-          print("new combo")
-          print("n: " + str(n))
-          print("start: " + str(start))
-          print("step: " + str(step))
 
   # Then we have to select the best possible sets, based on the following criteria: 
   # - Case 1: If there is a comb with at least n>=3, then we only keep combos with n>=3 (more fun)
