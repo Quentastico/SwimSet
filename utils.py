@@ -38,7 +38,7 @@ def cutSetStaged(distance, minBlocks):
   # minBlocks: This is the minimal number of blocks allowed in this set
   optionBlocks = []
   for step in np.arange(globals.stepBlockDistance, distance + globals.stepBlockDistance, globals.stepBlockDistance):
-    for start in np.arange(globals.minSegmentDistance, distance + globals.stepBlockDistance, globals.stepBlockDistance):
+    for start in np.arange(globals.minBlockDistance, distance + globals.stepBlockDistance, globals.stepBlockDistance):
 
       # Calculating the discrimant (Note that this is always strictly positive)
       delta = (start - step/2)*(start - step/2) + 2*step*distance
