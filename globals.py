@@ -40,7 +40,7 @@ avSetDistance = 600
 # increasing: Means that the distance will increase steadily from one block to the other
 # decreasing: Means that the distance will decrease steadily from one block to the other
 # pyramid: Means that the distance will increase and then decrease. 
-variationTypes = ["equal", "increasing", "decreasing", "pyramid"]
+variationTypes = ["equal", "increasing", "decreasing", "pyramid", "distanceRep"]
 
 # Minimal difference distance between two blocks (m)
 # If this variable is set at 25m, this means that we could have a set where the blocks are for example 25m, 50m, 75m, etc. If set at 50m, then the 
@@ -65,7 +65,8 @@ minBlocksPyramid = 2
 optionIntensity = {"equal": ["intensityIncrease"], 
                    "increasing": ["intensityDecrease", "intensityConstant"], 
                    "decreasing": ["intensityIncrease", "intensityConstant"], 
-                   "pyramid":["intensityConstant"]}
+                   "pyramid":["intensityConstant"], 
+                   "distanceRep":["intensityConstant", "intensityIncrease"]}
 
 # Options considered when all blocks in a set all have equal distance
 # The process for equal blocks within a set is that we create a first block structure with one or multiple segment(s). 

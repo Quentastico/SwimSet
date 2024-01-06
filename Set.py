@@ -3,6 +3,7 @@
 import numpy as np
 import globals
 from utils import cutSetStaged
+from utils import cutSetDistanceRep
 from Block import Block
 import utils
 
@@ -46,6 +47,9 @@ class Set:
 
     if self.distanceVariation == "pyramid":
       self.pyramidBlocks()
+
+    if self.distanceVariation == "distanceRep":
+      self.distanceRepBlocks()
 
 
   # Note: Maybe ensure that the blocks do not exceed a certain value
@@ -110,6 +114,18 @@ class Set:
     increasePyramid = np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])
     decreasePyramid = np.flip(increasePyramid)
     self.listBlockDistance = np.concatenate([increasePyramid, decreasePyramid])
+
+  # Method which creates the list of distances for the blocks in the case of a "distanceRep" pattern
+  def distanceRepBlocks(self):
+
+    # Finding all the ways to cut the ste
+    optionBlocks = cutSetDistanceRep(distance=self.distance)
+
+    # Choosing a random way
+    selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
+
+    # Storing the result in the relevant attribute
+    self.listBlockDistance = selectedOptionBlock
 
 
   # Function which defines the list of Blocks which compose the Set
