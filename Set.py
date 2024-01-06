@@ -18,8 +18,6 @@ class Set:
     self.listBlockDistance = [] # List of the distances of the block composing the set (in m)
     self.listBlock = [] # List of the block objects that will compose the Set
 
-    print("distance: " +  str(self.distance))
-
     # 2. BLOCK DISTANCES
 
     # Finding the distances of the blocks composing the Set
