@@ -2,7 +2,7 @@
 
 import numpy as np
 import globals
-from utils import cutSetStaged
+from utils import splitSetIncreaseDecrease
 from Block import Block
 from Set import Set
 import utils
@@ -17,7 +17,7 @@ class IncreasingDistanceSet(Set):
     def setBlockDistances(self): 
 
         # Finding all the ways to cut the set
-        optionBlocks = cutSetStaged(distance = self.distance, minBlocks = globals.minBlocksIncrease)
+        optionBlocks = splitSetIncreaseDecrease(distance = self.distance, minBlocks = globals.minBlocksIncrease)
 
         # Choosing a random way
         selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
