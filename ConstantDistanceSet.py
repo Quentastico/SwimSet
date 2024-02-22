@@ -11,6 +11,6 @@ import utils
 class ConstantDistanceSet(Set):
 
     def __init__(self, distance):
-        super().__init__(distance)
+        super().__init__(self, distance)
 
     
