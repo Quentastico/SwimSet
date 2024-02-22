@@ -2,7 +2,7 @@
 
 import numpy as np
 import globals
-from utils import cutSetStaged
+from utils import splitSetIncreaseDecrease
 from utils import cutSetDistanceRep
 from Block import Block
 import utils
@@ -76,7 +76,7 @@ class Set:
   def increasingBlocks(self):
 
     # Finding all the ways to cut the set
-    optionBlocks = cutSetStaged(distance = self.distance, minBlocks = globals.minBlocksIncrease)
+    optionBlocks = splitSetIncreaseDecrease(distance = self.distance, minBlocks = globals.minBlocksIncrease)
 
     # Choosing a random way
     selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
@@ -90,7 +90,7 @@ class Set:
   def decreasingBlocks(self):
 
     # Finding all the ways to cut the set
-    optionBlocks = cutSetStaged(distance = self.distance, minBlocks = globals.minBlocksDecrease)
+    optionBlocks = splitSetIncreaseDecrease(distance = self.distance, minBlocks = globals.minBlocksDecrease)
 
     # Choosing a random way
     selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
@@ -105,7 +105,7 @@ class Set:
   def pyramidBlocks(self):
 
     # Finding all the ways to cut half the set
-    optionBlocks = cutSetStaged(distance = self.distance/2, minBlocks = globals.minBlocksPyramid)
+    optionBlocks = splitSetIncreaseDecrease(distance = self.distance/2, minBlocks = globals.minBlocksPyramid)
 
     # Choosing a random way
     selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]

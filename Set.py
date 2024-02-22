@@ -2,8 +2,6 @@
 
 import numpy as np
 import globals
-from utils import cutSetStaged
-from utils import cutSetDistanceRep
 from Block import Block
 import utils
 
