@@ -52,23 +52,23 @@ class Set:
       self.distanceRepBlocks()
 
 
-  # Note: Maybe ensure that the blocks do not exceed a certain value
-  def equalBlocks(self):
+  # # Note: Maybe ensure that the blocks do not exceed a certain value
+  # def equalBlocks(self):
 
-    # Calculating the possible number of blocks for a a given set
+  #   # Calculating the possible number of blocks for a a given set
 
-    optionDistanceBlock = []
+  #   optionDistanceBlock = []
 
-    for distance in np.arange(globals.minBlockDistance, self.distance + globals.stepBlockDistance, globals.stepBlockDistance):
-      if self.distance / distance == np.floor(self.distance / distance):
-        optionDistanceBlock.append(distance)
+  #   for distance in np.arange(globals.minBlockDistance, self.distance + globals.stepBlockDistance, globals.stepBlockDistance):
+  #     if self.distance / distance == np.floor(self.distance / distance):
+  #       optionDistanceBlock.append(distance)
 
-    # Setting then randomly the distance
-    blockDistance = optionDistanceBlock[np.random.randint(low=0, high=len(optionDistanceBlock))]
+  #   # Setting then randomly the distance
+  #   blockDistance = optionDistanceBlock[np.random.randint(low=0, high=len(optionDistanceBlock))]
 
-    # Finally setting the list of distance blocks
-    for i in np.arange(int(self.distance / blockDistance)):
-      self.listBlockDistance.append(blockDistance)
+  #   # Finally setting the list of distance blocks
+  #   for i in np.arange(int(self.distance / blockDistance)):
+  #     self.listBlockDistance.append(blockDistance)
 
 
   # Note: ensure that the blocks are not increasing too much

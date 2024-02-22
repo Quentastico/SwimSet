@@ -34,7 +34,7 @@ def pickDistance(minValue, maxValue, avValue, stepDistance):
 
 
 # Make a tool function that allows cutting a set into increasing/decreasing distances
-def cutSetStaged(distance, minBlocks):
+def splitSetIncreaseDecrease(distance, minBlocks):
   # Distance: this is the distance (m) of the set of interest
   # minBlocks: This is the minimal number of blocks allowed in this set
   optionBlocks = []
