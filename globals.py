@@ -59,9 +59,9 @@ minBlocksIncrease = 3
 # Same as above, but for sets with an decreasing distance from one block to the other
 minBlocksDecrease = 3
 
-# Minimal number of blocks in the case of a pyramid (divided by 2)
-# For example, if set to 3, this measn that the pyramid will have 5 blocks (3 increase and 2 decrease)
-minBlocksPyramid = 2
+# Minimal number of blocks in the case of a pyramid
+# For example, if set to 3, this measn that the pyramid will have 3 blocks (2 increase and 1 decrease)
+minBlocksPyramid = 3
 
 # Options considered for the variation of intensity from one block to the other
 # This sets how the intensity can vary for different types of sets. For example if "equal" has a "intensityIncrease", this means that in a set
