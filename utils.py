@@ -39,7 +39,7 @@ def splitSetIncreaseDecrease(distance, stepBlockDistance, minBlockDistance, minB
   # stepBlockDistance: The distance that blocks will increase by withtin the set (m)
   # minBlockDistance: The minimal distance for any block (m)
   # minBlocks: the minimal number of blocks accepted in the set
-  
+
   optionBlocks = []
   for step in np.arange(stepBlockDistance, distance + stepBlockDistance, stepBlockDistance):
     for start in np.arange(minBlockDistance, distance + stepBlockDistance, stepBlockDistance):
@@ -69,7 +69,7 @@ def splitSetPyramid(distance, stepBlockDistance, minBlockDistance, minBlocks):
     for start in np.arange(minBlockDistance, distance + stepBlockDistance, stepBlockDistance):
 
       # Calculating the discrimant (always positive)
-      delta = 4*start*start - 4*step(start-distance)
+      delta = 4*start*start - 4*step*(start-distance)
       
       # Calculating the solution (unique positive solution)
       positiveSolution = (-2*start + np.sqrt(delta)) / (2*step)
