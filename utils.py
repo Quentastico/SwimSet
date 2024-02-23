@@ -95,7 +95,7 @@ def splitSetPyramid(distance, stepBlockDistance, minBlockDistance, minBlocks):
         optionBlocks.append([int(positiveSolution), start, step])
         print(optionBlocks)
       
-      return optionBlocks
+  return optionBlocks
 
 
 # Making a tool to split a given set in blocks of increasing reps/ decreasing the distance
