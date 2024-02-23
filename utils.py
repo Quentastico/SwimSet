@@ -34,12 +34,15 @@ def pickDistance(minValue, maxValue, avValue, stepDistance):
 
 
 # Make a tool function that allows cutting a set into increasing/decreasing distances
-def splitSetIncreaseDecrease(distance, minBlocks):
-  # Distance: this is the distance (m) of the set of interest
-  # minBlocks: This is the minimal number of blocks allowed in this set
+def splitSetIncreaseDecrease(distance, stepBlockDistance, minBlockDistance, minBlocks):
+  # distance: total distance of the set (m)
+  # stepBlockDistance: The distance that blocks will increase by withtin the set (m)
+  # minBlockDistance: The minimal distance for any block (m)
+  # minBlocks: the minimal number of blocks accepted in the set
+  
   optionBlocks = []
-  for step in np.arange(globals.stepBlockDistance, distance + globals.stepBlockDistance, globals.stepBlockDistance):
-    for start in np.arange(globals.minBlockDistance, distance + globals.stepBlockDistance, globals.stepBlockDistance):
+  for step in np.arange(stepBlockDistance, distance + stepBlockDistance, stepBlockDistance):
+    for start in np.arange(minBlockDistance, distance + stepBlockDistance, stepBlockDistance):
 
       # Calculating the discrimant (Note that this is always strictly positive)
       delta = (start - step/2)*(start - step/2) + 2*step*distance
@@ -52,6 +55,30 @@ def splitSetIncreaseDecrease(distance, minBlocks):
         optionBlocks.append([int(positiveSolution), start, step])
 
   return optionBlocks
+
+# Make a function that splits a given set with a pyramid pattern
+def splitSetPyramid(distance, stepBlockDistance, minBlockDistance, minBlocks): 
+  # distance: total distance of the set (m)
+  # stepBlockDistance: The distance that blocks will increase by withtin the set (m)
+  # minBlockDistance: The minimal distance for any block (m)
+  # minBlocks: the minimal number of blocks accepted in the set
+
+  # Looping on all the combination of starting distances and step distances
+  optionBlocks = []
+  for step in np.arange(stepBlockDistance, distance + stepBlockDistance, stepBlockDistance):
+    for start in np.arange(minBlockDistance, distance + stepBlockDistance, stepBlockDistance):
+
+      # Calculating the discrimant (always positive)
+      delta = 4*start*start - 4*step(start-distance)
+      
+      # Calculating the solution (unique positive solution)
+      positiveSolution = (-2*start + np.sqrt(delta)) / (2*step)
+
+      # Check that the solution is a positive integer and that there is the acceptable level of blocks in this set
+      if (positiveSolution == np.floor(positiveSolution)) & ( (2*positiveSolution+1) >= minBlocks):
+        optionBlocks.append([int(positiveSolution), start, step])
+      
+      return optionBlocks
 
 
 # Making a tool to split a given set in blocks of increasing reps/ decreasing the distance

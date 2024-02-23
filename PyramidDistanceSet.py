@@ -2,7 +2,7 @@
 
 import numpy as np
 import globals
-from utils import splitSetIncreaseDecrease
+from utils import splitSetPyramid
 from Block import Block
 from Set import Set
 import utils
@@ -17,7 +17,7 @@ class IncreasingDistanceSet(Set):
     def setBlockDistances(self): 
 
         # Finding all the ways to cut the set
-        optionBlocks = splitSetIncreaseDecrease(distance = self.distance,
+        optionBlocks = splitSetPyramid(distance = self.distance,
                                                 stepBlockDistance = globals.stepBlockDistance,
                                                 minBlockDistance = globals.minBlockDistance,
                                                 minBlocks = globals.minBlocksIncrease)
@@ -25,5 +25,12 @@ class IncreasingDistanceSet(Set):
         # Choosing a random way
         selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
         
-        # Constracting the distances of the blocks withtin the set
-        self.listBlockDistance = np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])
+        # Contracting the distances of the blocks withtin the set
+        increasingBlockDistance = np.arange(selectedOptionBlock[1],
+                                            selectedOptionBlock[1] + (selectedOptionBlock[0]+1) * selectedOptionBlock[2],
+                                            selectedOptionBlock[2])
+        decreasingBlockDistance = np.arange(selectedOptionBlock[1],
+                                            selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2],
+                                            selectedOptionBlock[2])
+
+        self.listBlockDistance = np.concatenate([increasingBlockDistance, np.flip(decreasingBlockDistance)])
