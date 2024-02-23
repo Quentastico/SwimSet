@@ -65,6 +65,16 @@ def splitSetPyramid(distance, stepBlockDistance, minBlockDistance, minBlocks):
 
   # Looping on all the combination of starting distances and step distances
   optionBlocks = []
+
+  print("total distance")
+  print(distance)
+
+  print("minimal block distance")
+  print(minBlockDistance)
+
+  print("Step distance")
+  print(stepBlockDistance)
+
   for step in np.arange(stepBlockDistance, distance + stepBlockDistance, stepBlockDistance):
     for start in np.arange(minBlockDistance, distance + stepBlockDistance, stepBlockDistance):
 
