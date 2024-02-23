@@ -12,44 +12,44 @@ class Set:
   # Initialisation function
   def __init__(self, distance):
 
-    # 1. ATTRIBUTES
+    # # 1. ATTRIBUTES
 
-    self.distance = distance # Distance of the set (m)
-    self.distanceVariation = None # Type of variation of distances for the different blocks composing the Set
-    self.listBlockDistance = [] # List of the distances of the block composing the set (in m)
-    self.listBlock = [] # List of the block objects that will compose the Set
+    # self.distance = distance # Distance of the set (m)
+    # self.distanceVariation = None # Type of variation of distances for the different blocks composing the Set
+    # self.listBlockDistance = [] # List of the distances of the block composing the set (in m)
+    # self.listBlock = [] # List of the block objects that will compose the Set
 
-    # 2. BLOCK DISTANCES
+    # # 2. BLOCK DISTANCES
 
-    # Finding the distances of the blocks composing the Set
-    self.setBlockDistances()
+    # # Finding the distances of the blocks composing the Set
+    # self.setBlockDistances()
 
-    # 3. CREATION OF THE BLOCKS
+    # # 3. CREATION OF THE BLOCKS
 
-    # Create the Blocks which are part of the Set
-    self.createBlocks()
+    # # Create the Blocks which are part of the Set
+    # self.createBlocks()
 
 
-  def setBlockDistances(self):
+  # def setBlockDistances(self):
 
-    # 1. Setting the type of variation
-    self.distanceVariation = globals.variationTypes[np.random.randint(low=0, high=len(globals.variationTypes))]
+  #   # 1. Setting the type of variation
+  #   self.distanceVariation = globals.variationTypes[np.random.randint(low=0, high=len(globals.variationTypes))]
 
-    # 2. Calling the right method
-    if self.distanceVariation == "equal":
-      self.equalBlocks()
+  #   # 2. Calling the right method
+  #   if self.distanceVariation == "equal":
+  #     self.equalBlocks()
 
-    if self.distanceVariation == "increasing":
-      self.increasingBlocks()
+  #   if self.distanceVariation == "increasing":
+  #     self.increasingBlocks()
 
-    if self.distanceVariation == "decreasing":
-      self.decreasingBlocks()
+  #   if self.distanceVariation == "decreasing":
+  #     self.decreasingBlocks()
 
-    if self.distanceVariation == "pyramid":
-      self.pyramidBlocks()
+  #   if self.distanceVariation == "pyramid":
+  #     self.pyramidBlocks()
 
-    if self.distanceVariation == "distanceRep":
-      self.distanceRepBlocks()
+  #   if self.distanceVariation == "distanceRep":
+  #     self.distanceRepBlocks()
 
 
   # # Note: Maybe ensure that the blocks do not exceed a certain value
@@ -71,32 +71,32 @@ class Set:
   #     self.listBlockDistance.append(blockDistance)
 
 
+  # # Note: ensure that the blocks are not increasing too much
+  # # Note: Maybe choose in priorty high numbers of blocks
+  # def increasingBlocks(self):
+
+  #   # Finding all the ways to cut the set
+  #   optionBlocks = splitSetIncreaseDecrease(distance = self.distance, minBlocks = globals.minBlocksIncrease)
+
+  #   # Choosing a random way
+  #   selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
+
+  #   # Constracting the distances of the blocks withtin the set
+  #   self.listBlockDistance = np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])
+
+
   # Note: ensure that the blocks are not increasing too much
   # Note: Maybe choose in priorty high numbers of blocks
-  def increasingBlocks(self):
+  # def decreasingBlocks(self):
 
-    # Finding all the ways to cut the set
-    optionBlocks = splitSetIncreaseDecrease(distance = self.distance, minBlocks = globals.minBlocksIncrease)
+  #   # Finding all the ways to cut the set
+  #   optionBlocks = splitSetIncreaseDecrease(distance = self.distance, minBlocks = globals.minBlocksDecrease)
 
-    # Choosing a random way
-    selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
+  #   # Choosing a random way
+  #   selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
 
-    # Constracting the distances of the blocks withtin the set
-    self.listBlockDistance = np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])
-
-
-  # Note: ensure that the blocks are not increasing too much
-  # Note: Maybe choose in priorty high numbers of blocks
-  def decreasingBlocks(self):
-
-    # Finding all the ways to cut the set
-    optionBlocks = splitSetIncreaseDecrease(distance = self.distance, minBlocks = globals.minBlocksDecrease)
-
-    # Choosing a random way
-    selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
-
-    # Constracting the distances of the blocks withtin the set
-    self.listBlockDistance = np.flip(np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2]))
+  #   # Constracting the distances of the blocks withtin the set
+  #   self.listBlockDistance = np.flip(np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2]))
 
 
   # Note: ensure that the blocks are not increasing too much
