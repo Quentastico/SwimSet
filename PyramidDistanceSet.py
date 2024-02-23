@@ -7,7 +7,7 @@ from Block import Block
 from Set import Set
 import utils
 
-class IncreasingDistanceSet(Set):
+class PyramidDistanceSet(Set):
 
     # Object initialisation
     def __init__(self, distance):
