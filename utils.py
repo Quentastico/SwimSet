@@ -73,10 +73,12 @@ def splitSetPyramid(distance, stepBlockDistance, minBlockDistance, minBlocks):
       
       # Calculating the solution (unique positive solution)
       positiveSolution = (-2*start + np.sqrt(delta)) / (2*step)
+      print(positiveSolution)
 
       # Check that the solution is a positive integer and that there is the acceptable level of blocks in this set
       if (positiveSolution == np.floor(positiveSolution)) & ( (2*positiveSolution+1) >= minBlocks):
         optionBlocks.append([int(positiveSolution), start, step])
+        print(optionBlocks)
       
       return optionBlocks
 
