@@ -68,6 +68,11 @@ def splitSetPyramid(distance, stepBlockDistance, minBlockDistance, minBlocks):
   for step in np.arange(stepBlockDistance, distance + stepBlockDistance, stepBlockDistance):
     for start in np.arange(minBlockDistance, distance + stepBlockDistance, stepBlockDistance):
 
+      print("step")
+      print(step)
+      print("start")
+      print(start)
+
       # Calculating the discrimant (always positive)
       delta = 4*start*start - 4*step*(start-distance)
       
