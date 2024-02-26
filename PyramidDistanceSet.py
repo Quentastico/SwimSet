@@ -17,10 +17,10 @@ class PyramidDistanceSet(Set):
     def setBlockDistances(self): 
 
         # Finding all the ways to cut the set
-        optionBlocks = splitSetPyramid(distance = self.distance,
-                                                stepBlockDistance = globals.stepBlockDistance,
-                                                minBlockDistance = globals.minBlockDistance,
-                                                minBlocks = globals.minBlocksPyramid)
+        optionBlocks = splitSetPyramid(distance = self.distance, 
+                                       stepBlockDistance = globals.stepBlockDistance,
+                                       minBlockDistance = globals.minBlockDistance,
+                                       minBlocks = globals.minBlocksPyramid)
 
         # Choosing a random way
         selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
