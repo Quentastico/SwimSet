@@ -104,7 +104,7 @@ maxSegmentNumber = 3
 
 # Minimum value for a segment distance (m)
 # Note: A value of 25m is recommended as this will fit any pool (25m or 50m)
-minSegmentDistance = 12.5
+minSegmentDistance = 25
 
 # Maximum value for the distance of a segment (m)
 # Note: this maximal value for a segment distance can be superseded in the case of a non "equal" set type as we force the segment distance to be 
