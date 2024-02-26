@@ -93,7 +93,7 @@ minBlockDistance = 50
 # Minimum number of segments per block
 # If fixed at 2, this means that unless forced otherwise, the minimal number of segments will be 2 in any block. 
 # Note that for some types of sets (for example pyramid, increasing or decreasing, we do not allow the blocks to change)
-minSegmentNumber = 2
+minSegmentNumber = 1
 
 # Maximum number of segments per block
 # Same as above. 
