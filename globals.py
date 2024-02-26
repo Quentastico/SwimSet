@@ -120,7 +120,7 @@ kickTypes = ["kick", None]
 kickProba = [0.1, 0.9]
 
 # Definition of the possible variations of drill
-drillType = ["drill", None]
+drillTypes = ["drill", None]
 drillProba = [0.1, 0.9]
 
 # Definition of the different types of stroke
