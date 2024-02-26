@@ -74,4 +74,4 @@ class Segment:
 
   # Method to dsplay the infos of a given segment
   def info(self):
-    print("    SEGMENT: Stroke: " + self.stroke + ", Distance: " + str(self.distance) + ", Equipment: " + self.equipment + ", Intensity: " + str(self.intensity) + ", Drill: " + self.drill + ", Kick: " + self.kick)
+    print("    SEGMENT: Stroke: " + str(self.stroke) + ", Distance: " + str(self.distance) + ", Equipment: " + str(self.equipment) + ", Intensity: " + str(self.intensity) + ", Drill: " + str(self.drill) + ", Kick: " + str(self.kick))
