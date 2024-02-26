@@ -63,6 +63,12 @@ minBlocksDecrease = 3
 # For example, if set to 3, this measn that the pyramid will have 3 blocks (2 increase and 1 decrease)
 minBlocksPyramid = 3
 
+## CONSTANT DISTANCE SET
+
+# Distribution of probabilities between random split of segments from one block to another (case 1) of non-random split (case 2)
+splitTypeConstantDistance = ["randomSplit", "increaseDecreaseSplit"]
+splitProbaConstantDistance = [0.5, 0.5]
+
 # Options considered for the variation of intensity from one block to the other
 # This sets how the intensity can vary for different types of sets. For example if "equal" has a "intensityIncrease", this means that in a set
 # where each block has the same distance, the intensity from one block to the other can increase, etc. 
@@ -98,20 +104,28 @@ maxSegmentNumber = 3
 
 # Minimum value for a segment distance (m)
 # Note: A value of 25m is recommended as this will fit any pool (25m or 50m)
-minSegmentDistance = 25
+minSegmentDistance = 12.5
 
 # Maximum value for the distance of a segment (m)
 # Note: this maximal value for a segment distance can be superseded in the case of a non "equal" set type as we force the segment distance to be 
 # equal to the block distance. 
 maxSegmentDistance = 300
 
-# Definition of the different types of stroke
-# Note: The stroke types are the main types of strokes; the form strokes are the three main types of form. 
-strokeTypes = ["freestyle", "form", "drill", "breathPattern", "kick"]
-formStrokeTypes = ["butterfly", "backstroke", "breaststroke"]
-
 # Definition of the possible equipment
-equipmentTypes = ["pullBuoy", "fins", "paddles", None]
+equipmentTypes = ["pullBuoyAndPaddles", "fins", None]
+equipmentProba = [0.1, 0.2, 0.7]
+
+# Definition of the possible variations of kicks
+kickTypes = ["kick", None]
+kickProba = [0.1, 0.9]
+
+# Definition of the possible variations of drill
+drillType = ["drill", None]
+drillProba = [0.1 0.9]
+
+# Definition of the different types of stroke
+strokeTypes = ["freestyle", "form", "IM"]
+strokeProba = [0.8, 0.1, 0.1]
 
 # Definition of the types of intensity
 # The intensity usually varies from 4 to 10; anything under 4 is considered as being very slow, so the minIntensity is not set at 1; 

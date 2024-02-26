@@ -18,17 +18,6 @@ class Block:
     self.listSegmentDistance = [] # List that contains the distance of the Segments composing the Block
     self.nSegments = nSegments # Number of segments in the block (can be user-defined)
 
-    # 2. SEGMENT DISTANCES
-
-    # Definition of the list of the Segments composing the Block
-    self.setSegmentDistances()
-
-    # 3. SEGMENT CREATION
-
-    # Creation of the list of the Segments attached to this object
-    self.createSegments()
-
-
   # Definition of the function that splits the block distance into segments
   def setSegmentDistances(self):
 
@@ -68,9 +57,25 @@ class Block:
   # Method to create segments 
   def createSegments(self):
 
-    for segmentDistance in self.listSegmentDistance:
-      newSegment = Segment(distance=segmentDistance)
+    # Case 1: If there is just one segment in the block, then we do not worry
+    if self.nSegments == 1:
+      newSegment = Segment(distance=self.listSegmentDistance[0])
+      newSegment.setAll()
       self.listSegment.append(newSegment)
+
+    # Case 2: If there are mnore than 1 segment, then we need to make sure that the equipment is the same for all segments
+    else:
+      
+      # We first create the first segment
+      firstSegment = Segment(distance=self.listSegmentDistance[0])
+      firstSegment.setAll()
+      self.listSegment.append(firstSegment)
+
+      # We then create all the other segments and ensure that the equipment is the same as the first segment
+      for segmentDistance in self.listSegmentDistance[1::]:
+        newSegment = Segment(distance=segmentDistance, equipment=firstSegment.equipment)
+        newSegment.setAll()
+        self.listSegment.append(newSegment)
 
 
   # Making a function that copies an existing block

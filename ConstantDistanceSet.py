@@ -28,4 +28,30 @@ class ConstantDistanceSet(Set):
         for i in np.arange(int(self.distance / blockDistance)):
             self.listBlockDistance.append(blockDistance)
 
-    
+    # Method to create the blocks and the segments composing each block
+    def createBlocks(self): 
+
+        # 1. We need to define what sequence of blocks we will have:
+        # Case 1: The block will have a random number of segments that will simply repeat from one block to the other
+        # Case 2: The block will have exactly two segments that will vary according to an increasing or decreasing pattern (if possible)
+
+        sequenceBlocks = np.random.choice(globals.splitTypeConstantDistance, globals.splitProbaConstantDistance)
+
+        # 2. We then need to create the segments composing each block
+
+        # 2.1. Case 1: Random number of segments
+        if sequenceBlocks == "randomSplit":
+
+            # We create the first block
+            firstBlock = Block(distance=self.listBlockDistance[0])
+
+            # Then we use the functionality to randomly split the block into segments of different distances
+            firstBlock.setSegmentDistances()
+
+            # We then create the blocks composing the segment by calling the appropriate Block method
+            firstBlock.createSegments()
+
+            # 
+
+
+

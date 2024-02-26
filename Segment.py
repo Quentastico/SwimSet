@@ -4,43 +4,57 @@ import numpy as np
 class Segment:
 
   # Initialisation function
-  def __init__ (self, distance):
+  def __init__ (self, distance, equipment = None):
 
     # 1. ATTRIBUTES
 
     self.distance = distance # Segment distance in m
     self.stroke = None # Segment stroke
-    self.equipment = None # Equipment used fior this segment
+    self.equipment = equipment # Equipment used fior this segment
     self.intensity = None # Intensity of the training
     self.duration = None # Duration of the segment (in seconds)
-
-    # 2. SEGMENT CHARACTERISTICS
-
-    # Setting the different characteristics of the Segment
-    self.setStroke()
-    self.setEquipment()
-    self.setIntensity()
-
-
-  # Method setting  the stroke
-  # Note: Maybe add an option for freestyle only, freestyle and form only, and drill + breath pattern + kicks optional
-  # Maybe adjust the strokes to the distance (e.g. if higher than 150m, maybe no form, etc. )
-  def setStroke(self):
-    self.stroke = globals.strokeTypes[np.random.randint(low = 0, high = len(globals.strokeTypes))]
-
+    self.drill = None # Whether this segment is a drill segment (Boolean)
+    self.kick = None # Whether this segment is kick (Boolean)
 
   # Method to set the equipment
-  # Maybe add options to make sure that combinations make sense (fly + pull is not great)
-  # Add an option for the user to decide if they want any equipment at all
   def setEquipment(self):
-    self.equipment = globals.equipmentTypes[np.random.randint(low = 0, high = len(globals.equipmentTypes))]
 
+    if self.equipment == None:
+      self.equipment = np.random.choice(globals.equipmentTypes, globals.equipmentProba)
+
+  # Method to set the Kick
+  def setKick(self):
+
+    if self.equipment != "pullBuoyAndPaddles":
+      self.kick = np.random.choice(globals.kickTypes, globals.kickProba)
+
+  # Method to set the drill
+  def setDrill(self):
+
+    if self.equipment != "pullBuoyAndPaddles":
+      self.drill = np.random.choice(globals.drillTypes, globals.drillProba)
+
+  # Method setting  the stroke
+  def setStroke(self):
+
+    if self.equipment == "pullBuoyAndPaddles":
+      self.stroke = "freestyle"
+    
+    else:
+      self.stroke = np.random.choice(globals.strokeTypes, globals.strokeProba)
 
   # Method to set the intensity
-  # Same thng: Maybe have a think of when the intensity makes sense...
   def setIntensity(self):
     self.intensity = np.random.randint(low = globals.minIntensity, high = globals.maxIntensity + 1)
 
+  # Method to set all attributes
+  def setAll(self):
+
+    self.setEquipment()
+    self.setKick()
+    self.setDrill()
+    self.setStroke()
+    self.setIntensity()
   
   # Copy method
   def copy(self):
@@ -53,10 +67,11 @@ class Segment:
     newSegment.equipment = self.equipment
     newSegment.intensity = self.intensity
     newSegment.duration = self.duration
+    newSegment.drill = self.drill
+    newSegment.kick = self.kick
 
     return newSegment
 
-
   # Method to dsplay the infos of a given segment
   def info(self):
-    print("    SEGMENT: Stroke: " + self.stroke + ", Distance: " + str(self.distance) + ", Equipment: " + str(self.equipment) + ", Intensity: " + str(self.intensity))
+    print("    SEGMENT: Stroke: " + self.stroke + ", Distance: " + str(self.distance) + ", Equipment: " + str(self.equipment) + ", Intensity: " + str(self.intensity) + ", Drill: " + str(self.drill) + ", Kick: " + str(self.kick))
