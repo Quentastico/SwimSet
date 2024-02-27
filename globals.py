@@ -97,7 +97,7 @@ minSegmentNumber = 1
 
 # Maximum number of segments per block
 # Same as above. 
-maxSegmentNumber = 3
+maxSegmentNumber = 2
 
 
 ## SEGMENT
