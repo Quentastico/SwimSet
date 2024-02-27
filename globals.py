@@ -125,7 +125,7 @@ drillProba = [0.1, 0.9]
 
 # Definition of the different types of stroke
 strokeTypes = ["freestyle", "breaststroke", "backstroke", "butterfly", "IM"]
-strokeProba = [0.5, 0.1, 0.1, 0.1, 0.1, 0.1]
+strokeProba = [0.6, 0.1, 0.1, 0.1, 0.1]
 
 # Definition of the types of intensity
 # The intensity usually varies from 4 to 10; anything under 4 is considered as being very slow, so the minIntensity is not set at 1; 
