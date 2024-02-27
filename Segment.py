@@ -10,7 +10,7 @@ class Segment:
 
     self.distance = distance # Segment distance in m
     self.stroke = None # Segment stroke
-    self.equipment = equipment # Equipment used fior this segment
+    self.equipment = equipment # Equipment used for this segment
     self.intensity = None # Intensity of the training
     self.duration = None # Duration of the segment (in seconds)
     self.drill = None # Whether this segment is a drill segment (Boolean)
