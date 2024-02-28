@@ -112,15 +112,15 @@ minSegmentDistance = 25
 maxSegmentDistance = 300
 
 # Definition of the possible equipment
-equipmentTypes = ["pullBuoyAndPaddles", "fins", "noEquipment"]
+equipmentTypes = ["pullBuoyAndPaddles", "fins", "None"]
 equipmentProba = [0.1, 0.2, 0.7]
 
 # Definition of the possible variations of kicks
-kickTypes = ["kick", "noKick"]
+kickTypes = ["kick", "None"]
 kickProba = [0.1, 0.9]
 
 # Definition of the possible variations of drill
-drillTypes = ["drill", "noDrill"]
+drillTypes = ["drill", "None"]
 drillProba = [0.1, 0.9]
 
 # Definition of the different types of stroke
