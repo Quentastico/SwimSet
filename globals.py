@@ -102,6 +102,9 @@ maxSegmentNumber = 2
 
 ## SEGMENT
 
+# List of the diufferent parameters that characterises a segment
+listAllParameters = ["stroke", "equipment", "intensity", "drill", "kick"]
+
 # Minimum value for a segment distance (m)
 # Note: A value of 25m is recommended as this will fit any pool (25m or 50m)
 minSegmentDistance = 25
@@ -133,3 +136,7 @@ strokeProba = [0.6, 0.1, 0.1, 0.1, 0.1]
 minIntensity = 4
 maxIntensity = 10
 stepIntensity = 1
+
+# Definition of the path to the excel spreadsheet
+segmentConstraintsPath = "/content/SwimSet/segmentConstraints.xlsx"
+

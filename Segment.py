@@ -1,5 +1,6 @@
 import globals
 import numpy as np
+import pandas as pd
 
 class Segment:
 
@@ -84,6 +85,44 @@ class Segment:
       output = self.kick
 
     return output
+  
+  # Method that determines what parameters can change from one block to another
+  def getVaryingParameters(self):
+
+    # Making the segmentConstraints excel into a proper Dataframe
+    segmentConstraints = pd.read_excel(globals.segmentConstraintsPath)
+
+    # 1. Extracting the rows of interest
+
+    # 1.1. Adding the first two rows of the table
+    relConstraints = segmentConstraints.iloc[0:2]
+
+    # 1.2. Extracting the relevant table
+    for parameter in globals.listAllParameters:
+      if parameter != "intensity":
+        relConstraints = pd.concat([relConstraints, segmentConstraints[(segmentConstraints['Parameter']==parameter) & (segmentConstraints['Value'] == segment.getParameter(parameter))]])
+      else: 
+        relConstraints = pd.concat([relConstraints, segmentConstraints[(segmentConstraints['Parameter']==parameter)]])
+
+    # 2. Then for each parameter, we need to identify what values are acceptable 
+
+    # 2.1. First of all, we determine what parameters we will keep
+    relConstraints = relConstraints.transpose().reset_index()
+    nameColumns = relConstraints.columns
+    relConstraints["VALID"] = relConstraints[nameColumns[-4:]].apply(lambda x: False if ((x[nameColumns[-1]]=="N") or (x[nameColumns[-2]]=="N") or (x[nameColumns[-3]]=="N") or (x[nameColumns[-4]]=="N")) else True, axis = 1)
+    relParameters = pd.DataFrame(relConstraints.groupby(by=0).VALID.sum()) # Note: "0" will be the name of the column
+    relParameters["KEEP"] = relParameters["VALID"].apply(lambda x: True if x>0 else False)
+    selParameters = relParameters[relParameters["KEEP"]].index
+
+    # 2.2. Then we determine what value each parameter can take
+    parameterValues = {}
+    for parameter in globals.listAllParameters:
+      if parameter in selParameters:
+        parameterValues[parameter] = list(relConstraints[(relConstraints[0]==parameter) & (relConstraints["VALID"])][1].values)
+      else:
+        parameterValues[parameter] = None
+
+    return parameterValues
 
   # Copy method
   def copy(self):
