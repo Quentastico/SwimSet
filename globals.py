@@ -137,6 +137,29 @@ minIntensity = 4
 maxIntensity = 10
 stepIntensity = 1
 
-# Definition of the path to the excel spreadsheet
+# Definition of the path to the excel spreadsheet for the variation of parameters from one block to the other in a set
 segmentConstraintsPath = "/content/SwimSet/segmentConstraints.xlsx"
+
+# Definition of the parameters that can change from one block to the other for different types of sets
+
+# Case 1: Constant distance with non-changing block
+allowedVariationConstantDistance1 = {"stroke": ["alternate", "cycle"], 
+                                  "equipment": ["alternate", "cycle"],
+                                  "intensity": ["increase", "decrease"],
+                                  "drill": ["cycle"], 
+                                  "kick": None}
+
+# Case 2.1 : Constant distance with increasing distance first segment
+allowedVariationConstantDistance21 = {"stroke": None, 
+                                  "equipment": None,
+                                  "intensity": ["decrease"],
+                                  "drill": None, 
+                                  "kick": None}
+
+# Case 2.2: Constant distance with decreasing distance first segment
+allowedVariationConstantDistance22 = {"stroke": None, 
+                                  "equipment": None,
+                                  "intensity": ["increase"],
+                                  "drill": None, 
+                                  "kick": None}
 

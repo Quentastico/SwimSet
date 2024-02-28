@@ -1,4 +1,4 @@
-## GLOBAL VARIABLES
+## IMPORTS
 
 import numpy as np
 import globals
@@ -53,6 +53,7 @@ class ConstantDistanceSet(Set):
 
             # We then decide which segment will change from one block to the other
             changingSegmentIndex = np.rand.randint(0, len(firstBlock.listSegment))
+            changingSegment = firstBlock.listSegment[changingSegmentIndex]
 
             # We then copy the first block as many times as necessary
             for BlockDistance in self.listBlockDistance[1::]:
@@ -60,7 +61,9 @@ class ConstantDistanceSet(Set):
                 self.listBlock.append(newBlock)
 
             # We then determine the parameter than will vary from one block to the other in the changing block
-             
+            varyingParameters = changingSegment.getVaryingParameters()
+
+            
 
 
 
