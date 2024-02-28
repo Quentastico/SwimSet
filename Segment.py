@@ -56,6 +56,39 @@ class Segment:
     self.setStroke()
     self.setIntensity()
   
+  # Method to get the value of any given parameter of the segment
+  def getParameter(self, parameterName):
+    # parameterName: the name of the parameter of interest
+
+    self.duration = None # Duration of the segment (in seconds)
+    self.drill = None # Whether this segment is a drill segment (Boolean)
+    self.kick = None # Whether this segment is kick (Boolean)
+
+    output = None
+
+    if parameterName == "distance":
+      output = self.distance
+    
+    if parameterName == "stroke":
+      output = self.stroke
+
+    if parameterName == "equipment":
+      output = self.equipment
+
+    if parameterName == "intensity":
+      output = self.intensity
+
+    if parameterName == "duration":
+      output = self.duration
+
+    if parameterName == "drill":
+      output = self.drill
+    
+    if parameterName == "kick":
+      output = self.kick
+
+    return output
+
   # Copy method
   def copy(self):
 
