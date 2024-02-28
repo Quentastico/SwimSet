@@ -100,7 +100,7 @@ class Segment:
     # 1.2. Extracting the relevant table
     for parameter in globals.listAllParameters:
       if parameter != "intensity":
-        relConstraints = pd.concat([relConstraints, segmentConstraints[(segmentConstraints['Parameter']==parameter) & (segmentConstraints['Value'] == segment.getParameter(parameter))]])
+        relConstraints = pd.concat([relConstraints, segmentConstraints[(segmentConstraints['Parameter']==parameter) & (segmentConstraints['Value'] == self.getParameter(parameter))]])
       else: 
         relConstraints = pd.concat([relConstraints, segmentConstraints[(segmentConstraints['Parameter']==parameter)]])
 
