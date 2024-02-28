@@ -60,10 +60,6 @@ class Segment:
   def getParameter(self, parameterName):
     # parameterName: the name of the parameter of interest
 
-    self.duration = None # Duration of the segment (in seconds)
-    self.drill = None # Whether this segment is a drill segment (Boolean)
-    self.kick = None # Whether this segment is kick (Boolean)
-
     output = None
 
     if parameterName == "distance":
