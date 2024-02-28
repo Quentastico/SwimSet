@@ -13,8 +13,8 @@ class Segment:
     self.equipment = equipment # Equipment used for this segment
     self.intensity = None # Intensity of the training
     self.duration = None # Duration of the segment (in seconds)
-    self.drill = None # Whether this segment is a drill segment (Boolean)
-    self.kick = None # Whether this segment is kick (Boolean)
+    self.drill = None # Whether this segment is a drill segment
+    self.kick = None # Whether this segment is kick
 
   # Method to set the equipment
   def setEquipment(self):
