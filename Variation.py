@@ -36,7 +36,7 @@ class Variation:
             if (self.allowedVariation[parameter] is not None) & (self.varyingParameters[parameter] is not None):
 
                 # Special case of stroke or equipment
-                if (parameter == "stroke") | (parameter == "equimpment"): 
+                if (parameter == "stroke") | (parameter == "equipment"): 
 
                     # Identifying the vectors of interest
                     if parameter == "stroke":
