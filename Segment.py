@@ -130,7 +130,7 @@ class Segment:
           parameterValues[parameter] = None
         # Case where there is multiple values
         if len(parameterValues[parameter]) > 1:
-          parameterValues[parameter] = parameterValues[parameter][parameterValues[parameter] == "None"] = None
+          parameterValues[parameter][parameterValues[parameter] == "None"] = None
 
     return parameterValues
 
