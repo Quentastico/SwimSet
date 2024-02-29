@@ -123,14 +123,19 @@ class Segment:
         parameterValues[parameter] = None
 
     ## 3. Finally, just for consistency with other parts of the code, we replace the "None" into actual None
-    #for parameter in parameterValues.keys():
-    #  if parameterValues[parameter] is not None:
-    #    # Case where there is only one value that is equal to "None"
-    #    if (len(parameterValues[parameter]) == 1) & (parameterValues[parameter][0] == "None"):
-    #      parameterValues[parameter] = None
-    #    # Case where there is multiple values
-    #    if len(parameterValues[parameter]) > 1:
-    #      parameterValues[parameter][parameterValues[parameter] == "None"] = None
+    for parameter in parameterValues.keys():
+      if parameterValues[parameter] is not None:
+        # Case where there is only one value that is equal to "None"
+        if len(parameterValues[parameter]) == 1:
+          if parameterValues[parameter][0] == "None":
+            parameterValues[parameter] = None
+        # Case where there are multiple values
+        else: 
+          p = 0
+          for value in parameterValues[parameter]: 
+            if value == "None":
+              parameterValues[parameter][p] = None
+            p += 1
 
     return parameterValues
 
