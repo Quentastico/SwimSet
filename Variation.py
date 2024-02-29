@@ -50,8 +50,8 @@ class Variation:
                     # Then we need to determine the actual number of strokes based on user preferences (i.e. coeffs from 0 to 1): 
                     allowedValues = []
                     for value in self.varyingParameters[parameter]:
-                        indexValue = globals.parameterTypes.index(value)
-                        probaValue = globals.parameterProba[indexValue]
+                        indexValue = parameterTypes.index(value)
+                        probaValue = parameterProba[indexValue]
                         if probaValue > 0:
                             allowedValues.append(value)
                     
