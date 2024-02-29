@@ -91,11 +91,11 @@ class Variation:
 
         # Case 1: This is a stroke variation
         if self.selParameter == "stroke":
-            self.createStrokeVariation()
+            self.createStrokeEquipmentVariation()
 
         # Case 2: This is an equipment variation
         if self.selParameter == "equipment":
-            self.createEquipmentVariation()
+            self.createStrokeEquipmentVariation()
 
         # Case 3: This is an intensity variation
         if self.selParameter == "intensity":
@@ -105,24 +105,34 @@ class Variation:
         if self.selParameter == "drill":
             self.createDrillVariation()
     
-    # Defintiion of of a stroke variation (this function should only be called by createVariation)
-    def createStrokeVariation(self):
+    # Definition of a stroke or equipment variation (this function should only be called by createVariation)
+    def createStrokeEquipmentVariation(self):
 
         # definition of useful arrays
-        strokes = self.selParameterValues
-        strokesProba = []
+        selParameterValues = self.selParameterValues
+        valuesProba = []
 
-        # Building the associated probabilties array for the possible strokes
-        for stroke in strokes:
-            indexStroke = globals.strokeTypes.index(stroke)
-            strokesProba.append(globals.strokeProba[indexStroke])
+        # Building the associated probabilties array for the possible strokes/equipment
 
-        # The overall idea is to maximise the number of strokes that we include in the Variation
-        # For example, if nBlocks is a multiple of 5, then we rotate through the 5 strokes (if they are available), etc. 
-        # If we end up on a prime number higher than 5 (e.g. 7) then we simply alternate the strokes. 
+        # Identifying the vectors of interest
+        if self.selParameter == "stroke":
+            parameterTypes = globals.strokeTypes
+            parameterProba = globals.strokeProba
+        
+        if self.selParameter == "equipment":
+            parameterTypes = globals.equipmentTypes
+            parameterProba = globals.equipmentProba
+            
+        for value in selParameterValues:
+            indexValue = parameterTypes.index(value)
+            valuesProba.append(parameterProba[indexValue])
 
-        # 1. Determining the biggest number of strokes we can include
-        n = len(strokes)
+        # The overall idea is to maximise the number of strokes/equipment that we include in the Variation
+        # For example, if nBlocks is a multiple of 5, then we rotate through the strokes/equipment (if they are available), etc. 
+        # If we end up on a prime number higher than 5 (e.g. 7) then we simply alternate the strokes/equipment. 
+
+        # 1. Determining the biggest number of strokes/equipment we can include
+        n = len(selParameterValues)
 
         while (self.nBlocks / n) != np.floor(self.nBlocks / n):
             n -= 1
@@ -130,40 +140,32 @@ class Variation:
         if n == 1: 
             n = 2
 
-        # 2. Picking n random strokes from the strokes array
-        selStrokes = []
+        # 2. Picking n random strokes/equipment from the strokes/equipment array
+        selValues = []
         while n > 0:
 
             print("n: " + str(n))
 
             # 1. Make sure that the proba vector sums to 1
-            sumProba = np.sum(strokesProba)
-            for i in np.arange(len(strokesProba)):
-                strokesProba[i] = strokesProba[i]/sumProba
-
-            print("strokes")
-            print(strokes)
-            print("strokesProba")
-            print(strokesProba)
+            sumProba = np.sum(valuesProba)
+            for i in np.arange(len(valuesProba)):
+                valuesProba[i] = valuesProba[i]/sumProba
             
-            # 2. First of all adding a random stroke
-            randomStroke = np.random.choice(strokes, p=strokesProba)
-            selStrokes.append(randomStroke)
+            # 2. First of all adding a random strokes/equipment
+            randomValue = np.random.choice(selParameterValues, p=valuesProba)
+            selValues.append(randomValue)
 
-            print("random stroke")
-            print(randomStroke)
-
-            # Then removing from strokes and strokeProba the selected one
-            indexStroke = strokes.index(randomStroke)
-            strokesProba.pop(indexStroke)
-            strokes.remove(randomStroke)
+            # Then removing from strokes/equipment and valuesProba the selected one
+            indexValue = selParameterValues.index(randomValue)
+            valuesProba.pop(indexValue)
+            selParameterValues.remove(randomValue)
 
             # Changing the value of n
             n -= 1
 
         # 3. Now that the strokes are selected, we simply create the variation
         for i in np.arange(self.nBlocks):
-            self.selParameterVariation.append(selStrokes[i % len(selStrokes)])
+            self.selParameterVariation.append(selValues[i % len(selValues)])
             
 
 
