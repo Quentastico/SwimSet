@@ -144,8 +144,6 @@ class Variation:
         selValues = []
         while n > 0:
 
-            print("n: " + str(n))
-
             # 1. Make sure that the proba vector sums to 1
             sumProba = np.sum(valuesProba)
             for i in np.arange(len(valuesProba)):
@@ -166,19 +164,87 @@ class Variation:
         # 3. Now that the strokes are selected, we simply create the variation
         for i in np.arange(self.nBlocks):
             self.selParameterVariation.append(selValues[i % len(selValues)])
+
+    # Definition of an intensity variation
+    def createIntensityVariation(self):
+       
             
+        # Import useful parameters
+        maxIntensity = globals.maxIntensity
+        minIntensity = globals.minIntensity
 
+        # determining if the intensity will increase or decrease
+        optionIntensity = np.random.choice(self.allowedVariation[self.selectParameter])
+       
+        # Defining the number of intensities possible
+        numIntensities = (maxIntensity-minIntensity+1)
+       
+        # Case 1: The number of possible intensities is higher than the number of blocks: easy, we just find intensities which increase/decrease from one block to another
+        if numIntensities >= self.nBlocks:
+            lowestIntensity = np.random.randint(low=minIntensity, high=maxIntensity-self.nBlocks+2)
+          
+        # Case 1.1: Increasing intensity
+        if optionIntensity == "increase":
+            for i in np.arange(self.nBlocks):
+                self.selParameterVariation.append(lowestIntensity+i)
 
-
-
-
-
-
-
-
-
-
-
-
-
+        # Case 1.2: Decreasing intensity
+        if optionIntensity == "decrease":
+            for i in np.arange(self.nBlocks):
+                self.selParameterVariation.append(lowestIntensity+self.nBlocks-1-i)
     
+        # Case 2: The number of possible intensities is lower than the number of blocks: we have to split them in different schemes
+        else: 
+
+            # First we need to find the maximal possible length of a series
+            maxWidthIntensity = numIntensities
+            while np.floor(self.nBlocks/maxWidthIntensity) != self.nBlocks / maxWidthIntensity: 
+                maxWidthIntensity -= 1
+
+            # Case 2.1: There is a number higher than 1 of options
+            if maxWidthIntensity > 1: 
+
+                lowestIntensity = np.random.randint(low=minIntensity, high=maxIntensity-maxWidthIntensity+2)
+
+                # Case 2.1.1: Increasing intensity
+                if optionIntensity == "increase":
+                    for series in np.arange(np.floor(self.nBlocks/maxWidthIntensity)):
+                        for i in np.arange(maxWidthIntensity):
+                            self.selParameterVariation.append(lowestIntensity+i)
+
+                # Case 2.1.2: Decreasing intensity
+                if optionIntensity == "decrease":
+                    for series in np.arange(np.floor(self.nBlocks/maxWidthIntensity)):
+                        for i in np.arange(maxWidthIntensity):
+                            self.selParameterVariation.append(lowestIntensity+maxWidthIntensity-1-i)
+
+            # Case 2.2: The number of blocks cannot be divided by any other number than 1 (prime number)
+            else: 
+                # Here we make the choice that we will extend the range of intensities as much as possible even if this means that the block will not be exact
+                maxWidthIntensity = numIntensities
+
+                # Case 2.2.1: Increasing intensity
+                if optionIntensity == "increase": 
+                    nSeries = np.floor(self.nBlocks/maxWidthIntensity)
+
+                    # First adding all the complete series
+                    for series in np.arange(nSeries):
+                        for i in np.arange(maxWidthIntensity):
+                            self.selParameterVariation.append(minIntensity+i)
+
+                    # Then adding the rest
+                    for i in np.arange(self.nBlocks-nSeries*maxWidthIntensity):
+                        self.selParameterVariation.append(int(minIntensity+i))
+
+                # Case 2.2.2: Decreasing intensity
+                if optionIntensity == "intensityDecrease": 
+                    nSeries = np.floor(self.nBlocks/maxWidthIntensity)
+
+                    # First adding all the complete series
+                    for series in np.arange(nSeries):
+                        for i in np.arange(maxWidthIntensity):
+                            self.selParameterVariation.append(maxIntensity-i)
+
+                    # Then adding the rest
+                    for i in np.arange(self.nBlocks-nSeries*maxWidthIntensity):
+                        self.selParameterVariation.append(int(maxIntensity-i))
