@@ -174,7 +174,7 @@ class Variation:
         minIntensity = globals.minIntensity
 
         # determining if the intensity will increase or decrease
-        optionIntensity = np.random.choice(self.allowedVariation[self.selectParameter])
+        optionIntensity = np.random.choice(self.allowedVariation[self.selParameter])
        
         # Defining the number of intensities possible
         numIntensities = (maxIntensity-minIntensity+1)
