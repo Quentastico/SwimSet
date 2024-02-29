@@ -70,3 +70,5 @@ class Variation:
 
             else: 
                 parameterValues[parameter] = None
+
+        return parameterValues
