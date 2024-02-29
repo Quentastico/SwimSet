@@ -183,15 +183,15 @@ class Variation:
         if numIntensities >= self.nBlocks:
             lowestIntensity = np.random.randint(low=minIntensity, high=maxIntensity-self.nBlocks+2)
           
-        # Case 1.1: Increasing intensity
-        if optionIntensity == "increase":
-            for i in np.arange(self.nBlocks):
-                self.selParameterVariation.append(lowestIntensity+i)
+            # Case 1.1: Increasing intensity
+            if optionIntensity == "increase":
+                for i in np.arange(self.nBlocks):
+                    self.selParameterVariation.append(lowestIntensity+i)
 
-        # Case 1.2: Decreasing intensity
-        if optionIntensity == "decrease":
-            for i in np.arange(self.nBlocks):
-                self.selParameterVariation.append(lowestIntensity+self.nBlocks-1-i)
+            # Case 1.2: Decreasing intensity
+            if optionIntensity == "decrease":
+                for i in np.arange(self.nBlocks):
+                    self.selParameterVariation.append(lowestIntensity+self.nBlocks-1-i)
     
         # Case 2: The number of possible intensities is lower than the number of blocks: we have to split them in different schemes
         else: 
