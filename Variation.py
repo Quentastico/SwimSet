@@ -114,7 +114,7 @@ class Variation:
 
         # Building the associated probabilties array for the possible strokes
         for stroke in strokes:
-            indexStroke = globals.strokeTypes[stroke]
+            indexStroke = globals.strokeTypes.index(stroke)
             strokesProba.append(globals.strokeProba[indexStroke])
 
         # The overall idea is to maximise the number of strokes that we include in the Variation
