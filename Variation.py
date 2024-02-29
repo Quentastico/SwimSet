@@ -147,7 +147,7 @@ class Variation:
             print(strokesProba)
             
             # 2. First of all adding a random stroke
-            randomStroke = np.random.choice(strokes, strokesProba)
+            randomStroke = np.random.choice(strokes, p=strokesProba)
             selStrokes.append(randomStroke)
 
             print("random stroke")
