@@ -31,7 +31,7 @@ class Variation:
         # Creating an empty dictionary that will inform that values are actually possible for each parameter throuhout the set
         parameterValues = {}
 
-        # Looping on all the possible parameters
+        # Looping on all the possible parameters and populating the dictionary listing what values each parameter can take from one set to the other
         for parameter in globals.listAllParameters:
             if (self.allowedVariation[parameter] is not None) & (self.varyingParameters[parameter] is not None):
 
@@ -71,4 +71,17 @@ class Variation:
             else: 
                 parameterValues[parameter] = None
 
-        return parameterValues
+        # Then selecting the parameter that will vary from one block to the other
+        possibleParameters = []
+        for parameter in parameterValues.keys():
+            if parameterValues is not None:
+                possibleParameters.append(parameter)
+
+        if len(possibleParameters) > 0:
+            self.selParameter = possibleParameters[np.random.randint(0,len(possibleParameters))]
+            self.selParameterValues = parameterValues[self.selParameter]
+        else:
+            self.selParameter = None
+            self.selParameterValues = []
+
+    
