@@ -6,14 +6,15 @@ import globals
 class Variation:
 
     # Definition of the initialisation function
-    def __init__(self, allowedVariation, varyingParameters):
+    def __init__(self, allowedVariation, varyingParameters, nBlocks):
 
         # ATTRIBUTES
         self.allowedVariation = allowedVariation # Dictonary that defines what types of variations are allowed for this case for each segment parameter
         self.varyingParameters = varyingParameters # Dictonary that defines what values the different parameters can take though this variation
-        self.selParameter = None
-        self.selParameterValues = []
-        self.selParameterVariation = []
+        self.nBlocks = nBlocks # Number of blocks that will compose the set
+        self.selParameter = None # Parameter that will be selected for a variation from one change to the other
+        self.selParameterValues = [] # Possible values of this parameter
+        self.selParameterVariation = [] # Final sequence of values for the selected parameter
 
         # DATA CHECK
 
@@ -83,5 +84,89 @@ class Variation:
         else:
             self.selParameter = None
             self.selParameterValues = []
+
+    # Definition of the method that creates a variation
+    # Note: this method can only be executed when the parameter and associated values have been selected. 
+    def createVariation(self):
+
+        # Case 1: This is a stroke variation
+        if self.selParameter == "stroke":
+            self.createStrokeVariation()
+
+        # Case 2: This is an equipment variation
+        if self.selParameter == "equipment":
+            self.createEquipmentVariation()
+
+        # Case 3: This is an intensity variation
+        if self.selParameter == "intensity":
+            self.createIntensityVariation()
+        
+        # Case 4: This is a drill variation
+        if self.selParameter == "drill":
+            self.createDrillVariation()
+    
+    # Defintiion of of a stroke variation (this function should only be called by createVariation)
+    def createStrokeVariation(self):
+
+        # definition of useful arrays
+        strokes = self.selParameterValues
+        strokesProba = []
+
+        # Building the associated probabilties array for the possible strokes
+        for stroke in strokes:
+            indexStroke = globals.strokeTypes(stroke)
+            strokesProba.append(globals.strokeProba[indexStroke])
+
+        # The overall idea is to maximise the number of strokes that we include in the Variation
+        # For example, if nBlocks is a multiple of 5, then we rotate through the 5 strokes (if they are available), etc. 
+        # If we end up on a prime number higher than 5 (e.g. 7) then we simply alternate the strokes. 
+
+        # 1. Determining the biggest number of strokes we can include
+        n = len(strokes)
+
+        while (self.nBlocks / n) != np.floor(self.nBlocks / n):
+            n -= 1
+
+        if n == 1: 
+            n = 2
+
+        # 2. Picking n random strokes from the strokes array
+        selStrokes = []
+        while n > 0:
+
+            # 1. Make sure that the proba vector sums to 1
+            sumProba = np.sum(strokesProba)
+            for i in np.arange(len(strokesProba)):
+                strokesProba[i] = strokesProba[i]/sumProba
+            
+            # 2. First of all adding a random stroke
+            randomStroke = np.random.choice(strokes, strokesProba)
+            selStrokes.append(randomStroke)
+
+            # Then removing from strokes and strokeProba the selected one
+            indexStroke = strokes.index(randomStroke)
+            strokesProba.pop(indexStroke)
+            strokes.remove(randomStroke)
+
+            # Changing the value of n
+            n -= 1
+
+        # 3. Now that the strokes are selected, we simply create the variation
+        for i in np.arange(self.nBlocks):
+            self.selParameterVariation.append(selStrokes[i % len(selStrokes)])
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
