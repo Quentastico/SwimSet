@@ -35,30 +35,38 @@ class Variation:
         for parameter in globals.listAllParameters:
             if (self.allowedVariation[parameter] is not None) & (self.varyingParameters[parameter] is not None):
 
-                # Special case of stroke
-                if parameter == "stroke": 
+                # Special case of stroke or equipment
+                if (parameter == "stroke") | (parameter == "equimpment"): 
+
+                    # Identifying the vectors of interest
+                    if parameter == "stroke":
+                        parameterTypes = globals.strokeTypes
+                        parameterProba = globals.strokeProba
+                    
+                    if parameter == "equipment":
+                        parameterTypes = globals.equipmentTypes
+                        parameterProba = globals.equipmentProba
 
                     # Then we need to determine the actual number of strokes based on user preferences (i.e. coeffs from 0 to 1): 
-                    allowedStrokes = []
-                    for stroke in self.varyingParameters[parameter]:
-                        indexStroke = globals.strokeTypes.index("IM")
-                        probaStroke = globals.strokeProba[indexStroke]
-                        if probaStroke > 0:
-                            allowedStrokes.append(stroke)
+                    allowedValues = []
+                    for value in self.varyingParameters[parameter]:
+                        indexValue = globals.strokeTypes.index(value)
+                        probaValue = globals.strokeProba[indexValue]
+                        if probaValue > 0:
+                            allowedValues.append(value)
                     
                     # Then we need to store the possible values of the stroke (if any)
-                    if len(allowedStrokes) > 0:
-                        parameterValues["stroke"] = allowedStrokes
+                    if len(allowedValues) > 0:
+                        parameterValues[parameter] = allowedValues
                     
                     else:
-                        parameterValues["stroke"] = None
+                        parameterValues[parameter] = None
 
-                else: 
-                    parameterValues["stroke"] = None
+                # Special case of intensity, drill or kick
+                if (parameter == "intensity") | (parameter == "kick") | (parameter == "drill"):
 
-                # Special case of Equipment
-                
+                    # Here we simply use the value "Any" normally used in self.varyingParameters
+                    parameterValues[parameter] = self.varyingParameters[parameter]                    
 
-
-
-
+            else: 
+                parameterValues[parameter] = None
