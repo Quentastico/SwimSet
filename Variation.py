@@ -74,7 +74,7 @@ class Variation:
         # Then selecting the parameter that will vary from one block to the other
         possibleParameters = []
         for parameter in parameterValues.keys():
-            if parameterValues is not None:
+            if parameterValues[parameter] is not None:
                 possibleParameters.append(parameter)
 
         if len(possibleParameters) > 0:
