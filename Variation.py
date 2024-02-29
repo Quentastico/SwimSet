@@ -134,14 +134,24 @@ class Variation:
         selStrokes = []
         while n > 0:
 
+            print("n: " + str(n))
+
             # 1. Make sure that the proba vector sums to 1
             sumProba = np.sum(strokesProba)
             for i in np.arange(len(strokesProba)):
                 strokesProba[i] = strokesProba[i]/sumProba
+
+            print("strokes")
+            print(strokes)
+            print("strokesProba")
+            print(strokesProba)
             
             # 2. First of all adding a random stroke
             randomStroke = np.random.choice(strokes, strokesProba)
             selStrokes.append(randomStroke)
+
+            print("random stroke")
+            print(randomStroke)
 
             # Then removing from strokes and strokeProba the selected one
             indexStroke = strokes.index(randomStroke)
