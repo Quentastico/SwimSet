@@ -36,7 +36,7 @@ class ConstantDistanceSet(Set):
         # Case 1: The block will have a random number of segments that will simply repeat from one block to the other
         # Case 2: The block will have exactly two segments that will vary according to an increasing or decreasing pattern (if possible)
 
-        sequenceBlocks = np.random.choice(globals.splitTypeConstantDistance, globals.splitProbaConstantDistance)
+        sequenceBlocks = np.random.choice(globals.splitTypeConstantDistance, p=globals.splitProbaConstantDistance)
         print(sequenceBlocks)
 
         # 2. We then need to create the segments composing each block
