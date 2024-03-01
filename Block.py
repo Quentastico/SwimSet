@@ -59,7 +59,7 @@ class Block:
     # Case 1: If there is just one segment in the block, then we do not worry
     if self.nSegments == 1:
       newSegment = Segment(distance=self.listSegmentDistance[0])
-      newSegment.setAll()
+      newSegment.setRandomAll()
       self.listSegment.append(newSegment)
 
     # Case 2: If there are mnore than 1 segment, then we need to make sure that the equipment is the same for all segments
@@ -67,13 +67,13 @@ class Block:
       
       # We first create the first segment
       firstSegment = Segment(distance=self.listSegmentDistance[0])
-      firstSegment.setAll()
+      firstSegment.setRandomAll()
       self.listSegment.append(firstSegment)
 
       # We then create all the other segments and ensure that the equipment is the same as the first segment
       for segmentDistance in self.listSegmentDistance[1::]:
         newSegment = Segment(distance=segmentDistance, equipment=firstSegment.equipment)
-        newSegment.setAll()
+        newSegment.setRandomAll()
         self.listSegment.append(newSegment)
 
 
