@@ -4,6 +4,7 @@ import numpy as np
 import globals
 from Block import Block
 from Set import Set
+from Variation import Variation
 import utils
 
 class ConstantDistanceSet(Set):
@@ -36,6 +37,7 @@ class ConstantDistanceSet(Set):
         # Case 2: The block will have exactly two segments that will vary according to an increasing or decreasing pattern (if possible)
 
         sequenceBlocks = np.random.choice(globals.splitTypeConstantDistance, globals.splitProbaConstantDistance)
+        print(sequenceBlocks)
 
         # 2. We then need to create the segments composing each block
 
@@ -56,12 +58,24 @@ class ConstantDistanceSet(Set):
             changingSegment = firstBlock.listSegment[changingSegmentIndex]
 
             # We then copy the first block as many times as necessary
-            for BlockDistance in self.listBlockDistance[1::]:
+            for blockDistance in self.listBlockDistance:
                 newBlock = firstBlock.copy()
                 self.listBlock.append(newBlock)
 
             # We then determine the parameter than will vary from one block to the other in the changing block
             varyingParameters = changingSegment.getVaryingParameters()
+
+            # We then create a variation for this changing segment
+            variationSegment = Variation(allowedVariation=globals.allowedVariationConstantDistance1, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
+
+            # We then change the value of the changing parameter of the changing segment from one block to the other. 
+            indexBlock = 0
+            for block in self.listBlock:
+                block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+                indexBlock += 1
+
+
+
 
             
 
