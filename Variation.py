@@ -166,8 +166,7 @@ class Variation:
             self.selParameterVariation.append(selValues[i % len(selValues)])
 
     # Definition of an intensity variation
-    def createIntensityVariation(self):
-       
+    def createIntensityVariation(self):       
             
         # Import useful parameters
         maxIntensity = globals.maxIntensity
@@ -248,3 +247,10 @@ class Variation:
                     # Then adding the rest
                     for i in np.arange(self.nBlocks-nSeries*maxWidthIntensity):
                         self.selParameterVariation.append(int(maxIntensity-i))
+    
+    # Method that creates a drill variation
+    def createDrillVariation(self):
+
+        # Here the strategy is simply to offer to go through drill 1, drill 2, etc. 
+        for i in np.arange(self.nBlocks):
+            self.selParameterVariation.append("drill " + str(i+1))
