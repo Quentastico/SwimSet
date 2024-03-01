@@ -18,25 +18,25 @@ class Segment:
     self.kick = None # Whether this segment is kick
 
   # Method to set the equipment
-  def setEquipment(self):
+  def setRandomEquipment(self):
 
     if self.equipment == None:
       self.equipment = np.random.choice(globals.equipmentTypes, p=globals.equipmentProba)
 
   # Method to set the Kick
-  def setKick(self):
+  def setRandomKick(self):
 
     if self.equipment != "pullBuoyAndPaddles":
       self.kick = np.random.choice(globals.kickTypes, p=globals.kickProba)
 
   # Method to set the drill
-  def setDrill(self):
+  def setRandomDrill(self):
 
     if self.equipment != "pullBuoyAndPaddles":
       self.drill = np.random.choice(globals.drillTypes, p=globals.drillProba)
 
   # Method setting  the stroke
-  def setStroke(self):
+  def setRandomStroke(self):
 
     if self.equipment == "pullBuoyAndPaddles":
       self.stroke = "freestyle"
@@ -45,17 +45,36 @@ class Segment:
       self.stroke = np.random.choice(globals.strokeTypes, p=globals.strokeProba)
 
   # Method to set the intensity
-  def setIntensity(self):
+  def setRandomIntensity(self):
     self.intensity = np.random.randint(low = globals.minIntensity, high = globals.maxIntensity + 1)
 
-  # Method to set all attributes
-  def setAll(self):
+  # Method to set all attributes randomly
+  def setRandomAll(self):
 
-    self.setEquipment()
-    self.setKick()
-    self.setDrill()
-    self.setStroke()
-    self.setIntensity()
+    self.setRandomEquipment()
+    self.setRandomKick()
+    self.setRandomDrill()
+    self.setRandomStroke()
+    self.setRandomIntensity()
+
+  # Method to set a single value of a parameter
+  def setForcedParameter(self, parameterName, parameterValue):
+
+    if parameterName == "stroke":
+      self.stroke = parameterValue
+    
+    if parameterName == "equipment":
+      self.equipment = parameterValue
+
+    if parameterName == "kick":
+      self.kick = parameterValue
+
+    if parameterName == "drill":
+      self.drill = parameterValue
+
+    if parameterName == "intensity":
+      self.intensity = parameterValue
+
   
   # Method to get the value of any given parameter of the segment
   def getParameter(self, parameterName):
