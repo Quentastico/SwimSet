@@ -64,6 +64,9 @@ class ConstantDistanceSet(Set):
 
             # We then determine the parameter than will vary from one block to the other in the changing block
             varyingParameters = changingSegment.getVaryingParameters()
+            print(varyingParameters)
+            print(globals.allowedVariationConstantDistance1)
+            print(len(self.listBlockDistance))
 
             # We then create a variation for this changing segment
             variationSegment = Variation(allowedVariation=globals.allowedVariationConstantDistance1, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
