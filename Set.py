@@ -16,6 +16,7 @@ class Set:
     self.type = None # Type of variation of distances for the different blocks composing the Set
     self.listBlockDistance = [] # List of the distances of the block composing the set (in m)
     self.listBlock = [] # List of the block objects that will compose the Set
+    self.variationSegment = None # The variation object that describes the variation selected for the set. 
 
   # Info method        
   def info(self):
