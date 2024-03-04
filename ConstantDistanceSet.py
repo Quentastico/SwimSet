@@ -43,18 +43,16 @@ class ConstantDistanceSet(Set):
 
                 optionRandomSplit.append(distance)
 
-                # Extra condition: we need to be able to split the distance in a logical way for the segments
-                if distance/nBlocks/globals.minSegmentDistance == np.floor(distance/nBlocks/globals.minSegmentDistance):
-                    optionIncreaseDecreaseSplit[distance] = np.arange(start=distance/nBlocks, stop=(nBlocks+1)*distance/nBlocks, step=distance/nBlocks)
+                if nBlocks >2:
 
-                # We also accept cases where we add a "0" at the start of the sequence
-                if nBlocks != 1:
-                    if distance/(nBlocks-1)/globals.minSegmentDistance == np.floor(distance/(nBlocks-1)/globals.minSegmentDistance):
-                        print("stop")
-                        print((nBlocks+1)*distance/(nBlocks-1))
-                        print("step")
-                        print(distance/(nBlocks-1))
-                        optionIncreaseDecreaseSplit[distance] = np.arange(start=0, stop=(nBlocks)*distance/(nBlocks-1), step=distance/(nBlocks-1)) 
+                    # Extra condition: we need to be able to split the distance in a logical way for the segments
+                    if distance/nBlocks/globals.minSegmentDistance == np.floor(distance/nBlocks/globals.minSegmentDistance):
+                        optionIncreaseDecreaseSplit[distance] = np.arange(start=distance/nBlocks, stop=(nBlocks+1)*distance/nBlocks, step=distance/nBlocks)
+
+                    # We also accept cases where we add a "0" at the start of the sequence
+                    if nBlocks != 1:
+                        if distance/(nBlocks-1)/globals.minSegmentDistance == np.floor(distance/(nBlocks-1)/globals.minSegmentDistance):
+                            optionIncreaseDecreaseSplit[distance] = np.arange(start=0, stop=(nBlocks)*distance/(nBlocks-1), step=distance/(nBlocks-1)) 
 
         return optionRandomSplit, optionIncreaseDecreaseSplit 
 
