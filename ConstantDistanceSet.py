@@ -14,15 +14,8 @@ class ConstantDistanceSet(Set):
 
         super().__init__(distance)
 
-        self.sequenceType = "" # This attribute contains the type of sequence: randomSplit, increaseSplit, decreaseSplit
-
-    # Method to set the sequence type
-    def setSequenceType(self):
-
-        # We need to define what sequence of blocks we will have:
-            # randomSplit: The block will have a random number of segments that will simply repeat from one block to the other
-            # increaseDecreaseSplit: The block will have exactly two segments that will vary according to an increasing or decreasing pattern (if possible)
-        self.sequenceType = np.random.choice(globals.splitTypeConstantDistance, p=globals.splitProbaConstantDistance)
+        self.sequenceType = "" # This attribute contains the type of sequence: randomSplit, increasedecreaseSplit
+        self.listSegmentDistance = [] # This attribute will contain a list of the list of segment distances withtin each block
 
     # Method to split the set into a given distance
     def setBlockDistances(self): 
@@ -54,12 +47,34 @@ class ConstantDistanceSet(Set):
                         if distance/(nBlocks-1)/globals.minSegmentDistance == np.floor(distance/(nBlocks-1)/globals.minSegmentDistance):
                             optionIncreaseDecreaseSplit[distance] = np.arange(start=0, stop=(nBlocks)*distance/(nBlocks-1), step=distance/(nBlocks-1)) 
 
-        # Setting then randomly the distance
-        # blockDistance = optionDistanceBlock[np.random.randint(low=0, high=len(optionDistanceBlock))]
+        # Then deciding what type of Block sequence this will be: 
+            # randomSplit: The block will have a random number of segments that will simply repeat from one block to the other
+            # increaseDecreaseSplit: The block will have exactly two segments that will vary according to an increasing or decreasing pattern (if possible)
+        
+        if len(optionIncreaseDecreaseSplit.keys())>0:
+            self.sequenceType = np.random.choice(globals.splitTypeConstantDistance, p=globals.splitProbaConstantDistance)
+        else: 
+            self.sequenceType = "randomSplit"
 
-        # Finally setting the list of distance blocks
-        # for i in np.arange(int(self.distance / blockDistance)):
-        #     self.listBlockDistance.append(blockDistance)
+        # Then picking a random distance for the block
+        if self.sequenceType == "randomSplit":
+            # Picking a random distance in the array
+            blockDistance = optionRandomSplit[np.random.randint(low=0, high=len(optionRandomSplit))]
+            # Then creating an array of distances for the blocks and segment
+            for i in np.arange(int(self.distance / blockDistance)):
+                self.listBlockDistance.append(blockDistance)
+                self.listSegmentDistance.append(blockDistance)            
+
+        if self.sequenceType == "increaseDecreaseSplit":
+            # Picking a random distance in the array
+            possibleDistances = list(optionIncreaseDecreaseSplit.keys())
+            blockDistance = possibleDistances[np.random.randint(low=0, high=len(possibleDistances))]
+            # Then creating an array of distances
+            for i in np.arange(int(self.distance / blockDistance)):
+                self.listBlockDistance.append(blockDistance)
+                #self.listSegmentDistance.append(optionIncreaseDecreaseSplit)
+
+        return optionIncreaseDecreaseSplit
 
     # Method to create the blocks and the segments composing each block
     def createBlocks(self): 
