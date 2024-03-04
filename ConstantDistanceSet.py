@@ -72,9 +72,7 @@ class ConstantDistanceSet(Set):
             # Then creating an array of distances
             for i in np.arange(int(self.distance / blockDistance)):
                 self.listBlockDistance.append(blockDistance)
-                #self.listSegmentDistance.append(optionIncreaseDecreaseSplit)
-
-        return optionIncreaseDecreaseSplit
+                self.listSegmentDistance.append([optionIncreaseDecreaseSplit[blockDistance][i], blockDistance-optionIncreaseDecreaseSplit[blockDistance][i]])
 
     # Method to create the blocks and the segments composing each block
     def createBlocks(self): 
