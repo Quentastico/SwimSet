@@ -54,14 +54,12 @@ class ConstantDistanceSet(Set):
                         if distance/(nBlocks-1)/globals.minSegmentDistance == np.floor(distance/(nBlocks-1)/globals.minSegmentDistance):
                             optionIncreaseDecreaseSplit[distance] = np.arange(start=0, stop=(nBlocks)*distance/(nBlocks-1), step=distance/(nBlocks-1)) 
 
-        return optionRandomSplit, optionIncreaseDecreaseSplit 
-
         # Setting then randomly the distance
-        blockDistance = optionDistanceBlock[np.random.randint(low=0, high=len(optionDistanceBlock))]
+        # blockDistance = optionDistanceBlock[np.random.randint(low=0, high=len(optionDistanceBlock))]
 
         # Finally setting the list of distance blocks
-        for i in np.arange(int(self.distance / blockDistance)):
-            self.listBlockDistance.append(blockDistance)
+        # for i in np.arange(int(self.distance / blockDistance)):
+        #     self.listBlockDistance.append(blockDistance)
 
     # Method to create the blocks and the segments composing each block
     def createBlocks(self): 
