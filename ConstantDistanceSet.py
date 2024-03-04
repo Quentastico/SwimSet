@@ -54,7 +54,7 @@ class ConstantDistanceSet(Set):
                         print((nBlocks+1)*distance/(nBlocks-1))
                         print("step")
                         print(distance/(nBlocks-1))
-                        optionIncreaseDecreaseSplit[distance] = np.arange(start=0, stop=(nBlocks+1)*distance/(nBlocks-1), step=distance/(nBlocks-1)) 
+                        optionIncreaseDecreaseSplit[distance] = np.arange(start=0, stop=(nBlocks)*distance/(nBlocks-1), step=distance/(nBlocks-1)) 
 
         return optionRandomSplit, optionIncreaseDecreaseSplit 
 
