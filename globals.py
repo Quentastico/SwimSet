@@ -67,7 +67,7 @@ minBlocksPyramid = 3
 
 # Distribution of probabilities between random split of segments from one block to another (case 1) of non-random split (case 2)
 splitTypeConstantDistance = ["randomSplit", "increaseDecreaseSplit"]
-splitProbaConstantDistance = [0, 1]
+splitProbaConstantDistance = [0.5, 0.5]
 
 # Options considered for the variation of intensity from one block to the other
 # This sets how the intensity can vary for different types of sets. For example if "equal" has a "intensityIncrease", this means that in a set
@@ -115,15 +115,15 @@ minSegmentDistance = 25
 maxSegmentDistance = 300
 
 # Definition of the possible equipment
-equipmentTypes = ["pullBuoyAndPaddles", "fins", None]
+equipmentTypes = ["pullBuoyAndPaddles", "fins", "No equipment"]
 equipmentProba = [0.1, 0.2, 0.7]
 
 # Definition of the possible variations of kicks
-kickTypes = ["kick", None]
+kickTypes = ["kick", "No kick"]
 kickProba = [0.1, 0.9]
 
 # Definition of the possible variations of drill
-drillTypes = ["drill", None]
+drillTypes = ["drill", "No drill"]
 drillProba = [0.1, 0.9]
 
 # Definition of the different types of stroke
