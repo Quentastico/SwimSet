@@ -176,4 +176,32 @@ class Segment:
 
   # Method to dsplay the infos of a given segment
   def info(self):
-    print("    SEGMENT: Stroke: " + str(self.stroke) + ", Distance: " + str(self.distance) + ", Equipment: " + str(self.equipment) + ", Intensity: " + str(self.intensity) + ", Drill: " + str(self.drill) + ", Kick: " + str(self.kick))
+
+    # distance
+    printDistance = str(self.distance) + "m "
+
+    # stroke
+    printStroke = self.stroke + " "
+
+    # equipment
+    if self.equipment == "No equipment":
+      printEquipment = ""
+    else: 
+      printEquipment = self.equipment + " "
+
+    # drill
+    if self.drill == "No drill":
+      printDrill = ""
+    else:
+      printDrill = self.drill + " "
+    
+    # kick
+    if self.kick == "No kick":
+      printKick= ""
+    else:
+      printKick = self.kick
+
+    # intensity
+    printIntensity = "Intensity: " + str(self.intensity) + " "
+
+    print("    SEGMENT: " + printDistance + printKick + printStroke + printEquipment + printDrill + printIntensity)
