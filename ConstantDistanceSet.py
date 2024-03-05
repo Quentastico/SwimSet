@@ -125,12 +125,17 @@ class ConstantDistanceSet(Set):
             # We then create the segments withtin the same Block 
             firstBlock.createSegments()
 
+            print(" At this point, only creation of the first block - Here is its info")
+            firstBlock.info()
+
             # We then need to copy the firstBlock, but this time by changing the distances of its segments
             for i in np.arange(len(self.listBlockDistance)):
                 newBlock = firstBlock.copy()
                 newBlock.listSegmentDistance = self.listSegmentDistance[i]
                 newBlock.listSegment[0].distance = self.listSegmentDistance[i][0]
                 newBlock.listSegment[1].distance = self.listSegmentDistance[i][1]
+                print("Block" + str(i))
+                newBlock.info()
                 self.listBlock.append(newBlock)
             
             # We then decide which segment will change from one block to the other
@@ -152,9 +157,15 @@ class ConstantDistanceSet(Set):
             variationSegment.createVariation()
             self.variationSegment = variationSegment
 
+            print("Varying parameter")
+            print(variationSegment.selParameter)
+
             # We finally adjust the changing segment withtin the block
+            print("Now changing the paranmeter of the changing segment")
             if variationSegment.selParameter is not None:
                 indexBlock = 0
                 for block in self.listBlock:
                     block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+                    print("Block" + str (indexBlock))
+                    block.info()
                     indexBlock += 1
