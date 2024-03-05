@@ -16,6 +16,7 @@ class ConstantDistanceSet(Set):
 
         self.sequenceType = "" # This attribute contains the type of sequence: randomSplit, increasedecreaseSplit
         self.listSegmentDistance = [] # This attribute will contain a list of the list of segment distances withtin each block
+        self.variationSegment = None # This indicates what segment will vary from one one block to the other. 
 
     # Method to split the set into a given distance
     def setBlockDistances(self): 
@@ -108,16 +109,51 @@ class ConstantDistanceSet(Set):
             self.variationSegment = variationSegment
 
             # We then change the value of the changing parameter of the changing segment from one block to the other. 
-            indexBlock = 0
-            for block in self.listBlock:
-                block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
-                indexBlock += 1
+            if variationSegment.selParameter is not None:
+                indexBlock = 0
+                for block in self.listBlock:
+                    block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+                    indexBlock += 1
 
+        # 2. Case 2: Increase/decrease split
+        if self.sequenceType == "increaseDecreaseSplit":
 
+            # We first create the first Block - Note that we need to force the number of segment nSegments to 2 and the list of segment distances
+            firstBlock = Block(distance=self.listBlockDistance[0], nSegments=2)
+            firstBlock.listSegmentDistance = self.listSegmentDistance[0]
 
+            # We then create the segments withtin the same Block 
+            firstBlock.createSegments()
 
+            # We then need to copy the firstBlock, but this time by changing the distances of its segments
+            for i in np.arange(len(self.listBlockDistance)):
+                newBlock = firstBlock.copy()
+                newBlock.listSegmentDistance = self.listSegmentDistance[i]
+                newBlock.listSegment[0].distance = self.listSegmentDistance[i][0]
+                newBlock.listSegment[1].distance = self.listSegmentDistance[i][1]
             
+            # We then decide which segment will change from one block to the other
+            # - If this is the first one, then the distance of the changing segment will increase within the set (case 2.1)
+            # - In the other case, the distance of the changing segment will decrease withtin the set (case 2.1)
+            changingSegmentIndex = np.random.randint(0, 2)
+            changingSegment = firstBlock.listSegment[changingSegmentIndex]
+            if changingSegmentIndex == 0:
+                allowedVariationConstantDistance = globals.allowedVariationConstantDistance21
+            else: 
+                allowedVariationConstantDistance = globals.allowedVariationConstantDistance22
 
+            # We then determine the parameter than can vary from one block to the other in the changing block
+            varyingParameters = changingSegment.getVaryingParameters()
+            
+            # We then determine what parameter will actually vary from one block to the other through the creation of a Variation
+            variationSegment = Variation(allowedVariation=allowedVariationConstantDistance, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
+            variationSegment.selectParameter()
+            variationSegment.createVariation()
+            self.variationSegment = variationSegment
 
-
-
+            # We finally adjust the changing segment withtin the block
+            if variationSegment.selParameter is not None:
+                indexBlock = 0
+                for block in self.listBlock:
+                    block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+                    indexBlock += 1
