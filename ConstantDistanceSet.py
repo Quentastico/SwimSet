@@ -131,6 +131,7 @@ class ConstantDistanceSet(Set):
                 newBlock.listSegmentDistance = self.listSegmentDistance[i]
                 newBlock.listSegment[0].distance = self.listSegmentDistance[i][0]
                 newBlock.listSegment[1].distance = self.listSegmentDistance[i][1]
+                self.listBlock.append(newBlock)
             
             # We then decide which segment will change from one block to the other
             # - If this is the first one, then the distance of the changing segment will increase within the set (case 2.1)
