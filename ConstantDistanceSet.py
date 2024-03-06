@@ -120,7 +120,7 @@ class ConstantDistanceSet(Set):
 
             # We first create the first Block - Note that we need to force the number of segment nSegments to 2 and the list of segment distances
             firstBlock = Block(distance=self.listBlockDistance[0], nSegments=2)
-            firstBlock.setSegmentDistances()
+            firstBlock.listSegmentDistance = self.listSegmentDistance[0]
 
             # We then create the segments withtin the same Block 
             firstBlock.createSegments()

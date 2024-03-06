@@ -46,6 +46,7 @@ class DecreasingDistanceSet(Set):
 
             # We first need to create the first block
             firstBlock = Block(distance=self.listBlockDistance[0], nSegments=1)
+            firstBlock.setSegmentDistances()
             firstBlock.createSegments()
 
             # We then duplicate the first block by changing uniquely the distance
