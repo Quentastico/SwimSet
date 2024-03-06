@@ -100,7 +100,7 @@ allowedVariationConstantDistance22 = {"stroke": None,
 # Case 3: Each block will be split in a constant + increasing length
 # Case 4: Each block will build toward a full block
 splitTypeIncreaseDecreaseDistance = ["singleSegment", "halfHalf", "constantChanging", "buildBlock"]
-splitProbaIncreaseDecreaseDistance = [0.25, 0.25, 0.25, 0.25]
+splitProbaIncreaseDecreaseDistance = [1, 0, 0, 0]
 
 # Case 1: Constant distance with non-changing block
 allowedVariationIncreaseDecreaseDistance1 = {"stroke": None,
