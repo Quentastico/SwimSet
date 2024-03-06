@@ -41,7 +41,6 @@ class DecreasingDistanceSet(Set):
         if np.min(self.listBlockDistance)/2 >= globals.minSegmentDistance:
             self.sequenceType = np.random.choice(globals.splitTypeIncreaseDecreaseDistance, p=globals.splitProbaIncreaseDecreaseDistance)
         else:
-            print("oh oh we can't have a half-half type")
             splitType = globals.splitTypeIncreaseDecreaseDistance.copy()
             splitProba = globals.splitProbaIncreaseDecreaseDistance.copy()
             halfHalfIndex = splitType.index("halfHalf")
@@ -50,8 +49,6 @@ class DecreasingDistanceSet(Set):
             newSumProba = np.sum(splitProba)
             for i in np.arange(len(splitProba)):
                 splitProba[i] = splitProba[i]/newSumProba
-            print(splitType)
-            print(splitProba)
             self.sequenceType = np.random.choice(splitType, p=splitProba)
 
 
@@ -65,7 +62,6 @@ class DecreasingDistanceSet(Set):
             firstBlock = Block(distance=self.listBlockDistance[0], nSegments=1)
             firstBlock.setSegmentDistances()
             firstBlock.createSegments()
-            firstBlock.info()
 
             # We then duplicate the first block by changing uniquely the distance
             for blockDistance in self.listBlockDistance:
@@ -73,7 +69,6 @@ class DecreasingDistanceSet(Set):
                 newBlock.listSegmentDistance = [blockDistance]
                 newBlock.listSegment[0].distance = blockDistance
                 self.listBlock.append(newBlock)
-                newBlock.info()
 
             # We then determine what can change from one block to another 
             varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
@@ -83,7 +78,6 @@ class DecreasingDistanceSet(Set):
             variationSegment.selectParameter()
             variationSegment.createVariation()
             self.variationSegment = variationSegment
-            print(variationSegment.selectParameter)
 
             # We then change the relevant parameter in the blocks
             if variationSegment.selParameter is not None:
@@ -93,3 +87,40 @@ class DecreasingDistanceSet(Set):
                     indexBlock += 1
 
         # Case 2: "Half-half"
+        if self.sequenceType=="halfHalf":
+
+            # We first need to create a first block and we make sure the distance of its segments are equal to half-half of the block distance
+            firstBlock = Block(distance=self.listBlockDistance[0], nSegments=2)
+            segmentDistance = int(self.listBlockDistance[0])
+            firstBlock.listSegmentDistance = [segmentDistance, segmentDistance]
+
+            # We then create the segments of this first block
+            firstBlock.createSegments()
+
+            # We then duplicate the first block by changing the distance of its segments
+            for distance in self.listBlockDistance:
+                newBlock = firstBlock.copy()
+                segmentDistance = int(distance/2)
+                newBlock.listSegmentDistance = [segmentDistance, segmentDistance]
+                newBlock.listSegment[0].distance = segmentDistance
+                newBlock.listSegment[1].distance = segmentDistance
+                self.listBlock.append(newBlock)
+            
+            # We then need to decide what segment will vary from one block to the other
+            changingSegmentIndex = np.random.randint(0, 2)
+
+            # Then we need to determine what parameters can vary from one block to the other from this segment
+            varyingParameters = firstBlock.listSegment[changingSegmentIndex]
+
+            # We then select the parameter that will change and its values through the creation of a variation
+            variationSegment = Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance2, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
+            variationSegment.selectParameter()
+            variationSegment.createVariation()
+            self.variationSegment = variationSegment
+
+            # We then change the relevant parameter in the blocks
+            if variationSegment.selParameter is not None:
+                indexBlock = 0
+                for block in self.listBlock:
+                    block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+                    indexBlock += 1
