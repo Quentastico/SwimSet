@@ -36,8 +36,25 @@ class DecreasingDistanceSet(Set):
     def setSequenceType(self):
 
         # Just picking a random type from available options
-        self.sequenceType = np.random.choice(globals.splitTypeIncreaseDecreaseDistance, p=globals.splitProbaIncreaseDecreaseDistance)
-    
+        # Note: it must be ensured that for the "half-half" scheme to be selected, half of the minimal block distance is higher than the minimal segment distance
+        
+        if np.min(self.listBlockDistance)/2 >= globals.minSegmentDistance:
+            self.sequenceType = np.random.choice(globals.splitTypeIncreaseDecreaseDistance, p=globals.splitProbaIncreaseDecreaseDistance)
+        else:
+            print("oh oh we can't have a half-half type")
+            splitType = globals.splitTypeIncreaseDecreaseDistance.copy()
+            splitProba = globals.splitProbaIncreaseDecreaseDistance
+            halfHalfIndex = splitType.index("halfHalf")
+            splitType.remove("halfHalf")
+            splitProba.pop(halfHalfIndex)
+            newSumProba = np.sum(splitProba)
+            for i in np.arange(splitProba):
+                splitProba[i] = splitProba[i]/newSumProba
+            print(splitType)
+            print(splitProba)
+            self.sequenceType = np.random.choice(splitType, p=splitProba)
+
+
     # Method to create the blocks of the set
     def createBlocks(self):
 
@@ -74,3 +91,5 @@ class DecreasingDistanceSet(Set):
                 for block in self.listBlock:
                     block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
                     indexBlock += 1
+
+        # Case 2: "Half-half"

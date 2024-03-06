@@ -100,7 +100,7 @@ allowedVariationConstantDistance22 = {"stroke": None,
 # Case 3: Each block will be split in a constant + increasing length
 # Case 4: Each block will build toward a full block
 splitTypeIncreaseDecreaseDistance = ["singleSegment", "halfHalf", "constantChanging", "buildBlock"]
-splitProbaIncreaseDecreaseDistance = [1, 0, 0, 0]
+splitProbaIncreaseDecreaseDistance = [0.25, 0.25, 0.25, 0.25]
 
 # Case 1: Constant distance with non-changing block
 allowedVariationIncreaseDecreaseDistance1 = {"stroke": None,
@@ -162,7 +162,7 @@ listAllParameters = ["stroke", "equipment", "intensity", "drill", "kick"]
 
 # Minimum value for a segment distance (m)
 # Note: A value of 25m is recommended as this will fit any pool (25m or 50m)
-minSegmentDistance = 25
+minSegmentDistance = 50
 
 # Maximum value for the distance of a segment (m)
 # Note: this maximal value for a segment distance can be superseded in the case of a non "equal" set type as we force the segment distance to be 
