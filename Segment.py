@@ -28,12 +28,16 @@ class Segment:
 
     if self.equipment != "pullBuoyAndPaddles":
       self.kick = np.random.choice(globals.kickTypes, p=globals.kickProba)
+    else:
+      self.kick = "No kick"
 
   # Method to set the drill
   def setRandomDrill(self):
 
     if self.equipment != "pullBuoyAndPaddles":
       self.drill = np.random.choice(globals.drillTypes, p=globals.drillProba)
+    else:
+      self.drill = "No drill"
 
   # Method setting  the stroke
   def setRandomStroke(self):
@@ -46,6 +50,7 @@ class Segment:
 
   # Method to set the intensity
   def setRandomIntensity(self):
+    
     self.intensity = np.random.randint(low = globals.minIntensity, high = globals.maxIntensity + 1)
 
   # Method to set all attributes randomly
@@ -197,7 +202,7 @@ class Segment:
     
     # kick
     if self.kick == "No kick":
-      printKick= ""
+      printKick = ""
     else:
       printKick = self.kick
 
