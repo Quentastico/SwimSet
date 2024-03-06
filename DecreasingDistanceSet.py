@@ -154,7 +154,7 @@ class DecreasingDistanceSet(Set):
                 else: 
                     newBlock = Block(distance=constantDistance, nSegments=1)
                     newBlock.listSegmentDistance = [constantDistance]
-                    newBlock.listSegment[0] = firstBlock.listSegment[1].copy()
+                    newBlock.listSegment = [firstBlock.listSegment[1].copy()]
                     newBlock.listSegment[0].distance = constantDistance
                 self.listBlock.append(newBlock)
                 print("new block!")
