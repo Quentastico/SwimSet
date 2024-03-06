@@ -69,19 +69,74 @@ minBlocksPyramid = 3
 splitTypeConstantDistance = ["randomSplit", "increaseDecreaseSplit"]
 splitProbaConstantDistance = [0.5, 0.5]
 
+# Definition of the parameters that can change from one block to the other for different types of sets
+
+# Case 1: Constant distance with non-changing block
+allowedVariationConstantDistance1 = {"stroke": ["cycle"], 
+                                  "equipment": ["cycle"],
+                                  "intensity": ["increase", "decrease"],
+                                  "drill": ["cycle"], 
+                                  "kick": None}
+
+# Case 2.1 : Constant distance with increasing distance first segment
+allowedVariationConstantDistance21 = {"stroke": None, 
+                                  "equipment": None,
+                                  "intensity": ["decrease"],
+                                  "drill": None, 
+                                  "kick": None}
+
+# Case 2.2: Constant distance with decreasing distance first segment
+allowedVariationConstantDistance22 = {"stroke": None, 
+                                  "equipment": None,
+                                  "intensity": ["increase"],
+                                  "drill": None, 
+                                  "kick": None}
+
+## INCREASING/DECREASING DISTANCE SET
+
+# Distribution of probabilities between the different cases
+# Case 1: Only one segment per block
+# Case 2: Each block will be split in 2 halves
+# Case 3: Each block will be split in a constant + increasing length
+# Case 4: Each block will build toward a full block
+splitTypeIncreaseDecreaseDistance = ["singleSegment", "halfHalf", "constantChanging", "buildBlock"]
+splitProbaIncreaseDecreaseDistance = [0.25, 0.25, 0.25, 0.25]
+
+# Case 1: Constant distance with non-changing block
+allowedVariationIncreaseDecreaseDistance1 = {"stroke": None,
+                                             "equipment": None,
+                                             "intensity": ["increase"],
+                                             "drill": None,
+                                             "kick": None}
+
+# Case 2.1 : Constant distance with increasing distance first segment
+allowedVariationConstantDistance21 = {"stroke": None, 
+                                  "equipment": None,
+                                  "intensity": ["decrease"],
+                                  "drill": None, 
+                                  "kick": None}
+
+# Case 2.2: Constant distance with decreasing distance first segment
+allowedVariationConstantDistance22 = {"stroke": None, 
+                                  "equipment": None,
+                                  "intensity": ["increase"],
+                                  "drill": None, 
+                                  "kick": None}
+
+
 # Options considered for the variation of intensity from one block to the other
 # This sets how the intensity can vary for different types of sets. For example if "equal" has a "intensityIncrease", this means that in a set
 # where each block has the same distance, the intensity from one block to the other can increase, etc. 
-optionIntensity = {"equal": ["intensityIncrease"], 
-                   "increasing": ["intensityDecrease", "intensityConstant"], 
-                   "decreasing": ["intensityIncrease", "intensityConstant"], 
-                   "pyramid":["intensityConstant"], 
-                   "distanceRep":["intensityConstant"]}
+# optionIntensity = {"equal": ["intensityIncrease"], 
+#                   "increasing": ["intensityDecrease", "intensityConstant"], 
+#                   "decreasing": ["intensityIncrease", "intensityConstant"], 
+#                   "pyramid":["intensityConstant"], 
+#                   "distanceRep":["intensityConstant"]}
 
 # Options considered when all blocks in a set all have equal distance
 # The process for equal blocks within a set is that we create a first block structure with one or multiple segment(s). 
 # Then we change one segment in this block from one block to the other. This option lists the things that can change from a changing segment to the other. 
-optionVariationBlock = ["intensity", "stroke"]
+# optionVariationBlock = ["intensity", "stroke"]
 
 
 ## BLOCK
@@ -140,26 +195,5 @@ stepIntensity = 1
 # Definition of the path to the excel spreadsheet for the variation of parameters from one block to the other in a set
 segmentConstraintsPath = "/content/SwimSet/segmentConstraints.xlsx"
 
-# Definition of the parameters that can change from one block to the other for different types of sets
 
-# Case 1: Constant distance with non-changing block
-allowedVariationConstantDistance1 = {"stroke": ["alternate", "cycle"], 
-                                  "equipment": ["alternate", "cycle"],
-                                  "intensity": ["increase", "decrease"],
-                                  "drill": ["cycle"], 
-                                  "kick": None}
-
-# Case 2.1 : Constant distance with increasing distance first segment
-allowedVariationConstantDistance21 = {"stroke": None, 
-                                  "equipment": None,
-                                  "intensity": ["decrease"],
-                                  "drill": None, 
-                                  "kick": None}
-
-# Case 2.2: Constant distance with decreasing distance first segment
-allowedVariationConstantDistance22 = {"stroke": None, 
-                                  "equipment": None,
-                                  "intensity": ["increase"],
-                                  "drill": None, 
-                                  "kick": None}
 
