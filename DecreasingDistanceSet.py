@@ -43,7 +43,7 @@ class DecreasingDistanceSet(Set):
         else:
             print("oh oh we can't have a half-half type")
             splitType = globals.splitTypeIncreaseDecreaseDistance.copy()
-            splitProba = globals.splitProbaIncreaseDecreaseDistance
+            splitProba = globals.splitProbaIncreaseDecreaseDistance.copy()
             halfHalfIndex = splitType.index("halfHalf")
             splitType.remove("halfHalf")
             splitProba.pop(halfHalfIndex)
