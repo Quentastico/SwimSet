@@ -72,9 +72,10 @@ class DecreasingDistanceSet(Set):
 
             # We then determine what can change from one block to another 
             varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
+            print(varyingParameters)
 
             # We then select the parameter that will change and its values through the creation of a variation
-            variationSegment = Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance1, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
+            variationSegment = Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance2, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
             variationSegment.selectParameter()
             variationSegment.createVariation()
             self.variationSegment = variationSegment
