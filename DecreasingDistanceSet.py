@@ -163,8 +163,8 @@ class DecreasingDistanceSet(Set):
             # We then determine the parameters that can vary for the first segment
             varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
 
-            # We then determine the parameter that wll actually vary from one block to the other through the creation of a Variation
-            variationSegment = Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance2, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
+            # We then determine the parameter that will actually vary from one block to the other through the creation of a Variation
+            variationSegment = Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance3, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
             variationSegment.selectParameter()
             variationSegment.createVariation()
             self.variationSegment = variationSegment
@@ -175,6 +175,12 @@ class DecreasingDistanceSet(Set):
                 for block in self.listBlock[:-1]:
                     block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
                     indexBlock += 1
+            
+            # We then choose to flip or not the order of the segment in each block
+            flip = np.random.choice([True, False])
+            if flip:
+                for block in self.listBlock:
+                    block.flip()
             
 
 

@@ -116,6 +116,14 @@ allowedVariationIncreaseDecreaseDistance2 = {"stroke": None,
                                              "drill": None,
                                              "kick": None}
 
+# Case 3: Two segments with a constant distance and a changing distance
+allowedVariationIncreaseDecreaseDistance2 = {"stroke": None,
+                                             "equipment": None,
+                                             "intensity": ["increase"],
+                                             "drill": None,
+                                             "kick": None}
+
+
 
 # Options considered for the variation of intensity from one block to the other
 # This sets how the intensity can vary for different types of sets. For example if "equal" has a "intensityIncrease", this means that in a set
