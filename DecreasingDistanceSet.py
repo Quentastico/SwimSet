@@ -108,7 +108,6 @@ class DecreasingDistanceSet(Set):
                 newBlock.listSegmentDistance = [segmentDistance, segmentDistance]
                 newBlock.listSegment[0].distance = segmentDistance
                 newBlock.listSegment[1].distance = segmentDistance
-                newBlock.info()
                 self.listBlock.append(newBlock)
             
             # We then need to decide what segment will vary from one block to the other
@@ -116,7 +115,6 @@ class DecreasingDistanceSet(Set):
 
             # Then we need to determine what parameters can vary from one block to the other from this segment
             varyingParameters = firstBlock.listSegment[changingSegmentIndex].getVaryingParameters()
-            print(varyingParameters)
 
             # We then select the parameter that will change and its values through the creation of a variation
             variationSegment = Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance2, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
@@ -130,3 +128,53 @@ class DecreasingDistanceSet(Set):
                 for block in self.listBlock:
                     block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
                     indexBlock += 1
+
+        # Case 3: constant bit + changing bit
+        if self.sequenceType == "constantChanging":
+
+            # We first need to create a random block with two segments
+            firstBlock = Block(distance=self.listBlockDistance[0], nSegments=2)
+            firstBlock.setSegmentDistances()
+            firstBlock.createSegments()
+            print("first block")
+            firstBlock.info()
+
+            # We then duplicate the first block to allow for a block with a constant part (the last part) and a changing part
+            constantDistance = np.min(self.listBlockDistance)
+            for distance in self.listBlockDistance:
+                changingDistance = distance - constantDistance
+                # Case for the first blocks (with two segments)
+                if changingDistance > 0: 
+                    newBlock = firstBlock.copy()
+                    newBlock.distance = distance
+                    newBlock.listSegmentDistance = [changingDistance, constantDistance]
+                    newBlock.listSegment[0].distance = changingDistance
+                    newBlock.listSegment[1].distance = constantDistance
+                # Case for the last block
+                else: 
+                    newBlock = Block(distance=constantDistance, nSegments=1)
+                    newBlock.listSegmentDistance = [constantDistance]
+                    newBlock.listSegment[0] = firstBlock.listSegment[1].copy()
+                    newBlock.listSegment[0].distance = constantDistance
+                self.listBlock.append(newBlock)
+                print("new block!")
+                newBlock.info()
+            
+            # We then determine the parameters that can vary for the first segment
+            varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
+
+            # We then determine the parameter that wll actually vary from one block to the other through the creation of a Variation
+            variationSegment = Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance2, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
+            variationSegment.selectParameter()
+            variationSegment.createVariation()
+            self.variationSegment = variationSegment
+
+            # We then modify the first segment accordingly
+            if variationSegment.selParameter is not None:
+                indexBlock = 0
+                for block in self.listBlock[:-1]:
+                    block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+                    indexBlock += 1
+            
+
+
