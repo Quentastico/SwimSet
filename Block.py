@@ -77,6 +77,12 @@ class Block:
         self.listSegment.append(newSegment)
 
 
+  # Making a function that flips the segments withtin a block:
+  def flip(self):
+
+    self.listSegment = list(np.flip(self.listSegment))
+
+  
   # Making a function that copies an existing block
   def copy(self):
 
