@@ -117,7 +117,7 @@ allowedVariationIncreaseDecreaseDistance2 = {"stroke": None,
                                              "kick": None}
 
 # Case 3: Two segments with a constant distance and a changing distance
-allowedVariationIncreaseDecreaseDistance2 = {"stroke": None,
+allowedVariationIncreaseDecreaseDistance3 = {"stroke": None,
                                              "equipment": None,
                                              "intensity": ["increase"],
                                              "drill": None,
