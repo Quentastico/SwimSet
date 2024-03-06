@@ -48,7 +48,7 @@ class DecreasingDistanceSet(Set):
             splitType.remove("halfHalf")
             splitProba.pop(halfHalfIndex)
             newSumProba = np.sum(splitProba)
-            for i in np.arange(splitProba):
+            for i in np.arange(len(splitProba)):
                 splitProba[i] = splitProba[i]/newSumProba
             print(splitType)
             print(splitProba)
