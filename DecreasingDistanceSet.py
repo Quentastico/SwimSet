@@ -66,6 +66,7 @@ class DecreasingDistanceSet(Set):
             # We then duplicate the first block by changing uniquely the distance
             for blockDistance in self.listBlockDistance:
                 newBlock = firstBlock.copy()
+                newBlock.distance = blockDistance
                 newBlock.listSegmentDistance = [blockDistance]
                 newBlock.listSegment[0].distance = blockDistance
                 self.listBlock.append(newBlock)
@@ -91,7 +92,7 @@ class DecreasingDistanceSet(Set):
 
             # We first need to create a first block and we make sure the distance of its segments are equal to half-half of the block distance
             firstBlock = Block(distance=self.listBlockDistance[0], nSegments=2)
-            segmentDistance = int(self.listBlockDistance[0])
+            segmentDistance = int(self.listBlockDistance[0]/2)
             firstBlock.listSegmentDistance = [segmentDistance, segmentDistance]
 
             # We then create the segments of this first block
@@ -102,6 +103,7 @@ class DecreasingDistanceSet(Set):
             print("new blocks")
             for distance in self.listBlockDistance:
                 newBlock = firstBlock.copy()
+                newBlock.distance = distance
                 segmentDistance = int(distance/2)
                 newBlock.listSegmentDistance = [segmentDistance, segmentDistance]
                 newBlock.listSegment[0].distance = segmentDistance
@@ -113,7 +115,7 @@ class DecreasingDistanceSet(Set):
             changingSegmentIndex = np.random.randint(0, 2)
 
             # Then we need to determine what parameters can vary from one block to the other from this segment
-            varyingParameters = firstBlock.listSegment[changingSegmentIndex]
+            varyingParameters = firstBlock.listSegment[changingSegmentIndex].getVaryingParameters()
             print(varyingParameters)
 
             # We then select the parameter that will change and its values through the creation of a variation
