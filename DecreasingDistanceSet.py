@@ -6,6 +6,7 @@ from utils import splitSetIncreaseDecrease
 from Block import Block
 from Set import Set
 from Variation import Variation
+from Segment import Segment
 import utils
 
 class DecreasingDistanceSet(Set):
@@ -136,8 +137,6 @@ class DecreasingDistanceSet(Set):
             firstBlock = Block(distance=self.listBlockDistance[0], nSegments=2)
             firstBlock.setSegmentDistances()
             firstBlock.createSegments()
-            print("first block")
-            firstBlock.info()
 
             # We then duplicate the first block to allow for a block with a constant part (the last part) and a changing part
             constantDistance = np.min(self.listBlockDistance)
@@ -157,8 +156,6 @@ class DecreasingDistanceSet(Set):
                     newBlock.listSegment = [firstBlock.listSegment[1].copy()]
                     newBlock.listSegment[0].distance = constantDistance
                 self.listBlock.append(newBlock)
-                print("new block!")
-                newBlock.info()
             
             # We then determine the parameters that can vary for the first segment
             varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
@@ -181,6 +178,54 @@ class DecreasingDistanceSet(Set):
             if flip:
                 for block in self.listBlock:
                     block.flip()
+        
+        # Case 4: "buildBlock"
+        if self.sequenceType == "buildBlock":
+
+            # We first need to generate a first segment which distance will be equal to the smallest block distance
+            minDistance = np.min(self.listBlockDistance)
+            firstSegment = Segment(distance = minDistance)
+            firstSegment.setRandomAll()
+
+            # We then create a list of segments which all have the right distance
+            stepDistance = self.listBlockDistance[0] - self.listBlockDistance[1]
+            listSegment = []
+            listSegmentDistance = []
+            for i in np.arange(len(self.listBlockDistance)):
+                newSegment = firstSegment.copy()
+                newSegmentDistance = int(minDistance + i*stepDistance)
+                listSegmentDistance.append(newSegmentDistance)
+                newSegment.distance = newSegmentDistance
+                listSegment.append(listSegment)
+
+            # We then determine the parameters that can vary in this first segment
+            varyingParameters = firstSegment.getVaryingParameters()
+
+            # We then determine the parameter that will actually vary from one block to the other through the creation of a Variation
+            variationSegment = Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance4, varyingParameters=varyingParameters, nBlocks=len(self.listBlockDistance))
+            variationSegment.selectParameter()
+            variationSegment.createVariation()
+            self.variationSegment = variationSegment
+
+            # We then update the list of segments with the right value of the parameter
+            if variationSegment.selParameter is not None:
+                indexSegment = 0
+                for segment in listSegment: 
+                    segment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexSegment])
+                    indexSegment += 1
+            
+            # We then create the list of blocks: The first one has the complete list of segments, the second has all of them minus the last one, etc.
+            for i in np.arange(len(self.listBlockDistance)):
+                newBlock = Block(distance = self.listBlockDistance[i], nSegments = len(self.listBlockDistance)-i)
+                if i>0:
+                    newBlock.listSegmentDistance = listSegmentDistance[:-i]
+                    newBlock.listSegment = listSegment[:-i]
+                else: 
+                    newBlock.listSegmentDistance = listSegmentDistance
+                    newBlock.listSegment = listSegment
+                self.listBlock.append(newBlock)
+            
+
             
 
 
