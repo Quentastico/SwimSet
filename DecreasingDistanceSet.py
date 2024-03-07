@@ -213,7 +213,6 @@ class DecreasingDistanceSet(Set):
                 for segment in listSegment: 
                     segment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexSegment])
                     indexSegment += 1                    
-                    segment.info()
             
             # We then create the list of blocks: The first one has the complete list of segments, the second has all of them minus the last one, etc.
             for i in np.arange(len(self.listBlockDistance)):
