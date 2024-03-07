@@ -100,7 +100,7 @@ allowedVariationConstantDistance22 = {"stroke": None,
 # Case 3: Each block will be split in a constant + increasing length
 # Case 4: Each block will build toward a full block
 splitTypeIncreaseDecreaseDistance = ["singleSegment", "halfHalf", "constantChanging", "buildBlock"]
-splitProbaIncreaseDecreaseDistance = [0, 0, 1, 0]
+splitProbaIncreaseDecreaseDistance = [0, 0, 0, 1]
 
 # Case 1: Only one segment per block
 allowedVariationIncreaseDecreaseDistance1 = {"stroke": None,
@@ -123,7 +123,12 @@ allowedVariationIncreaseDecreaseDistance3 = {"stroke": None,
                                              "drill": None,
                                              "kick": None}
 
-
+# Case 4: each block is the addition of Nblock segments
+allowedVariationIncreaseDecreaseDistance4 = {"stroke": ["cycle"],
+                                             "equipment": None,
+                                             "intensity": ["increase", "decrease"],
+                                             "drill": ["cycle"],
+                                             "kick": None}
 
 # Options considered for the variation of intensity from one block to the other
 # This sets how the intensity can vary for different types of sets. For example if "equal" has a "intensityIncrease", this means that in a set
