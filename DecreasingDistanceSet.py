@@ -196,7 +196,7 @@ class DecreasingDistanceSet(Set):
                 newSegmentDistance = int(minDistance + i*stepDistance)
                 listSegmentDistance.append(newSegmentDistance)
                 newSegment.distance = newSegmentDistance
-                listSegment.append(listSegment)
+                listSegment.append(newSegment)
 
             # We then determine the parameters that can vary in this first segment
             varyingParameters = firstSegment.getVaryingParameters()
