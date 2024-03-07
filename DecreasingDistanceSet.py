@@ -186,6 +186,8 @@ class DecreasingDistanceSet(Set):
             minDistance = np.min(self.listBlockDistance)
             firstSegment = Segment(distance = minDistance)
             firstSegment.setRandomAll()
+            print("info on the first segment")
+            firstSegment.info()
 
             # We then create a list of segments which all have the right distance
             stepDistance = self.listBlockDistance[0] - self.listBlockDistance[1]
@@ -193,10 +195,12 @@ class DecreasingDistanceSet(Set):
             listSegmentDistance = []
             for i in np.arange(len(self.listBlockDistance)):
                 newSegment = firstSegment.copy()
-                newSegmentDistance = int(minDistance + i*stepDistance)
+                newSegmentDistance = minDistance if i==0 else stepDistance
                 listSegmentDistance.append(newSegmentDistance)
                 newSegment.distance = newSegmentDistance
                 listSegment.append(newSegment)
+                print("new segment")
+                newSegment.info()
 
             # We then determine the parameters that can vary in this first segment
             varyingParameters = firstSegment.getVaryingParameters()
@@ -206,13 +210,17 @@ class DecreasingDistanceSet(Set):
             variationSegment.selectParameter()
             variationSegment.createVariation()
             self.variationSegment = variationSegment
+            print(variationSegment.selParameter)
+
+            print("changed segment list")
 
             # We then update the list of segments with the right value of the parameter
             if variationSegment.selParameter is not None:
                 indexSegment = 0
                 for segment in listSegment: 
                     segment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexSegment])
-                    indexSegment += 1
+                    indexSegment += 1                    
+                    segment.info()
             
             # We then create the list of blocks: The first one has the complete list of segments, the second has all of them minus the last one, etc.
             for i in np.arange(len(self.listBlockDistance)):
