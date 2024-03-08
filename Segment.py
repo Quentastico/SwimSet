@@ -204,7 +204,7 @@ class Segment:
     if self.kick == "No kick":
       printKick = ""
     else:
-      printKick = self.kick
+      printKick = self.kick + " "
 
     # intensity
     printIntensity = "Intensity: " + str(self.intensity) + " "
