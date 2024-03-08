@@ -67,16 +67,17 @@ class Variation:
                 if (parameter == "intensity") | (parameter == "kick") | (parameter == "drill"):
 
                     # Here we simply use the value "Any" normally used in self.varyingParameters
-                    parameterValues[parameter] = self.varyingParameters[parameter]                    
+                    parameterValues[parameter] = "Any"
 
             else: 
                 parameterValues[parameter] = None
 
-        # Then selecting the parameter that will vary from one block to the other
+        # Then selecting the parameter that will vary from one block to the other - Here we need to make sure that apart from "Any" value, each paramater has at least 2 values alllowed
         possibleParameters = []
         for parameter in parameterValues.keys():
             if parameterValues[parameter] is not None:
-                possibleParameters.append(parameter)
+                if parameterValues[parameter] == "Any" | len(parameterValues[parameter])>1:
+                    possibleParameters.append(parameter)
 
         if len(possibleParameters) > 0:
             self.selParameter = possibleParameters[np.random.randint(0,len(possibleParameters))]
@@ -112,8 +113,6 @@ class Variation:
         selParameterValues = self.selParameterValues
         valuesProba = []
 
-        print(selParameterValues)
-
         # Building the associated probabilties array for the possible strokes/equipment
 
         # Identifying the vectors of interest
@@ -135,7 +134,6 @@ class Variation:
 
         # 1. Determining the biggest number of strokes/equipment we can include
         n = len(selParameterValues)
-        print(n)
 
         while (self.nBlocks / n) != np.floor(self.nBlocks / n):
             n -= 1
@@ -153,8 +151,6 @@ class Variation:
                 valuesProba[i] = valuesProba[i]/sumProba
             
             # 2. First of all adding a random strokes/equipment
-            print(selParameterValues)
-            print(valuesProba)
             randomValue = np.random.choice(selParameterValues, p=valuesProba)
             selValues.append(randomValue)
 
