@@ -10,13 +10,16 @@ import utils
 class ConstantDistanceSet(Set):
 
     # Object initialisation
-    def __init__(self, distance):
+    def __init__(self, distance, standardInit=False):
 
-        super().__init__(distance)
+        super().__init__(distance=distance, standardInit=standardInit)
 
-        self.sequenceType = "" # This attribute contains the type of sequence: randomSplit, increasedecreaseSplit
+        self.type = "Constant Distance"
         self.listSegmentDistance = [] # This attribute will contain a list of the list of segment distances withtin each block
-        self.variationSegment = None # This indicates what segment will vary from one one block to the other. 
+
+        if self.standardInit:
+            self.setBlockDistances()
+            self.createBlocks()
 
     # Method to split the set into a given distance
     def setBlockDistances(self): 

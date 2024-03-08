@@ -17,10 +17,9 @@ class IncreasingDecreasingDistanceSet(Set):
     # Object initialisation
     def __init__(self, distance, standardInit = False):
 
-        super().__init__(distance)
+        super().__init__(distance=distance, standardInit=standardInit)
 
-        self.standardInit = standardInit # This attribute defines whether a set will be entirely defined automatically or not at the initialisation
-        self.sequenceType = "" # This attribute will contain the type of sequence
+        self.type = "Increasing/Decreasing Distance"
         self.increaseDecrease = "" # This attribute will determine if the set will have blocks increasing or decreasing in length
 
         if self.standardInit:
