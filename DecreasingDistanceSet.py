@@ -101,7 +101,6 @@ class DecreasingDistanceSet(Set):
             firstBlock.info()
 
             # We then duplicate the first block by changing the distance of its segments
-            print("new blocks")
             for distance in self.listBlockDistance:
                 newBlock = firstBlock.copy()
                 newBlock.distance = distance
