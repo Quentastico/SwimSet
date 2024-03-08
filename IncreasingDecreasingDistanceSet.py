@@ -114,7 +114,6 @@ class IncreasingDecreasingDistanceSet(Set):
 
             # We then create the segments of this first block
             firstBlock.createSegments()
-            firstBlock.info()
 
             # We then duplicate the first block by changing the distance of its segments
             for distance in self.listBlockDistance:
@@ -243,7 +242,7 @@ class IncreasingDecreasingDistanceSet(Set):
         # At the very end of the creation of the blocks, the blocks need to be flipped if we are in an "increase" type of block
         if self.increaseDecrease == "increase":
             self.listBlockDistance = np.flip(self.listBlockDistance)
-            self.listBlock = np.flip(self.listBlockDistance)
+            self.listBlock = np.flip(self.listBlock)
             
 
             
