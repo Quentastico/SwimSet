@@ -112,6 +112,8 @@ class Variation:
         selParameterValues = self.selParameterValues
         valuesProba = []
 
+        print(selParameterValues)
+
         # Building the associated probabilties array for the possible strokes/equipment
 
         # Identifying the vectors of interest
@@ -133,6 +135,7 @@ class Variation:
 
         # 1. Determining the biggest number of strokes/equipment we can include
         n = len(selParameterValues)
+        print(n)
 
         while (self.nBlocks / n) != np.floor(self.nBlocks / n):
             n -= 1
@@ -150,6 +153,8 @@ class Variation:
                 valuesProba[i] = valuesProba[i]/sumProba
             
             # 2. First of all adding a random strokes/equipment
+            print(selParameterValues)
+            print(valuesProba)
             randomValue = np.random.choice(selParameterValues, p=valuesProba)
             selValues.append(randomValue)
 
