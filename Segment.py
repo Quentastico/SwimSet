@@ -133,7 +133,7 @@ class Segment:
     # 2.1. First of all, we determine what parameters we will keep
     relConstraints = relConstraints.transpose().reset_index()
     nameColumns = relConstraints.columns
-    relConstraints["VALID"] = relConstraints[nameColumns[-4:]].apply(lambda x: False if ((x[nameColumns[-1]]=="N") or (x[nameColumns[-2]]=="N") or (x[nameColumns[-3]]=="N") or (x[nameColumns[-4]]=="N")) else True, axis = 1)
+    relConstraints["VALID"] = relConstraints[nameColumns[-5:]].apply(lambda x: False if ((x[nameColumns[-1]]=="N") or (x[nameColumns[-2]]=="N") or (x[nameColumns[-3]]=="N") or (x[nameColumns[-4]]=="N") or (x[nameColumns[-5]]=="N")) else True, axis = 1)
     relParameters = pd.DataFrame(relConstraints.groupby(by=0).VALID.sum()) # Note: "0" will be the name of the column
     relParameters["KEEP"] = relParameters["VALID"].apply(lambda x: True if x>0 else False)
     selParameters = relParameters[relParameters["KEEP"]].index
