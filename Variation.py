@@ -67,7 +67,7 @@ class Variation:
                 if (parameter == "intensity") | (parameter == "kick") | (parameter == "drill"):
 
                     # Here we simply use the value "Any" normally used in self.varyingParameters
-                    parameterValues[parameter] = "Any"
+                    parameterValues[parameter] = self.varyingParameters[parameter]
 
             else: 
                 parameterValues[parameter] = None
@@ -76,8 +76,12 @@ class Variation:
         possibleParameters = []
         for parameter in parameterValues.keys():
             if parameterValues[parameter] is not None:
-                if parameterValues[parameter] == "Any" | len(parameterValues[parameter])>1:
+                # Case 1: This only value allowed is 'Any", meaning that multiple values are possible
+                if (len(parameterValues[parameter]) == 1) & (parameterValues[parameter][0] == "Any"):
                     possibleParameters.append(parameter)
+                # Case 2: There are more than 1 value possible for this parameter
+                if len(parameterValues[parameter])>1:
+                    possibleParameters.append(parameter)                
 
         if len(possibleParameters) > 0:
             self.selParameter = possibleParameters[np.random.randint(0,len(possibleParameters))]
