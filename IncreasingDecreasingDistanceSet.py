@@ -9,14 +9,30 @@ from Variation import Variation
 from Segment import Segment
 import utils
 
-class DecreasingDistanceSet(Set):
+# Note: this class was coded by assuming that the set will DECREASE in length from one set to the other
+# Note: At the end of the set creation, it is therefore important to decide if the set will increase or decrease in block distance and potentially flip the set if required. 
+
+class IncreasingDecreasingDistanceSet(Set):
 
     # Object initialisation
-    def __init__(self, distance):
+    def __init__(self, distance, standardInit = False):
 
         super().__init__(distance)
 
+        self.standardInit = standardInit # This attribute defines whether a set will be entirely defined automatically or not at the initialisation
         self.sequenceType = "" # This attribute will contain the type of sequence
+        self.increaseDecrease = "" # This attribute will determine if the set will have blocks increasing or decreasing in length
+
+        if self.standardInit:
+            self.setBlockDistances()
+            self.setSequenceType()
+            self.setIncreaseDecrease()
+            self.createBlocks()            
+
+    # Method to decide if this will be a decrease or an increase
+    def setIncreaseDecrease(self):
+        
+        self.increaseDecrease = np.random.choice(globals.increaseDecreaseType, p=globals.increaseDecreaseProba)
 
     # Method to split the set into a given distance
     def setBlockDistances(self): 
@@ -223,6 +239,11 @@ class DecreasingDistanceSet(Set):
                     newBlock.listSegmentDistance = listSegmentDistance
                     newBlock.listSegment = listSegment
                 self.listBlock.append(newBlock)
+    
+        # At the very end of the creation of the blocks, the blocks need to be flipped if we are in an "increase" type of block
+        if self.increaseDecrease == "increase":
+            self.listBlockDistance = np.flip(self.listBlockDistance)
+            self.listBlock = np.flip(self.listBlockDistance)
             
 
             

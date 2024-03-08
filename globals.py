@@ -94,6 +94,12 @@ allowedVariationConstantDistance22 = {"stroke": None,
 
 ## INCREASING/DECREASING DISTANCE SET
 
+# Note that values below are set mainly for a set which block decrease in length
+
+# Distribution of the increase vs. decrease
+increaseDecreaseType = ["increase", "decrease"]
+increaseDecreaseProba = [0.5, 0.5]
+
 # Distribution of probabilities between the different cases
 # Case 1: Only one segment per block
 # Case 2: Each block will be split in 2 halves
