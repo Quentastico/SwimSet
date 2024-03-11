@@ -46,7 +46,7 @@ class IncreasingDecreasingDistanceSet(Set):
         selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
         
         # Constracting the distances of the blocks withtin the set
-        self.listBlockDistance = np.flip(np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2]))
+        self.listBlockDistance = list(np.flip(np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])))
 
     # Method to select the type of sequence
     def setSequenceType(self):
