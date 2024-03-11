@@ -17,6 +17,7 @@ class PyramidDistanceSet(Set):
 
         self.type = "Pyramid Distance"
         self.increasingBlockDistance = [] # This list will contain the list of the distances withtin the distance block
+        self.increasingSet = None # This will contain the IncreasingDecreasingSet of the first half of the pyramid
 
         if self.standardInit:
             self.setBlockDistances()
@@ -65,11 +66,16 @@ class PyramidDistanceSet(Set):
         # Finally the blocks of the set can be created by using the normal function
         increasingSet.createBlocks()
 
+        # TO REMOVE
+        self.increasingSet = increasingSet
+
         # STEP 2: We then populate each Attribute of the pyramid set class
 
         # listBlocks & listBlockDistance
         listBlockDistance = increasingSet.listBlockDistance.copy()
+        print(type(listBlockDistance))
         listBlock = increasingSet.listBlock.copy()
+        print(type(listBlock))
         nBlocks = len(listBlock)
         for i in np.arange(nBlocks):
             listBlockDistance.append(listBlockDistance[nBlocks-2-i])
