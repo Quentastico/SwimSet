@@ -36,15 +36,15 @@ class PyramidDistanceSet(Set):
         selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
         
         # Contracting the distances of the blocks withtin the set
-        increasingBlockDistance = np.arange(selectedOptionBlock[1],
+        increasingBlockDistance = list(np.arange(selectedOptionBlock[1],
                                             selectedOptionBlock[1] + (selectedOptionBlock[0]+1) * selectedOptionBlock[2],
-                                            selectedOptionBlock[2])
+                                            selectedOptionBlock[2]))
         self.increasingBlockDistance = increasingBlockDistance
-        decreasingBlockDistance = np.arange(selectedOptionBlock[1],
+        decreasingBlockDistance = list(np.arange(selectedOptionBlock[1],
                                             selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2],
-                                            selectedOptionBlock[2])
+                                            selectedOptionBlock[2]))
 
-        self.listBlockDistance = np.concatenate([increasingBlockDistance, np.flip(decreasingBlockDistance)])
+        self.listBlockDistance = list(np.concatenate([increasingBlockDistance, np.flip(decreasingBlockDistance)]))
 
     # Method to create the blocks
     # The method here is pretty simple: we create an increasing block distance and we mirror the blocks
@@ -72,10 +72,8 @@ class PyramidDistanceSet(Set):
         # STEP 2: We then populate each Attribute of the pyramid set class
 
         # listBlocks & listBlockDistance
-        listBlockDistance = increasingSet.listBlockDistance.copy()
-        print(type(listBlockDistance))
-        listBlock = increasingSet.listBlock.copy()
-        print(type(listBlock))
+        listBlockDistance = list(increasingSet.listBlockDistance.copy())
+        listBlock = list(increasingSet.listBlock.copy())
         nBlocks = len(listBlock)
         for i in np.arange(nBlocks):
             listBlockDistance.append(listBlockDistance[nBlocks-2-i])
