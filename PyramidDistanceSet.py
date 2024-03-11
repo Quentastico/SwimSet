@@ -57,14 +57,14 @@ class PyramidDistanceSet(Set):
         increasingSet = IncreasingDecreasingDistanceSet(distance=np.sum(self.increasingBlockDistance), standardInit=False)
 
         # We then need to force the block distance list &  the type (increase)
-        increasingSet.listBlockDistance = self.increasingBlockDistance
+        increasingSet.listBlockDistance = np.flip(self.increasingBlockDistance) # Note: we reverse it as by defualt, the IncreaseDecreaseSet takes a decreasing distance pattern
         increasingSet.increaseDecrease = "increase"
 
         # The sequence type can then be determined "normally"
         increasingSet.setSequenceType()
 
         # Finally the blocks of the set can be created by using the normal function
-        increasingSet.createBlocks()
+        increasingSet.createBlocks() # Tis is when the bocks and distances will be flipped as this is an "increase" set
 
         # TO REMOVE
         self.increasingSet = increasingSet
