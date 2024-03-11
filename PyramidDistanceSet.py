@@ -75,7 +75,7 @@ class PyramidDistanceSet(Set):
         listBlockDistance = list(increasingSet.listBlockDistance.copy())
         listBlock = list(increasingSet.listBlock.copy())
         nBlocks = len(listBlock)
-        for i in np.arange(nBlocks):
+        for i in np.arange(nBlocks-1):
             listBlockDistance.append(listBlockDistance[nBlocks-2-i])
             listBlock.append(listBlock[nBlocks-2-i])
         self.listBlockDistance = listBlockDistance
@@ -85,10 +85,3 @@ class PyramidDistanceSet(Set):
 
         # sequence Type
         self.sequenceType = increasingSet.sequenceType
-
-
-
-
-
-
-
