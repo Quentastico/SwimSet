@@ -32,8 +32,23 @@ class PyramidDistanceSet(Set):
                                        minBlockDistance = globals.minBlockDistance,
                                        minBlocks = globals.minBlocksPyramid)
 
-        # Choosing a random way
-        selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
+        # Choosing an option
+        # Note: the rule is that we pick a combination which number of blocks is as high as possible
+
+        # 1. We need to determine what the maximum number of block is
+        maxBlocks = 0
+        for option in optionBlocks:
+            if option[0] > maxBlocks:
+                maxBlocks = option[0]
+
+        # 2. Then we extract from optionBlocks the options with the maximal number of blocks
+        maxOptionBlocks = []
+        for option in optionBlocks:
+            if option[0] == maxBlocks:
+                maxOptionBlocks.append(option)
+
+        # 3. Finally we select the block within the selected options        
+        selectedOptionBlock = maxOptionBlocks[np.random.randint(low=0, high=len(maxOptionBlocks))]
         
         # Contracting the distances of the blocks withtin the set
         increasingBlockDistance = list(np.arange(selectedOptionBlock[1],
