@@ -136,6 +136,13 @@ allowedVariationIncreaseDecreaseDistance4 = {"stroke": ["cycle"],
                                              "drill": ["cycle"],
                                              "kick": None}
 
+## DISTANCE REP SET
+
+# For distance rep sets, this ratio indicates the maximum ratio of the total distance that can be covered by a block of a given distance
+# For example, in a 600m "distance rep" set; if the ratio is 0.5, this means that the maximal distance that can be covered by a block of a given distance is 300m.
+# In this example, this means that we cannot have more than 6 times 50m, or more than 3 times 100m, etc. 
+ratioDistanceRep = 0.5
+
 # Options considered for the variation of intensity from one block to the other
 # This sets how the intensity can vary for different types of sets. For example if "equal" has a "intensityIncrease", this means that in a set
 # where each block has the same distance, the intensity from one block to the other can increase, etc. 
@@ -153,9 +160,10 @@ allowedVariationIncreaseDecreaseDistance4 = {"stroke": ["cycle"],
 
 ## BLOCK
 
-# Minimum value for a block distance (m)
+# Minimum and maximum values for a block distance (m)
 # Note: For any given block, this fixes the minimal distance. 
 minBlockDistance = 50
+maxBlockDistance = 500
 
 # Minimum number of segments per block
 # If fixed at 2, this means that unless forced otherwise, the minimal number of segments will be 2 in any block. 

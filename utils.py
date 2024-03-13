@@ -1,5 +1,6 @@
 import numpy as np
 import globals
+from itertools import product
 
 # Tool function that picks a random distance between two min and max values
 def pickDistance(minValue, maxValue, avValue, stepDistance):
@@ -81,87 +82,72 @@ def splitSetPyramid(distance, stepBlockDistance, minBlockDistance, minBlocks):
       
   return optionBlocks
 
+# Make a function to split the distance for a DistanceRepSet
+def splitSetDistanceRep(distance, stepBlockDistance, minBlockDistance, maxBlockDistance, ratioDistanceRep):
 
-# Making a tool to split a given set in blocks of increasing reps/ decreasing the distance
-def cutSetDistanceRep(distance): 
+  # 1. First determining the maximal value of the biggest block
+  maxBlock = np.min([maxBlockDistance, stepBlockDistance * np.floor(ratioDistanceRep * distance/stepBlockDistance)])
 
-  optionCombos = []
+  # 2. Then defining the array of block distances which are possible
+  blockDistances = np.arange(minBlockDistance, maxBlock+stepBlockDistance, stepBlockDistance)
 
-  # Here we make a three-loop that will calculate all possible combos of reps, steps and starting points
-  for n in np.arange(2, np.floor((distance+globals.minBlockDistance)/globals.minBlockDistance), 1): 
-    for start in np.arange(globals.minBlockDistance, distance+globals.stepBlockDistance, globals.stepBlockDistance):
-      for step in np.arange(globals.stepBlockDistance, distance+globals.stepBlockDistance, globals.stepBlockDistance):
+  # 3. Defining the maximal value for each coefficient
+  maxCoeffs = []
+  for blockDistance in blockDistances:
+    maxCoeffs.append(np.floor(distance*ratioDistanceRep/blockDistance))
 
-        # Calculation of the sum of the squares from 1 to n-1
-        sum_squares = 0
-        for i in np.arange(n): 
-          sum_squares += np.square(i)
+  validCombos = []
 
-        # Calculation of the complete formula
-        result = np.square(n)*start + n/2*(n-1)*(n*step-start) - step*sum_squares
+  # 4. Selecting the combos which have acceptable values
+  nBlockDistances = len(maxCoeffs)
 
-        # Check if the sum is equal to the total distance; if yes, we keep the combo
-        if result == distance:
-          optionCombos.append([n, start, step])
+  for combo in product(range(int(np.max(maxCoeffs)+1)), repeat=nBlockDistances):
 
-  # Then we have to select the best possible sets, based on the following criteria: 
-  # - Case 1: If there is a comb with at least n>=3, then we only keep combos with n>=3 (more fun)
-  # - Case 2: if it is not the case, then we keep only one option: the combo with n=2 which ensure miminal difference between start and step
-  # - if really there is nothing, the distance we spit out is the distance
+    # First we make sure that the coeff values do not exceed their max values
+    if all(combo[i] <= maxCoeffs[i] for i in range(nBlockDistances)):
 
-  # Let's first then elimiate the Case 3
-  if len(optionCombos) == 0:
+      # Then we make sure the sum is equal to the total distance
+      sumDistance = np.dot(combo, blockDistances)
+      if distance == sumDistance:
 
-    print("we tried a distanceRep for this set but it did not work - this set will be boring as")
-    optionBlocks = [distance]
+        # Then checking that there are not two consecutive zeros
+        goodCombo = True
+        indexCoeff = 0
+        comboCopy = list(combo)
 
-  else:
+        # First removing the zeros at the start and at the end of the combo
+        while comboCopy[0] == 0:
+          comboCopy.pop(0)
+        while comboCopy[len(comboCopy)-1]==0:
+          comboCopy.pop()
 
-    optionBlocks = []
+        # Then elimitaing the combois with two zeros in a row
+        for coeff in comboCopy:
+          if (coeff == 0) & (indexCoeff < nBlockDistances-1):
+            if comboCopy[indexCoeff+1] == 0:
+              goodCombo = False
+          indexCoeff += 1
 
-    # First we calculate the highest value of n
-    maxN = 2
-    for combo in optionCombos:
-      if combo[0] > maxN:
-        maxN = combo[0]
-    
-    # Then we split in the two different cases
+        if goodCombo:
+          validCombos.append(combo)
 
-    # Case 1: There is at least one combo with at least n>=3
-    if maxN >=3: 
-      for combo in optionCombos:
-        if combo[0]>=3:
-          newBlock = unwrapDistanceRepCombo(combo)
-          optionBlocks.append(newBlock)
-    
-    # Case 2: There is not
-    else: 
-      diff = 100000
+  # Then scoring each combo:
+  # Criteria 1 is the number of coefs strictly higher than 1
+  # Criteria 2 is the number of different block distances
+  scores = []
+  for combo in validCombos:
+    criteria1 = np.sum([combo[i] > 1 for i in range(nBlockDistances)])
+    criteria2 = np.sum([combo[i] > 0 for i in range(nBlockDistances)])
+    criteria = criteria1 + criteria2/(nBlockDistances+1)
+    scores.append(np.power(criteria,3))
 
-      for combo in optionCombos:
-        newDiff = np.abs(combo[1]-combo[2])
-        if newDiff < diff: 
-          selCombo = combo
-          diff = newDiff
-
-      newBlock = unwrapDistanceRepCombo(selCombo) 
-      optionBlocks.append(newBlock)
-
-    return optionBlocks
-
-
-# This function "unwraps" a combo composed of n, start and step in the case where the distance of blocks withtin a set follow a "Distance Rep" pattern
-def unwrapDistanceRepCombo(combo): 
-
-  n = combo[0]
-  start = combo[1]
-  step = combo[2]
-
+  # Finally converting the validCombos (only ranges of coefficients) into blocks
   optionBlocks = []
+  indexBlockDistance = 0
+  for combo in validCombos:
+    for blockDistance in blockDistances:
+      for coeff in np.arange(combo[indexBlockDistance]):
+        optionBlocks.append(int(blockDistance))
+      indexBlockDistance += 1
 
-  for i in np.arange(1, n+1): 
-    for p in np.arange(i):
-      optionBlocks.append(start + (n-i)*step)
-
-  return optionBlocks
-
+  return optionBlocks, scores
