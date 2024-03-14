@@ -97,6 +97,7 @@ allowedVariationConstantDistance22 = {"stroke": None,
 # Note that values below are set mainly for a set which block decrease in length
 
 # Distribution of the increase vs. decrease
+# Note: this is also used for the Distance Rep sets
 increaseDecreaseType = ["increase", "decrease"]
 increaseDecreaseProba = [0.5, 0.5]
 
@@ -143,20 +144,14 @@ allowedVariationIncreaseDecreaseDistance4 = {"stroke": ["cycle"],
 # In this example, this means that we cannot have more than 6 times 50m, or more than 3 times 100m, etc. 
 ratioDistanceRep = 0.5
 
-# Options considered for the variation of intensity from one block to the other
-# This sets how the intensity can vary for different types of sets. For example if "equal" has a "intensityIncrease", this means that in a set
-# where each block has the same distance, the intensity from one block to the other can increase, etc. 
-# optionIntensity = {"equal": ["intensityIncrease"], 
-#                   "increasing": ["intensityDecrease", "intensityConstant"], 
-#                   "decreasing": ["intensityIncrease", "intensityConstant"], 
-#                   "pyramid":["intensityConstant"], 
-#                   "distanceRep":["intensityConstant"]}
-
-# Options considered when all blocks in a set all have equal distance
-# The process for equal blocks within a set is that we create a first block structure with one or multiple segment(s). 
-# Then we change one segment in this block from one block to the other. This option lists the things that can change from a changing segment to the other. 
-# optionVariationBlock = ["intensity", "stroke"]
-
+# Case 1: Only one segment per block - Only case considered
+# Note that this is valid for a set with an increase in the distance (which is the case when building blocks) - The blocks
+# can be flipped at the end of the build process
+allowedVariationDistanceRep1 = {"stroke": None,
+                                "equipment": None,
+                                "intensity": ["decrease"],
+                                "drill": None,
+                                "kick": None}
 
 ## BLOCK
 

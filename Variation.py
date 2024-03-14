@@ -6,7 +6,7 @@ import globals
 class Variation:
 
     # Definition of the initialisation function
-    def __init__(self, allowedVariation, varyingParameters, nBlocks):
+    def __init__(self, allowedVariation, varyingParameters, nBlocks, standardInit=False):
 
         # ATTRIBUTES
         self.allowedVariation = allowedVariation # Dictonary that defines what types of variations are allowed for this case for each segment parameter
@@ -15,15 +15,21 @@ class Variation:
         self.selParameter = None # Parameter that will be selected for a variation from one change to the other
         self.selParameterValues = [] # Possible values of this parameter
         self.selParameterVariation = [] # Final sequence of values for the selected parameter
+        self.standardInit = standardInit # If True, then the initiailisation is automatic
 
         # DATA CHECK
 
         # We need to make sure that all the parameters are defined in the two dictionaries passed as inputs
         for parameter in globals.listAllParameters:
             if parameter not in self.allowedVariation.keys():
-                print("Be careful when calling the Variation object - Not all parameters have a defintiion in allowedVariation")
+                print("Be careful when calling the Variation object - Not all parameters have a defintion in allowedVariation")
             if parameter not in self.varyingParameters.keys():
-                print("Be careful when calling the Variation object - Not all parameters have a defintiion in allowedVariation")        
+                print("Be careful when calling the Variation object - Not all parameters have a definition in allowedVariation")
+
+        # STANDARD INITIALISATION
+        if self.standardInit: 
+            self.selectParameter()
+            self.createVariation()        
 
     # Definition of the function which will identify what parameters are relevant, what their values can be and how they can vary. 
     # This method then defines the parameter of interest
