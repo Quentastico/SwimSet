@@ -84,7 +84,7 @@ class DistanceRepSet(Set):
             indexBlock = 0
             for block in self.listBlock:
                 if indexBlock > 0:
-                    if self.listBlockDistance[indexBlock-1] != self.listBlockDistance[indexBlockDistance]:
+                    if self.listBlockDistance[indexBlock-1] != self.listBlockDistance[indexBlock]:
                         indexBlockDistance += 1
                 block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, 
                                                         parameterValue=variationSegment.selParameterVariation[indexBlockDistance])
