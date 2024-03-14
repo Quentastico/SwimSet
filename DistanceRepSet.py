@@ -71,7 +71,7 @@ class DistanceRepSet(Set):
         # 4. Then creating a variation
         variationSegment =  Variation(allowedVariation=globals.allowedVariationDistanceRep1,
                                       varyingParameters=varyingParameters,
-                                      nBlocks = len(self.listBlockDistancek),
+                                      nBlocks = len(self.listBlockDistance),
                                       standardInit=True)
         self.variationSegment = variationSegment
 
