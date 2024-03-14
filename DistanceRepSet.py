@@ -69,18 +69,25 @@ class DistanceRepSet(Set):
         varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
 
         # 4. Then creating a variation
+        # Note: In this scheme, the parameters will only change if the distance changes; we therefore need to provide the variation with the actual number of different values
+        nDifferentBlocks = len(set(self.listBlockDistance))
         variationSegment =  Variation(allowedVariation=globals.allowedVariationDistanceRep1,
                                       varyingParameters=varyingParameters,
-                                      nBlocks = len(self.listBlockDistance),
+                                      nBlocks = nDifferentBlocks,
                                       standardInit=True)
         self.variationSegment = variationSegment
 
         # 5. Then changing the value of the changing parameter from one block to the other
+        # Note that when populating the value of the parameter, it is important to keep the value constant unless the distance of the block changes. 
         if variationSegment.selParameter is not None: 
+            indexBlockDistance = 0
             indexBlock = 0
             for block in self.listBlock:
+                if indexBlock > 0:
+                    if self.listBlockDistance[indexBlock-1] != self.listBlockDistance[indexBlockDistance]:
+                        indexBlockDistance += 1
                 block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, 
-                                                        parameterValue=variationSegment.selParameterVariation[indexBlock])
+                                                        parameterValue=variationSegment.selParameterVariation[indexBlockDistance])
                 indexBlock += 1
 
         # 6. Finally flipping the block if necessary
