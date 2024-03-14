@@ -144,10 +144,12 @@ def splitSetDistanceRep(distance, stepBlockDistance, minBlockDistance, maxBlockD
   # Finally converting the validCombos (only ranges of coefficients) into blocks
   optionBlocks = []
   for combo in validCombos:
+    optionBlock = []
     indexBlockDistance = 0
     for blockDistance in blockDistances:
       for coeff in np.arange(combo[indexBlockDistance]):
-        optionBlocks.append(int(blockDistance))
+        optionBlock.append(int(blockDistance))
       indexBlockDistance += 1
+    optionBlocks.append(optionBlock)
 
   return optionBlocks, scores
