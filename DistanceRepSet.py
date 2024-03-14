@@ -36,6 +36,12 @@ class DistanceRepSet(Set):
                                                        maxBlockDistance=globals.maxBlockDistance,
                                                        ratioDistanceRep=globals.ratioDistanceRep)
             
+            print(optionBlocks)
+            print(scores)
+
+            print(len(optionBlocks))
+            print(len(scores))
+            
             #2. Then picking a combination based on the scores
             probaCombo = scores/sum(scores)
             selOptionIndex = np.random.choice(np.arange(len(optionBlocks)), p=probaCombo)
