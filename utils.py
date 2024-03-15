@@ -153,3 +153,42 @@ def splitSetDistanceRep(distance, stepBlockDistance, minBlockDistance, maxBlockD
     optionBlocks.append(optionBlock)
 
   return optionBlocks, scores
+
+# function to find options to split a Frequency Increase set
+def splitSetFrequencyIncrease(distance, stepBlockDistance, minBlockDistance, maxBlockDistance, minN, maxN, maxDistanceDiff):
+
+  # 1. first determining all the possible distance values and corresponding combos of n and block distances
+
+  possibleDistances = []
+  possibleCombos = []
+
+  for n in np.arange(minN, maxN+1):
+    for blockDistance in np.arange(minBlockDistance, maxBlockDistance+stepBlockDistance, stepBlockDistance):
+
+      possibleDistances.append(np.power(n,2) * (n+1) * blockDistance/2)
+      possibleCombos.append([n, blockDistance])
+
+  # 2. Calculate the score based on two criteria:
+  # Criteria 1: The value of n: the higher, the better
+  # Criteria 2: Whether this is the exact value or we have to add 50m rest afterwards. 
+
+  scoreCombos = []
+
+  for i in np.arange(len(possibleCombos)):
+    criteria1 = np.power(possibleCombos[i][0], 3)
+    if np.floor(possibleDistances[i]/100) == possibleDistances[i]/100:
+      criteria2 = 5
+    else:
+      criteria2 = 0
+    scoreCombos.append(criteria1+criteria2)
+
+  # 3. Selecting the possible combos simply based on the distance - Note that we accept a slight difference between the actual and requested distance
+  optionCombos = []
+  scores = []
+
+  for i in np.arange(len(possibleCombos)):
+    if ((distance - possibleDistances[i]) <= maxDistanceDiff) & ((distance - possibleDistances[i])>=0):
+      optionCombos.append(possibleCombos[i])
+      scores.append(scoreCombos[i])
+
+  return optionCombos, scores

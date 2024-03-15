@@ -1,4 +1,4 @@
-## GLOBAL VARIABLES
+## IMPORTS
 
 import numpy as np
 import globals

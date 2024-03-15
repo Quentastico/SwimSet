@@ -153,6 +153,17 @@ allowedVariationDistanceRep1 = {"stroke": None,
                                 "drill": None,
                                 "kick": None}
 
+## FREQUENCY INCREASE SET
+
+# These parameters fix the min and max numbers of Blocks in the frequency increase set
+# for example, if min = 2 and max = 4, then there will be either 2, 3 or 4 blocks in the frequency increase
+# Note, if this value is equal to 3, and lets say that the selected segment length is 50m, then that means that the set will be made of: 
+# - A first block with 3 * 3 50m, with something happening (e.g. fast) every third 50m
+# - A second block with 3 * 2 50m, with something happening (e.g. fast) every second 50m
+# - A third block with 3 * 1 50m, with something happening (e.g. fast) every 50m
+minNumberFrequencyIncrease = 2
+maxNumberFrequencyIncrease = 4
+
 ## BLOCK
 
 # Minimum and maximum values for a block distance (m)
