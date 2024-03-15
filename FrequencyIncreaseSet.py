@@ -50,6 +50,5 @@ class FrequencyIncreaseSet(Set):
             d = self.selCombo[1]
             for i in np.arange(n):
                 self.listBlockDistance.append(n * (n-i) * d)
-                n -= 1
 
         
