@@ -102,6 +102,8 @@ class FrequencyIncreaseSet(Set):
             for i in np.arange(n):
                 newBlock.listSegment.append(subBlocks)
 
+            self.listBlock.append(newBlock)
+
 
 
 
