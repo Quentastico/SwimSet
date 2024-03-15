@@ -96,8 +96,8 @@ class FrequencyIncreaseSet(Set):
             # Then we create the "subblock" which contains a total of nSegment/n segments
             subBlocks = []
             for i in np.arange(int(nSegments/n)-1):
-                subBlocks += baseSegment
-            subBlocks += specialSegment
+                subBlocks.append(baseSegment)
+            subBlocks.append(specialSegment)
 
             # We then repeat the subBlock n times in the Block
             for i in np.arange(n):
