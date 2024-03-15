@@ -4,6 +4,7 @@ import globals
 from utils import splitSetFrequencyIncrease
 from Block import Block
 from Set import Set
+from Segment import Segment
 from Variation import Variation
 
 class FrequencyIncreaseSet(Set):
@@ -50,5 +51,62 @@ class FrequencyIncreaseSet(Set):
             d = self.selCombo[1]
             for i in np.arange(n):
                 self.listBlockDistance.append(n * (n-i) * d)
+
+    # Method to create the blocks
+    def createBlocks(self):
+
+        # 1. First we create a "base segment", which will be random
+        baseSegment = Segment(distance=self.selCombo[1])
+        baseSegment.setRandomAll()
+
+        # 2. Then we determine what can vary from this segment
+        varyingParameters = baseSegment.getVaryingParameters()
+
+        # 3. We then create a variation that will determine hat parameters will actually change from the base segment to the special segment
+        variationSegment = Variation(allowedVariation=globals.allowedVariationFrequencyIncrease1, 
+                                     varyingParameters=varyingParameters, 
+                                     nBlocks=2, 
+                                     standardInit=True)
+        self.variationSegment = variationSegment
+
+        # 4. We then change the value of baseSegment parameter which is supposed to change
+        baseSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[0])
+
+        # 5. We then create the special Segment
+        specialSegment = baseSegment.copy()
+        specialSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[1])
+
+        # 6. We then need to create the blocks "from scratch" by collating the baseSegment and the specialSegment at a given frequency
+
+        # 6.1. Extracting the useful combo parameters
+        n = self.selCombo[0]
+        d = self.combo[1]
+
+        # 6.2. Looping all all the blocks
+        for blockDistance in self.listBlockDistance:
+
+            # Calculating the number of segments in this block
+            nSegments = int(blockDistance/d)
+
+            # Creating the block and setting the list of segment distance within the block
+            newBlock = Block(distance=blockDistance, nSegments=nSegments)
+            newBlock.setSegmentDistances()
+
+            # Then we create the "subblock" which contains a total of nSegment/n segments
+            subBlocks = []
+            for i in np.arange(int(nSegments/n)-1):
+                subBlocks.append(baseSegment)
+            subBlocks.append(specialSegment)
+
+            # We then repeat the subBlock n times in the Block
+            for i in np.arange(n):
+                newBlock.listSegment.append(subBlocks)
+
+
+
+
+
+
+
 
         
