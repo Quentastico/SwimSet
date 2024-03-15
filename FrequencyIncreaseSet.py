@@ -80,7 +80,7 @@ class FrequencyIncreaseSet(Set):
 
         # 6.1. Extracting the useful combo parameters
         n = self.selCombo[0]
-        d = self.combo[1]
+        d = self.selCombo[1]
 
         # 6.2. Looping all all the blocks
         for blockDistance in self.listBlockDistance:
