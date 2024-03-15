@@ -168,6 +168,14 @@ allowedVariationDistanceRep1 = {"stroke": None,
 minNumberFrequencyIncrease = 2
 maxNumberFrequencyIncrease = 4
 
+# Case 1: As many segment as required in each block
+# The "allowed variation" is here defined between the base segment and the special segment
+allowedVariationFrequencyIncrease1 = {"stroke": ["cycle"],
+                                "equipment": None,
+                                "intensity": ["increase"],
+                                "drill": None,
+                                "kick": ["cycle"]}
+
 ## BLOCK
 
 # Minimum and maximum values for a block distance (m)
