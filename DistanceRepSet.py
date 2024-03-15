@@ -5,14 +5,13 @@ from utils import splitSetDistanceRep
 from Block import Block
 from Set import Set
 from Variation import Variation
-import utils
 
 class DistanceRepSet(Set):
 
     # Object initialisation
     def __init__(self, distance, standardInit=False):
 
-        super().__init__(distance, standardInit=standardInit)
+        super().__init__(distance=distance, standardInit=standardInit)
 
         self.type = "Distance Rep"
         self.increaseDecrease = "" # This attribute will determine if the set will have blocks increasing or decreasing in length
