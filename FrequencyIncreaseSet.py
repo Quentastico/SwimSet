@@ -47,8 +47,9 @@ class FrequencyIncreaseSet(Set):
         if self.selCombo is not None:
 
             n = self.selCombo[0]
-            while n > 0:
-                self.listBlockDistance.append(np.power(n,2))
+            d = self.selCombo[1]
+            for i in np.arange(n):
+                self.listBlockDistance.append(n * (n-i) * d)
                 n -= 1
 
         
