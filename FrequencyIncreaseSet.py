@@ -90,7 +90,8 @@ class FrequencyIncreaseSet(Set):
 
             # Creating the block and setting the list of segment distance within the block
             newBlock = Block(distance=blockDistance, nSegments=nSegments)
-            newBlock.setSegmentDistances()
+            for i in np.arange(nSegments):
+                newBlock.listSegmentDistance.append(d)
 
             # Then we create the "subblock" which contains a total of nSegment/n segments
             subBlocks = []
