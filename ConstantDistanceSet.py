@@ -126,7 +126,7 @@ class ConstantDistanceSet(Set):
                                                                                parameterValue=variationSegment.selParameterVariation[indexBlock])
                     
                     # Then determining the constrating on the non-changing segments
-                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(self, variationSegment.selParameter)
+                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(variationSegment.selParameter)
                     
                     # Non changing segment(s) in the block
                     for indexSegment in nonChangingSegmentIndexes:
