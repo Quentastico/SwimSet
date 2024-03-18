@@ -59,6 +59,10 @@ class FrequencyIncreaseSet(Set):
         baseSegment = Segment(distance=self.selCombo[1])
         baseSegment.setRandomAll()
 
+        # Note that we need to remove the pullBuoyandPaddles option for this one as otherwise there won't be any option for a variation
+        if baseSegment.equipment == "pullBuoyAndPaddles":
+            baseSegment.setForcedParameter(parameterName="equipment", parameterValue="No equipment")
+
         # 2. Then we determine what can vary from this segment
         varyingParameters = baseSegment.getVaryingParameters()
 
