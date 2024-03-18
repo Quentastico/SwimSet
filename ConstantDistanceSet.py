@@ -194,7 +194,7 @@ class ConstantDistanceSet(Set):
                     # Non-changing segment
                     for parameter in globals.listAllParameters:
 
-                        block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
+                        block.listSegment[nonChangingSegmentIndex[0]].setForcedParameter(parameterName=parameter,
                                                                                       parameterValue=constraintBaseSegment[parameter])
 
                     indexBlock += 1
