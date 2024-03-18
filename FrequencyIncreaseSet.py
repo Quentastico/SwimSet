@@ -80,13 +80,18 @@ class FrequencyIncreaseSet(Set):
         specialSegment = baseSegment.copy()
         specialSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[1])
 
-        # 6. We then need to create the blocks "from scratch" by collating the baseSegment and the specialSegment at a given frequency
+        # 6. We then apply to the base segment the constraints created by the newly created special segment
+        constraintBaseSegment = specialSegment.getBaseSegmentParameters(selParameter=variationSegment.selParameter)
+        for parameter in constraintBaseSegment:
+            baseSegment.setForcedParameter(parameterName=parameter, parameterValue=constraintBaseSegment[parameter])
 
-        # 6.1. Extracting the useful combo parameters
+        # 7. We then need to create the blocks "from scratch" by collating the baseSegment and the specialSegment at a given frequency
+
+        # 7.1. Extracting the useful combo parameters
         n = self.selCombo[0]
         d = self.selCombo[1]
 
-        # 6.2. Looping all all the blocks
+        # 7.2. Looping all all the blocks
         for blockDistance in self.listBlockDistance:
 
             # Calculating the number of segments in this block
