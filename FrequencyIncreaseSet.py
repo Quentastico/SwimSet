@@ -62,6 +62,8 @@ class FrequencyIncreaseSet(Set):
         # 2. Then we determine what can vary from this segment
         varyingParameters = baseSegment.getVaryingParameters()
 
+        baseSegment.info()
+
         # 3. We then create a variation that will determine what parameters will actually change from the base segment to the special segment
         variationSegment = Variation(allowedVariation=globals.allowedVariationFrequencyIncrease1, 
                                      varyingParameters=varyingParameters, 
