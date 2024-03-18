@@ -71,7 +71,7 @@ minBlocksPyramid = 3
 
 # Distribution of probabilities between random split of segments from one block to another (case 1) of non-random split (case 2)
 splitTypeConstantDistance = ["randomSplit", "increaseDecreaseSplit"]
-splitProbaConstantDistance = [0.5, 0.5]
+splitProbaConstantDistance = [1, 0]
 
 # Definition of the parameters that can change from one block to the other for different types of sets
 
