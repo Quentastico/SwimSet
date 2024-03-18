@@ -18,7 +18,7 @@ class FrequencyIncreaseSet(Set):
         self.selCombo = [] # The combination that is reatined, in the format n, d, where n is the number of segments in a bunch and d is the segment length
 
         if self.standardInit:
-            self.setBlockDistances()
+            self.setBlockDistance()
             self.createBlocks()
 
     # Method to determine the specific distance combo
@@ -55,14 +55,14 @@ class FrequencyIncreaseSet(Set):
     # Method to create the blocks
     def createBlocks(self):
 
-        # 1. First we create a "base segment", which will be random
+        # 1. First we create a "base" segment, which will be random
         baseSegment = Segment(distance=self.selCombo[1])
         baseSegment.setRandomAll()
 
         # 2. Then we determine what can vary from this segment
         varyingParameters = baseSegment.getVaryingParameters()
 
-        # 3. We then create a variation that will determine hat parameters will actually change from the base segment to the special segment
+        # 3. We then create a variation that will determine what parameters will actually change from the base segment to the special segment
         variationSegment = Variation(allowedVariation=globals.allowedVariationFrequencyIncrease1, 
                                      varyingParameters=varyingParameters, 
                                      nBlocks=2, 
