@@ -95,7 +95,7 @@ class ConstantDistanceSet(Set):
 
             # We then decide which segment will change from one block to the other
             changingSegmentIndex = np.random.randint(0, len(firstBlock.listSegment))
-            nonChangingSegmentIndexes = np.delete(np.arange(len(firstBlock)), changingSegmentIndex)
+            nonChangingSegmentIndexes = np.delete(np.arange(len(firstBlock.listSegment)), changingSegmentIndex)
             changingSegment = firstBlock.listSegment[changingSegmentIndex]
 
             # We then copy the first block as many times as necessary
