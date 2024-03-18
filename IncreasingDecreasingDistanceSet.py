@@ -127,6 +127,7 @@ class IncreasingDecreasingDistanceSet(Set):
             
             # We then need to decide what segment will vary from one block to the other
             changingSegmentIndex = np.random.randint(0, 2)
+            nonChangingSegmentIndex = np.delete(np.arange(2), changingSegmentIndex)[0]
 
             # Then we need to determine what parameters can vary from one block to the other from this segment
             varyingParameters = firstBlock.listSegment[changingSegmentIndex].getVaryingParameters()
@@ -138,11 +139,26 @@ class IncreasingDecreasingDistanceSet(Set):
                                           standardInit=True)
             self.variationSegment = variationSegment
 
-            # We then change the relevant parameter in the blocks
+            # We then change the relevant parameter in the blocks for the changing segment and the non-changing segment
             if variationSegment.selParameter is not None:
+
                 indexBlock = 0
+
                 for block in self.listBlock:
-                    block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+
+                    # Changing segment
+                    block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
+                                                            parameterValue=variationSegment.selParameterVariation[indexBlock])
+                    
+                    # Getting the constraits created by the changing segment on the non-changing segment
+                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(selParamater=variationSegment.selParameter)
+
+                    # Changing all the parameters values in the non-changing segment
+                    for parameter in globals.listAllParameters:
+
+                        block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
+                                                                                      parameterValue=constraintBaseSegment[parameter])
+
                     indexBlock += 1
 
         # Case 3: constant bit + changing bit
@@ -182,11 +198,26 @@ class IncreasingDecreasingDistanceSet(Set):
                                           standardInit=True)
             self.variationSegment = variationSegment
 
-            # We then modify the first segment accordingly
+            # We then modify the first segment accordingly (the changing one) and the last one (the non-changing one)
             if variationSegment.selParameter is not None:
+
                 indexBlock = 0
+
                 for block in self.listBlock[:-1]:
-                    block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+
+                    # Changing segment
+                    block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter,
+                                                            parameterValue=variationSegment.selParameterVariation[indexBlock])
+
+                    # Getting the constraits created by the changing segment on the non-changing segment
+                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(selParamater=variationSegment.selParameter)
+
+                    # Changing all the parameters values in the non-changing segment
+                    for parameter in globals.listAllParameters:
+
+                        block.listSegment[1].setForcedParameter(parameterName=parameter,
+                                                                parameterValue=constraintBaseSegment[parameter])
+
                     indexBlock += 1
             
             # We then choose to flip or not the order of the segment in each block
