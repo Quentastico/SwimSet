@@ -79,7 +79,6 @@ class Segment:
 
     if parameterName == "intensity":
       self.intensity = parameterValue
-
   
   # Method to get the value of any given parameter of the segment
   def getParameter(self, parameterName):
@@ -162,6 +161,38 @@ class Segment:
             p += 1
 
     return parameterValues
+
+  # Method that determines for a given segment which varies the constraints on the other segments in the same block
+  def getBaseSegmentParameters(self, selParameter):
+
+    # 1. Importing the excel table listing the possible values for the baseSegment
+    baseSegment = pd.read_excel(globals.baseSegmentPath, skiprows=1)
+
+    # 2. Transforming the table to keep the row of interest by only selecting the row which corresponds to the changing segment parameter
+    if selParameter is not None: 
+      selBaseSegment = baseSegment[baseSegment["changingParameter"]==selParameter].copy().reset_index()
+    else:
+      selBaseSegment = baseSegment[baseSegment["changingParameter"]=="None"].copy().reset_index()
+
+    # 3. Looping on all the parameters and populating the dicionary adding constraing on the base segment
+    constraintBaseSegment = {}
+
+    for parameter in globals.listAllParameters:
+
+      constraintValue = selBaseSegment.iloc[0][parameter]
+
+      # Test if there is a constraint (i.e. if the value in the table is different from "Any"
+      if constraintValue != "Any":
+
+        # Subcase 1 - The value is "Same"
+        if constraintValue == "Same":
+          constraintBaseSegment[parameter] = self.getParameter(parameterName=parameter)
+        
+        # SubCase 2 - The value is something else
+        else:
+          constraintBaseSegment[parameter] = constraintValue
+
+    return constraintBaseSegment
 
   # Copy method
   def copy(self):

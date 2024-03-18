@@ -233,5 +233,7 @@ stepIntensity = 1
 # Definition of the path to the excel spreadsheet for the variation of parameters from one block to the other in a set
 segmentConstraintsPath = "/content/SwimSet/segmentConstraints.xlsx"
 
+# Definition of the path to the excel setting the constraints on the "base segment(s)" in a block (i.e. the non-changing segment)
+baseSegmentPath = "/content/SwimSet/baseSegment.xlsx"
 
 
