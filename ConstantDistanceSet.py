@@ -95,6 +95,7 @@ class ConstantDistanceSet(Set):
 
             # We then decide which segment will change from one block to the other
             changingSegmentIndex = np.random.randint(0, len(firstBlock.listSegment))
+            nonChangingSegmentIndexes = np.delete(np.arange(len(firstBlock)), changingSegmentIndex)
             changingSegment = firstBlock.listSegment[changingSegmentIndex]
 
             # We then copy the first block as many times as necessary
@@ -113,10 +114,29 @@ class ConstantDistanceSet(Set):
             self.variationSegment = variationSegment
 
             # We then change the value of the changing parameter of the changing segment from one block to the other. 
+            # We also need to change the value of the other segments is there is any constraint brought by the changing segment
+            # Note this second change (on the non-changing segments) needs to happen here as for each block, the constraint may change ("same" values)
             if variationSegment.selParameter is not None:
+                
                 indexBlock = 0
                 for block in self.listBlock:
-                    block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+                    
+                    # Changing segment in the block
+                    block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
+                                                                               parameterValue=variationSegment.selParameterVariation[indexBlock])
+                    
+                    # Then determining the constrating on the non-changing segments
+                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(self, variationSegment.selParameter)
+                    
+                    # Non changing segment(s) in the block
+                    for indexSegment in nonChangingSegmentIndexes:
+
+                        # Applying the constratint(s), if any, on the other segments
+                        for parameter in constraintBaseSegment.keys():
+
+                            block.listSegment[indexSegment].setForcedParameter(parameterName=parameter,
+                                                                               parameterValue=constraintBaseSegment[parameter])
+
                     indexBlock += 1
 
         # 2. Case 2: Increase/decrease split
