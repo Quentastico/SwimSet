@@ -161,7 +161,7 @@ class ConstantDistanceSet(Set):
             # - If this is the first one, then the distance of the changing segment will increase within the set (case 2.1)
             # - In the other case, the distance of the changing segment will decrease within the set (case 2.1)
             changingSegmentIndex = np.random.randint(0, 2)
-            nonChangingSegmentIndex = np.delete(np.arange(2), changingSegmentIndex)
+            nonChangingSegmentIndex = np.delete(np.arange(2), changingSegmentIndex)[0]
             changingSegment = firstBlock.listSegment[changingSegmentIndex]
             if changingSegmentIndex == 0:
                 allowedVariationConstantDistance = globals.allowedVariationConstantDistance21
@@ -194,7 +194,7 @@ class ConstantDistanceSet(Set):
                     # Non-changing segment
                     for parameter in globals.listAllParameters:
 
-                        block.listSegment[nonChangingSegmentIndex[0]].setForcedParameter(parameterName=parameter,
+                        block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                       parameterValue=constraintBaseSegment[parameter])
 
                     indexBlock += 1
