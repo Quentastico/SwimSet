@@ -151,7 +151,7 @@ class IncreasingDecreasingDistanceSet(Set):
                                                             parameterValue=variationSegment.selParameterVariation[indexBlock])
                     
                     # Getting the constraits created by the changing segment on the non-changing segment
-                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(selParamater=variationSegment.selParameter)
+                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
 
                     # Changing all the parameters values in the non-changing segment
                     for parameter in globals.listAllParameters:
