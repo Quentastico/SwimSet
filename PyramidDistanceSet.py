@@ -81,7 +81,7 @@ class PyramidDistanceSet(Set):
         # Finally the blocks of the set can be created by using the normal function
         increasingSet.createBlocks() # Tis is when the bocks and distances will be flipped as this is an "increase" set
 
-        # TO REMOVE
+        # Just storing the increasing set for quality control ;-) 
         self.increasingSet = increasingSet
 
         # STEP 2: We then populate each Attribute of the pyramid set class
