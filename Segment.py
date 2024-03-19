@@ -293,8 +293,11 @@ class Segment:
       printKick = self.kick + " "
 
     # Duration
-    durationMinutes, durationSeconds = convertDuration(self.duration)
-    printDuration = str(durationMinutes) + "min" + str(durationSeconds) + "s"
+    if self.duration is not None: 
+      durationMinutes, durationSeconds = convertDuration(self.duration)
+      printDuration = str(durationMinutes) + "min" + str(durationSeconds) + "s"
+    else: 
+      printDuration = ""
 
     # intensity
     printIntensity = "Intensity: " + str(self.intensity) + " "
