@@ -1,3 +1,8 @@
+# IMPORTS
+
+import numpy as np
+
+
 #TRAINING
 
 # Minimum total distance for a training session (m)
@@ -236,4 +241,46 @@ segmentConstraintsPath = "/content/SwimSet/segmentConstraints.xlsx"
 # Definition of the path to the excel setting the constraints on the "base segment(s)" in a block (i.e. the non-changing segment)
 baseSegmentPath = "/content/SwimSet/baseSegment.xlsx"
 
+# Definition of the "base" times for different strokes, equipment, etc. 
+# Note: All the times below are in seconds
+# Note: all the times are based on Quentin's perception for now
 
+# Base time in the "base conditions" (s)
+baseTime = 105
+
+# Definition of the "base conditions"
+baseTimeParameters = {"distance": 100,
+                      "intensity": 5,
+                      "stroke": "freestyle",
+                      "equipment": "No equipment",
+                      "drill": "No drill",
+                      "kick": "no kick"}
+
+# Times for the different strokes (i.e. for the stroke being listed as in strokeTypes; all other parameters being defined in baseTimeParameters)
+baseTimeStroke = [105, 150, 135, 150, 135]
+
+# Times for the different equipmment (i.e. for the equipment being listed as in equipmentTypes; all other parameters being defined in baseTimeParameters)
+baseTimeEquipment = [105, 95, 105]
+
+# Times for the different drills (i.e. for the drill being listed as in strokeTypes; all other parameters being defined in baseTimeParameters)
+baseTimeDrill = [120, 105]
+
+# Times for the different kicks (i.e. for the stroke being listed as in kickTypes; all other parameters being defined in baseTimeParameters)
+baseTimeKick = [150, 105]
+
+# Times for the different intensities (i.e. between 4 and 10); all other parameters being defined in baseTimeParameters
+baseTimeIntensity = [120, 105, 110, 120, 130, 140, 150]
+
+# Creating a dictionary indicating the base times for each parameter variation
+baseTimes = {"stroke": baseTimeStroke,
+             "equipment": baseTimeEquipment,
+             "drill": baseTimeDrill,
+             "kick": baseTimeKick,
+             "intensity": baseTimeIntensity}
+
+# Creating a dictionary listing all the values of parameters
+baseTimeTypes = {"stroke": strokeTypes,
+                 "equipment": equipmentTypes,
+                 "drill": drillTypes,
+                 "kick": kickTypes,
+                 "intensity": list(np.arange(minIntensity, maxIntensity+1, 1))}
