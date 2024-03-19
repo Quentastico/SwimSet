@@ -193,6 +193,45 @@ class Segment:
           constraintBaseSegment[parameter] = constraintValue
 
     return constraintBaseSegment
+  
+  # Method to determine the time duration of the segment (in min + sec)
+  def setDuration(self):
+
+    # Creating the dictionnary of multiplicative factors
+    multFactors = {}
+
+    for parameter in globals.listAllParameters:
+
+      # Determining the value of this parameter for the given segment
+      parameterValue = self.getParameter(parameterName=parameter)
+
+      # Extracting the relevant values of the parameters
+      relBaseTimeTypes = globals.baseTimeTypes[parameter]
+
+      # Extracting the relevant values of the times for this parameter
+      relBaseTimes = globals.baseTimes[parameter]
+
+      # Finding the position of the parameter value in relBaseTimeTypes
+      indexParameterValue = relBaseTimeTypes.index(parameterValue)
+
+      # Extracting the relevant time for the given value
+      relTime = relBaseTimes[indexParameterValue]
+
+      # Calculating the multiplicative factor
+      multFactor = relTime / globals.baseTime
+
+      # Storing the value of the factor in the dictionary
+      multFactors[parameter] = multFactor
+
+    # Calculating the final multiplicative factor
+    totalMultFactor = 1
+    for parameter in multFactors.keys():
+      totalMultFactor *= multFactors[parameter]
+
+    # Calculating the final time
+    self.duration = globals.baseTime * totalMultFactor * self.distance / globals.baseTimeParameters["distance"]
+
+    
 
   # Copy method
   def copy(self):

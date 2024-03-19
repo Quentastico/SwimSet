@@ -192,3 +192,14 @@ def splitSetFrequencyIncrease(distance, stepBlockDistance, minBlockDistance, max
       scores.append(scoreCombos[i])
 
   return optionCombos, scores
+
+# Function to convert a time expressed in seconds into a time expressed in minutes + seconds
+def convertDuration(duration):
+
+  # Minutes
+  durationMinutes = int(np.floor(duration/60))
+
+  # Seconds (Note the rounding)
+  durationSeconds = int(np.round((duration-60*durationMinutes)/5) * 5)
+
+  return durationMinutes, durationSeconds
