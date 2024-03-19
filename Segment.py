@@ -249,7 +249,7 @@ class Segment:
       self.intensity = 5
 
     # Drill
-    if self.drill == "drill":
+    if "drill " in self.drill:
       self.intensity = 5
     
   # Method that can be called at the end of the generation of a segment / block / set to fix little issues in the segment(s) and calculate time
