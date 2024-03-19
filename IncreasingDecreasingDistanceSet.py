@@ -26,7 +26,8 @@ class IncreasingDecreasingDistanceSet(Set):
             self.setBlockDistances()
             self.setSequenceType()
             self.setIncreaseDecrease()
-            self.createBlocks()            
+            self.createBlocks()   
+            self.finalise()         
 
     # Method to decide if this will be a decrease or an increase
     def setIncreaseDecrease(self):

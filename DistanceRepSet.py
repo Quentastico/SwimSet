@@ -20,6 +20,7 @@ class DistanceRepSet(Set):
             self.setBlockDistances()
             self.setIncreaseDecrease()
             self.createBlocks()
+            self.finalise()
 
     # Method to split the set into a given distance
     def setBlockDistances(self): 
