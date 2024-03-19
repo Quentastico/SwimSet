@@ -1,6 +1,7 @@
 import numpy as np
 import globals
 from utils import pickDistance
+from utils import convertDuration
 from Segment import Segment
 
 class Block:
@@ -76,12 +77,21 @@ class Block:
         newSegment.setRandomAll()
         self.listSegment.append(newSegment)
 
+  # Method to finalise the creation of a block by simply calling the finalise() method of each segment withtin the block and calculate the block duration
+  def finalise(self):
+
+    # Initialising the duration to 0 seconds
+    self.duration = 0
+
+    # Looping on each segment composing the block
+    for segment in self.listSegment:
+      segment.finalise()
+      self.duration += segment.duration
 
   # Making a function that flips the segments withtin a block:
   def flip(self):
 
     self.listSegment = list(np.flip(self.listSegment))
-
   
   # Making a function that copies an existing block
   def copy(self):
@@ -109,6 +119,17 @@ class Block:
   # Making a function to provide info on a block
   def info(self):
 
-    print("   BLOCK: Distance: " + str(self.distance) + ", List of segment distances: " + str(self.listSegmentDistance))
+    # distance
+    printDistance = "Distance: " + str(self.distance) + "m"
+
+    # duration
+    if self.duration is not None:
+      durationMinutes, durationSeconds = convertDuration(self.duration)
+      printDuration = " - " + str(durationMinutes) + "min" + str(durationSeconds) + "s"
+    else:
+      printDuration = ""
+
+
+    print("   BLOCK: " + printDistance + printDuration)
     for segment in self.listSegment:
       segment.info()

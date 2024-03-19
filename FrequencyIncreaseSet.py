@@ -20,6 +20,7 @@ class FrequencyIncreaseSet(Set):
         if self.standardInit:
             self.setBlockDistance()
             self.createBlocks()
+            self.finalise()
 
     # Method to determine the specific distance combo
     def setBlockDistance(self):

@@ -20,6 +20,7 @@ class ConstantDistanceSet(Set):
         if self.standardInit:
             self.setBlockDistances()
             self.createBlocks()
+            self.finalise()
 
     # Method to split the set into a given distance
     def setBlockDistances(self): 
