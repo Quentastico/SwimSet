@@ -205,6 +205,9 @@ class Segment:
 
       # Determining the value of this parameter for the given segment
       parameterValue = self.getParameter(parameterName=parameter)
+      if parameter == "drill":        
+        if "drill " in parameterValue: # Then this is "drill 1", or "drill 2", or "drill 3", etc. We need to change this to "drill":
+          parameterValue = "drill"
 
       # Extracting the relevant values of the parameters
       relBaseTimeTypes = globals.baseTimeTypes[parameter]
