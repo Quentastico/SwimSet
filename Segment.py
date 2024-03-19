@@ -232,7 +232,22 @@ class Segment:
     # Calculating the final time
     self.duration = globals.baseTime * totalMultFactor * self.distance / globals.baseTimeParameters["distance"]
 
+  # Method to fix the parameters to remove any combo that should never happen (especially kick/drill with any non-moderate intensity)
+  def fixParameters(self):
+
+    # Kick
+    if self.kick == "kick":
+      self.intensity = 5
+
+    # Drill
+    if self.drill == "drill":
+      self.intensity = 5
     
+  # Method that can be called at the end of the generation of a segment / block / set to fix little issues in the segment(s) and calculate time
+  def finalise(self):
+
+    self.fixParameters()
+    self.setDuration()
 
   # Copy method
   def copy(self):
