@@ -232,8 +232,14 @@ class Segment:
     for parameter in multFactors.keys():
       totalMultFactor *= multFactors[parameter]
 
-    # Calculating the final time
-    self.duration = globals.baseTime * totalMultFactor * self.distance / globals.baseTimeParameters["distance"]
+    # Calculating the duration
+    duration = globals.baseTime * totalMultFactor * self.distance / globals.baseTimeParameters["distance"]
+
+    # rounding up the duration at +/-5 seconds
+    durationMinutes, durationSeconds = convertDuration(duration)
+
+    # Storing the final value of the duration
+    self.duration = durationMinutes*60 + durationSeconds
 
   # Method to fix the parameters to remove any combo that should never happen (especially kick/drill with any non-moderate intensity)
   def fixParameters(self):
