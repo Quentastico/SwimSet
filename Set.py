@@ -39,7 +39,7 @@ class Set:
     printDistance = "Distance: " + str(self.distance)
 
     # Type of set
-    printType = "Type: " + self.type + " " + self.sequenceType
+    printType = " Type: " + self.type + " " + self.sequenceType
 
     # Duration
     if self.duration is not None: 
