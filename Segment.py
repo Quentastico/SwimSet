@@ -1,6 +1,7 @@
 import globals
 import numpy as np
 import pandas as pd
+from utils import convertDuration
 
 class Segment:
 
@@ -276,7 +277,11 @@ class Segment:
     else:
       printKick = self.kick + " "
 
+    # Duration
+    durationMinutes, durationSeconds = convertDuration(self.duration)
+    printDuration = str(durationMinutes) + "min" + str(durationSeconds) + "s"
+
     # intensity
     printIntensity = "Intensity: " + str(self.intensity) + " "
 
-    print("    SEGMENT: " + printDistance + printKick + printStroke + printEquipment + printDrill + printIntensity)
+    print("    SEGMENT: " + printDistance + printKick + printStroke + printEquipment + printDrill + printIntensity + printDuration)
