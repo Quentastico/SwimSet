@@ -94,7 +94,30 @@ class Training:
   def createSets(self):
 
     for distance in self.listSetDistance:
-      newSet = Set(distance=distance)
+
+      # Extraction of all the possible types of sets
+      possibleSetTypes = globals.setTypes.keys()
+      
+      # Initiating the while loop which will make sure that the set can be created
+      newSetlistDistance = None
+      setProba = globals.setProba
+
+      while newSetlistDistance is None:
+
+        # Picking a random set type
+        selSetType = np.random.choice(possibleSetTypes, p=setProba)
+
+        # Creating a new set
+        newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
+
+        # Finding the index of the selected set type
+        indexSelSetType = possibleSetTypes.index(selSetType)        
+
+        # Removing the possibleSetTypes from the list and redefining the proba
+        possibleSetTypes.pop(indexSelSetType)
+        setProba = setProba.pop(indexSelSetType)
+        setProba = setProba / sum(setProba)
+
       self.listSet.append(newSet)
 
   # Creating an info method
