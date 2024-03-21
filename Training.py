@@ -10,7 +10,7 @@ from Set import Set
 class Training:
 
   # Initialisation function
-  def __init__(self, distance, numberSets = None):
+  def __init__(self, distance, numberSets = None, standardInit=False):
 
     # 1. ATTRIBUTE DEFINITION
 
@@ -21,6 +21,7 @@ class Training:
     self.numberSets = numberSets # Number of sets in the main set (can be user-defined)
     self.listSetDistance = [] # List of the distances of the sets
     self.listSet = [] # List of sets
+    self.standardInit = standardInit
 
     # 2. DATA CHECKS
 
@@ -36,25 +37,22 @@ class Training:
 
     # 3. DISTANCES
 
-    # 3.1. Calculation of the warmup distance
-    self.setWarmupDistance()
+    if self.standardInit==True:
 
-    # 3.2. Calculation of the cool down distance
-    self.setCooldownDistance()
+      # 3.1. Calculation of the warmup distance
+      self.setWarmupDistance()
 
-    # 3.3. Calculation of the mainset distance
-    self.mainsetDistance = self.distance - self.warmupDistance - self.cooldownDistance
+      # 3.2. Calculation of the cool down distance
+      self.setCooldownDistance()
 
-    # 3.4. Determination of the number of sets
-    self.setNumberSets()
+      # 3.3. Calculation of the mainset distance
+      self.mainsetDistance = self.distance - self.warmupDistance - self.cooldownDistance
 
-    # 3.5. Determination of the distances of the sets
-    self.setSetDistances()
+      # 3.4. Determination of the number of sets
+      self.setNumberSets()
 
-    # 4. CREATION OF THE SETS
-
-    # 4.1. Creation of the Sets
-    self.createSets()
+      # 3.5. Determination of the distances of the sets
+      self.setSetDistances()
 
 
   # Method to determine the warmup distance
