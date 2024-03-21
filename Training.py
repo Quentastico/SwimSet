@@ -117,7 +117,7 @@ class Training:
         possibleSetTypes.pop(indexSelSetType)
         setProba.pop(indexSelSetType)
         sumProba = sum(setProba)
-        setProba = [setProba[i] / sumProba for i in np.range(len(setProba))]
+        setProba = [setProba[i] / sumProba for i in np.arange(len(setProba))]
 
       self.listSet.append(newSet)
 
