@@ -1,6 +1,6 @@
 import numpy as np
 import globals
-from utils import pickDistance
+from utils import pickDistances
 from utils import convertDuration
 from Segment import Segment
 
@@ -31,28 +31,12 @@ class Block:
         self.nSegments = int(np.floor(self.distance/globals.minSegmentDistance))
 
     # Attributing random values within the block
-
-    if self.nSegments == 1:
-      self.listSegmentDistance.append(self.distance)
-
-    else:
-
-      #Initialise the loop by setting the min and max values
-      minValue = globals.minSegmentDistance
-      avValue = self.distance / self.nSegments
-
-      for i in np.arange(self.nSegments-1):
-
-        # Setting the max Distance
-        maxValue = self.distance - np.array(self.listSegmentDistance).sum() - (self.nSegments - 1 - i) * globals.minSegmentDistance
-
-        # Picking a random distance in the given interval and add it to the list
-        newDistanceValue = pickDistance(minValue, maxValue, avValue, globals.minSegmentDistance)
-        self.listSegmentDistance.append(int(newDistanceValue))
-
-      # At the end of the loop (or if there is only one set), the last set is defined
-      self.listSegmentDistance.append(int(self.distance - np.array(self.listSegmentDistance).sum()))
-
+        
+    self.listSegmentDistance = pickDistances(distance=self.distance,
+                                              minDistance=globals.minSegmentDistance,
+                                              avDistance=self.distance/self.nSegments,
+                                              stepDistance=globals.stepSegmentDistance,
+                                              nDistance=self.nSegments)
 
   # Method to create segments 
   def createSegments(self):

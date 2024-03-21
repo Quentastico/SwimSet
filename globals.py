@@ -39,6 +39,10 @@ minSetDistance = 300
 # The higher the avSetDistance, the longer the sets. 
 avSetDistance = 600
 
+# Minimum denominator of all the sets in a given training session
+# Example: if 100, then all set distances will be multiple of 100m. 
+stepSetDistance = 100
+
 # Maximal acceptable distance between the set required distance and the actual distance
 maxDistanceDiff = 50
 
@@ -211,6 +215,10 @@ minSegmentDistance = 25
 # Note: this maximal value for a segment distance can be superseded in the case of a non "equal" set type as we force the segment distance to be 
 # equal to the block distance. 
 maxSegmentDistance = 300
+
+# Step distance between two segments
+# Example: if this is 25m, this means that two segments must have a minimal distance difference of 25m between themselves. 
+stepSegmentDistance = 25
 
 # Definition of the possible equipment
 equipmentTypes = ["pullBuoyAndPaddles", "fins", "No equipment"]
