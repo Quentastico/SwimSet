@@ -3,7 +3,7 @@
 ## IMPORTS
 
 import numpy as np
-from utils import pickDistance
+from utils import pickDistances
 import globals
 from Set import Set
 
@@ -84,23 +84,13 @@ class Training:
   # Method to determine the list of the lengths of the sets
   def setSetDistances(self):
 
-    if self.numberSets > 1:
+    if self.numberSets >= 1:
 
-      #Initialise the loop by setting the min and max values
-      minValue = globals.minSetDistance
-      avValue = self.mainsetDistance / self.numberSets
-
-      for i in np.arange(self.numberSets-1):
-
-        # Setting the max Distance
-        maxValue = self.mainsetDistance - np.array(self.listSetDistance).sum() - (self.numberSets - 1 - i) * globals.minSetDistance
-
-        # Picking a random distance in the given interval and add it to the list
-        newDistanceValue = pickDistance(minValue, maxValue, avValue, 100)
-        self.listSetDistance.append(int(newDistanceValue))
-
-    # At the end of the loop (or if there is only one set), the last set is defined
-    self.listSetDistance.append(int(self.mainsetDistance - np.array(self.listSetDistance).sum()))
+      self.listSetDistance = pickDistances(distance=self.distance,
+                                           minDistance=globals.minSetDistance,
+                                           avDistance=self.distance/self.numberSets, # better here to take the actual value of the set rather than the user-defined value
+                                           stepDistance=globals.stepSetDistance,
+                                           nDistance=self.numberSets)
   
   # Creation of the Sets
   def createSets(self):

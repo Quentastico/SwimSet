@@ -34,10 +34,9 @@ def pickDistance(minValue, maxValue, avValue, stepDistance):
   return finalValue
 
 # Tool to determine a series of distances which sum is equal to a total distance
-def pickDistances(distance, minDistance, maxDistance, avDistance, stepDistance, nDistance):
+def pickDistances(distance, minDistance, avDistance, stepDistance, nDistance):
   # distance: total distance considered 
   # minDistance: the minimal value of any subdistances extracted from the series of distances
-  # maxDistance: the maximal value of the subdistances extracted from the series of distances
   # avDistance: the average subdistance expected
   # stepDIstance: the bigesst common denopmitor of all the distances (e.g. 100m)
   # nDistance: the number of distances to extract 
@@ -46,7 +45,7 @@ def pickDistances(distance, minDistance, maxDistance, avDistance, stepDistance, 
 
   # First we need to remove the case where nDistance is 1: easy!
   if nDistance==1:
-    listDistance.append(distance)
+    listDistance.append(int(distance))
 
   # Then we handle the other cases. 
   else: 
@@ -64,14 +63,14 @@ def pickDistances(distance, minDistance, maxDistance, avDistance, stepDistance, 
                                  stepDistance=stepDistance)
       
       # Storing the new distance
-      listDistance.append(newDistance)
+      listDistance.append(int(newDistance))
 
       # Redefining the end distance
       endDistance += minDistance - newDistance
 
     # Then adding the last distance
     lastDistance = distance - np.sum(listDistance)
-    listDistance.append(lastDistance)
+    listDistance.append(int(lastDistance))
 
   return listDistance
   
