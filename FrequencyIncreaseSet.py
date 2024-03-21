@@ -18,9 +18,14 @@ class FrequencyIncreaseSet(Set):
         self.selCombo = [] # The combination that is reatined, in the format n, d, where n is the number of segments in a bunch and d is the segment length
 
         if self.standardInit:
+
+            # Defining the distance list of this block in the set
             self.setBlockDistance()
-            self.createBlocks()
-            self.finalise()
+
+            # Then making sure that the distance list for the block has been defined
+            if self.listBlockDistance is not None: 
+                self.createBlocks()
+                self.finalise()
 
     # Method to determine the specific distance combo
     def setBlockDistance(self):
