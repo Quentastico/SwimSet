@@ -90,35 +90,35 @@ class Training:
                                            stepDistance=globals.stepSetDistance,
                                            nDistance=self.numberSets)
   
-  # # Creation of the Sets
-  # def createSets(self):
+  # Creation of the Sets
+  def createSets(self):
 
-  #   for distance in self.listSetDistance:
+    for distance in self.listSetDistance:
 
-  #     # Extraction of all the possible types of sets
-  #     possibleSetTypes = globals.setTypes.keys()
+      # Extraction of all the possible types of sets
+      possibleSetTypes = globals.setTypes.keys()
       
-  #     # Initiating the while loop which will make sure that the set can be created
-  #     newSetlistDistance = None
-  #     setProba = globals.setProba
+      # Initiating the while loop which will make sure that the set can be created
+      newSetlistDistance = None
+      setProba = globals.setProba
 
-  #     while newSetlistDistance is None:
+      while newSetlistDistance is None:
 
-  #       # Picking a random set type
-  #       selSetType = np.random.choice(possibleSetTypes, p=setProba)
+        # Picking a random set type
+        selSetType = np.random.choice(possibleSetTypes, p=setProba)
 
-  #       # Creating a new set
-  #       newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
+        # Creating a new set
+        newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
 
-  #       # Finding the index of the selected set type
-  #       indexSelSetType = possibleSetTypes.index(selSetType)        
+        # Finding the index of the selected set type
+        indexSelSetType = possibleSetTypes.index(selSetType)        
 
-  #       # Removing the possibleSetTypes from the list and redefining the proba
-  #       possibleSetTypes.pop(indexSelSetType)
-  #       setProba = setProba.pop(indexSelSetType)
-  #       setProba = setProba / sum(setProba)
+        # Removing the possibleSetTypes from the list and redefining the proba
+        possibleSetTypes.pop(indexSelSetType)
+        setProba = setProba.pop(indexSelSetType)
+        setProba = setProba / sum(setProba)
 
-  #     self.listSet.append(newSet)
+      self.listSet.append(newSet)
 
   # Creating an info method
   def info(self):
