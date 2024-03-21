@@ -17,10 +17,14 @@ class DistanceRepSet(Set):
         self.increaseDecrease = "" # This attribute will determine if the set will have blocks increasing or decreasing in length
 
         if self.standardInit:
+
             self.setBlockDistances()
-            self.setIncreaseDecrease()
-            self.createBlocks()
-            self.finalise()
+            
+            #Then making sure that the distance list is well defined
+            if self.listBlockDistance is not None:
+                self.setIncreaseDecrease()
+                self.createBlocks()
+                self.finalise()
 
     # Method to split the set into a given distance
     def setBlockDistances(self): 
