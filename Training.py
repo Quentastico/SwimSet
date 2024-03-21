@@ -99,16 +99,19 @@ class Training:
       possibleSetTypes = list(globals.setTypes.keys())
       
       # Initiating the while loop which will make sure that the set can be created
-      newSetlistDistance = None
+      newSetListDistance = None
       setProba = globals.setProba.copy()
 
-      while newSetlistDistance is None:
+      while newSetListDistance is None:
 
         # Picking a random set type
         selSetType = np.random.choice(possibleSetTypes, p=setProba)
 
         # Creating a new set
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
+
+        # Redefining the newSetListDistance
+        newSetListDistance = newSet.listBlockDistance
 
         # Finding the index of the selected set type
         indexSelSetType = possibleSetTypes.index(selSetType)        
