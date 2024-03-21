@@ -84,7 +84,7 @@ class Training:
 
     if self.numberSets >= 1:
 
-      self.listSetDistance = pickDistances(distance=self.distance,
+      self.listSetDistance = pickDistances(distance=self.mainsetDistance,
                                            minDistance=globals.minSetDistance,
                                            avDistance=self.distance/self.numberSets, # better here to take the actual value of the set rather than the user-defined value
                                            stepDistance=globals.stepSetDistance,
