@@ -52,7 +52,7 @@ def pickDistances(distance, minDistance, maxDistance, avDistance, stepDistance, 
   else: 
 
     # Initiatlisation of the "end distance": always keeping enough distance for all the sets
-    endDistance = maxDistance - nDistance * minDistance
+    endDistance = distance - (nDistance-1) * minDistance
 
     # Then looping on all the distances we want to extract
     for i in np.arange(nDistance-1):
