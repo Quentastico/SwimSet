@@ -100,7 +100,7 @@ class Training:
       
       # Initiating the while loop which will make sure that the set can be created
       newSetlistDistance = None
-      setProba = globals.setProba
+      setProba = globals.setProba.copy()
 
       while newSetlistDistance is None:
 
@@ -115,8 +115,9 @@ class Training:
 
         # Removing the possibleSetTypes from the list and redefining the proba
         possibleSetTypes.pop(indexSelSetType)
-        setProba = setProba.pop(indexSelSetType)
-        setProba = setProba / sum(setProba)
+        setProba.pop(indexSelSetType)
+        sumProba = sum(setProba)
+        setProba = [setProba[i] / sumProba for i in np.range(len(setProba))]
 
       self.listSet.append(newSet)
 
