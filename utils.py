@@ -34,7 +34,7 @@ def pickDistance(minValue, maxValue, avValue, stepDistance):
   return finalValue
 
 # Tool to determine a series of distances which sum is equal to a total distance
-def pickDistance(distance, minDistance, maxDistance, avDistance, stepDistance, nDistance):
+def pickDistances(distance, minDistance, maxDistance, avDistance, stepDistance, nDistance):
   # distance: total distance considered 
   # minDistance: the minimal value of any subdistances extracted from the series of distances
   # maxDistance: the maximal value of the subdistances extracted from the series of distances
@@ -75,7 +75,7 @@ def pickDistance(distance, minDistance, maxDistance, avDistance, stepDistance, n
 
     return listDistance
   
-  
+
 # Make a tool function that allows cutting a set into increasing/decreasing distances
 def splitSetIncreaseDecrease(distance, stepBlockDistance, minBlockDistance, minBlocks):
   # distance: total distance of the set (m)
