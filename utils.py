@@ -57,23 +57,30 @@ def pickDistances(distance, minDistance, maxDistance, avDistance, stepDistance, 
     # Then looping on all the distances we want to extract
     for i in np.arange(nDistance-1):
 
+      print(i)
+      print("end distance")
+      print(endDistance)
+
       # Getting the new distance
       newDistance = pickDistance(minValue=minDistance,
                                  maxValue=endDistance,
                                  avValue=avDistance,
                                  stepDistance=stepDistance)
       
+      print("new distance")
+      print(newDistance)
+      
       # Storing the new distance
       listDistance.append(newDistance)
 
       # Redefining the end distance
-      endDistance -= newDistance + minDistance
+      endDistance += minDistance - newDistance
 
     # Then adding the last distance
     lastDistance = distance - np.sum(listDistance)
     listDistance.append(lastDistance)
 
-    return listDistance
+  return listDistance
   
 
 # Make a tool function that allows cutting a set into increasing/decreasing distances
