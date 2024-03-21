@@ -114,12 +114,3 @@ class FrequencyIncreaseSet(Set):
                 newBlock.listSegment += subBlocks
 
             self.listBlock.append(newBlock)
-
-
-
-
-
-
-
-
-        

@@ -1,7 +1,10 @@
 # IMPORTS
-
 import numpy as np
-
+from ConstantDistanceSet import ConstantDistanceSet
+from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
+from PyramidDistanceSet import PyramidDistanceSet
+from DistanceRepSet import DistanceRepSet
+from FrequencyIncreaseSet import FrequencyIncreaseSet
 
 #TRAINING
 
@@ -46,18 +49,15 @@ stepSetDistance = 100
 # Maximal acceptable distance between the set required distance and the actual distance
 maxDistanceDiff = 50
 
-# Defining the different types of variation withtin a set
-# This describes the different types of sets that exist in term of the distance variation from one block to the other. 
-# equal: Means that all blocks within the set will have the same distance
-# increasing: Means that the distance will increase steadily from one block to the other
-# decreasing: Means that the distance will decrease steadily from one block to the other
-# pyramid: Means that the distance will increase and then decrease. 
-# setTypes = ["equalDistance",
-#             "increasingDistance",
-#             "decreasingDistance",
-#             "pyramidDistance",
-#             "distanceRep", 
-#             ""]
+# Defining the different types of variation withtin a set and associating an object type
+setTypes = {"Constant Distance": ConstantDistanceSet,
+            "Increasing/Decreasing Distance": IncreasingDecreasingDistanceSet,
+            "Pyramid Distance": PyramidDistanceSet,
+            "Distance Rep": DistanceRepSet,
+            "Frequency Increase": FrequencyIncreaseSet}
+
+# Defining the probability of picking any type of any set randomly
+setProba = [0.2, 0.2, 0.2, 0.2, 0.2]
 
 # Minimal difference distance between two blocks (m)
 # If this variable is set at 25m, this means that we could have a set where the blocks are for example 25m, 50m, 75m, etc. If set at 50m, then the 
