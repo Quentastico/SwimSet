@@ -96,7 +96,7 @@ class Training:
     for distance in self.listSetDistance:
 
       # Extraction of all the possible types of sets
-      possibleSetTypes = globals.setTypes.keys()
+      possibleSetTypes = list(globals.setTypes.keys())
       
       # Initiating the while loop which will make sure that the set can be created
       newSetlistDistance = None
