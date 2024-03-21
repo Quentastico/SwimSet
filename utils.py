@@ -33,7 +33,49 @@ def pickDistance(minValue, maxValue, avValue, stepDistance):
 
   return finalValue
 
+# Tool to determine a series of distances which sum is equal to a total distance
+def pickDistance(distance, minDistance, maxDistance, avDistance, stepDistance, nDistance):
+  # distance: total distance considered 
+  # minDistance: the minimal value of any subdistances extracted from the series of distances
+  # maxDistance: the maximal value of the subdistances extracted from the series of distances
+  # avDistance: the average subdistance expected
+  # stepDIstance: the bigesst common denopmitor of all the distances (e.g. 100m)
+  # nDistance: the number of distances to extract 
 
+  listDistance = []
+
+  # First we need to remove the case where nDistance is 1: easy!
+  if nDistance==1:
+    listDistance.append(distance)
+
+  # Then we handle the other cases. 
+  else: 
+
+    # Initiatlisation of the "end distance": always keeping enough distance for all the sets
+    endDistance = maxDistance - nDistance * minDistance
+
+    # Then looping on all the distances we want to extract
+    for i in np.arange(nDistance-1):
+
+      # Getting the new distance
+      newDistance = pickDistance(minValue=minDistance,
+                                 maxValue=endDistance,
+                                 avValue=avDistance,
+                                 stepDistance=stepDistance)
+      
+      # Storing the new distance
+      listDistance.append(newDistance)
+
+      # Redefining the end distance
+      endDistance -= newDistance + minDistance
+
+    # Then adding the last distance
+    lastDistance = distance - np.sum(listDistance)
+    listDistance.append(lastDistance)
+
+    return listDistance
+  
+  
 # Make a tool function that allows cutting a set into increasing/decreasing distances
 def splitSetIncreaseDecrease(distance, stepBlockDistance, minBlockDistance, minBlocks):
   # distance: total distance of the set (m)
