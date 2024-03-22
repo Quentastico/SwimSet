@@ -103,7 +103,7 @@ class Training:
     
     # 2. Determination of whether it will be a distanceRepeatSetTraining or a random training
     if len(combos) > 0:
-      self.trainingType = np.random.choice(globals.trainingTypes, globals.trainingProba)
+      self.trainingType = np.random.choice(globals.trainingTypes, p=globals.trainingProba)
     else:
       self.trainingType = "Random Training"
 
