@@ -30,6 +30,20 @@ maxCooldownDistance = 300
 # The cooldown distance still has a max (see above)
 fracCooldownDistance = 1/15
 
+# Defining the diffferent training types that we'll have the probability that we want for them to happen
+# Random Training: the training will be split in a number of sets of random distances
+# Set Rep Training: the set will be split between a number of repetition of the same set + some random ones
+trainingTypes = ["Random Training", "Set Rep Training"]
+trainingProba = [0.5, 0.5]
+
+# In the case of a Set Rep Training, the following parameters must be defined: 
+# The minimal and maximal numbers of repetition of the same set
+minNumberRepeatSet = 2
+maxNumberRepeatSet = 5
+
+# The maximal distance of a repeted set (based onthe max of the distance rep set), in m
+maxRepeatSetDistance = 800
+
 ## SET
 
 # Minimal Set Distance (m)
