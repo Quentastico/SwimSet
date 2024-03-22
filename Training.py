@@ -10,7 +10,7 @@ from Set import Set
 class Training:
 
   # Initialisation function
-  def __init__(self, distance, numberSets = None, standardInit=False):
+  def __init__(self, distance, standardInit=False):
 
     # 1. ATTRIBUTE DEFINITION
 
@@ -18,10 +18,12 @@ class Training:
     self.warmupDistance = None # Warmup distance (m)
     self.cooldownDistance = None # Cooldown distance (m)
     self.mainsetDistance = None # Main Set distance (m)
-    self.numberSets = numberSets # Number of sets in the main set (can be user-defined)
+    self.numberSets = None # Number of sets in the main set
     self.listSetDistance = [] # List of the distances of the sets
     self.listSet = [] # List of sets
     self.standardInit = standardInit
+    self.trainingType = None # This indicates what type of training it will be (repeat sets or random)
+    self.nSetRepeat = None # IN the case of a repeat set trainig, thi indicates how many sets will repeat at the start of the training
 
     # 2. DATA CHECKS
 
@@ -48,10 +50,7 @@ class Training:
       # 3.3. Calculation of the mainset distance
       self.mainsetDistance = self.distance - self.warmupDistance - self.cooldownDistance
 
-      # 3.4. Determination of the number of sets
-      self.setNumberSets()
-
-      # 3.5. Determination of the distances of the sets
+      # 3.4. Determination of the distances of the sets (and number of sets)
       self.setSetDistances()
 
 
@@ -64,29 +63,72 @@ class Training:
   def setCooldownDistance(self):
     self.cooldownDistance = min(100*np.ceil(globals.fracCooldownDistance * self.distance / 100), globals.maxCooldownDistance)
 
-
-  # Method to determine the right number of sets
-  def setNumberSets(self):
-
-    # Case 1 - The user has entered a valid value: we want to make sure that on average, the minimum set distance is higher than the minimal value allowed
-    if self.numberSets is not None:
-      if self.mainsetDistance / self.numberSets < globals.minSetDistance:
-        print("Careful: the number of sets is too high for the selected distance")
-        # In this case, we set the number of sets so that the distance per set is equal to the minimal allowed value
-        self.numberSets = int(np.floor(self.mainsetDistance / globals.minSetDistance))
-
-    # Case 2: The user has entered no value
-    else:
-      self.numberSets = int(np.round(self.mainsetDistance / globals.avSetDistance))
-
-  # Method to determine the list of the lengths of the sets
+  # Method to determine the split of block distances into the set (and numer of sets too!)
   def setSetDistances(self):
 
-    if self.numberSets >= 1:
+    # 1. Determination of all the possible "combos" of repeat sets + other
+    combos = []
 
+    # Looping on all the values of number of repeats (nRepeat) and possible set distances (stepDistance):
+
+    for nRepeat in np.arange(globals.minNumberRepeatSet, globals.maxNumberRepeatSet+1, 1):
+      for setDistance in np.arange(globals.minSetDistance, globals.maxRepeatSetDistance+globals.stepSetDistance, globals.stepSetDistance):
+
+        # Defining the distance of the repeat sets (all together) and the remaining distance set
+        repeatDistance = nRepeat * setDistance
+        remainingDistance = self.mainsetDistance - repeatDistance
+
+        # Selection of the possible cases
+        if (remainingDistance == 0) | (remainingDistance >= globals.minSetDistance):
+
+          # Creating the first half of the combo: nRepeat times the distance setDistance
+          newCombo = []
+          listRepeatDistance = [setDistance] * nRepeat
+
+          # Creating the second part of the combo: the list of the distances
+
+          if remainingDistance > 0:
+            nRemainingSet = max(int(np.round(remainingDistance/globals.avSetDistance)), 1)
+            listRemainingDistance = pickDistances(distance=remainingDistance,
+                                                  minDistance=globals.minSetDistance,
+                                                  avDistance=remainingDistance/nRemainingSet,
+                                                  stepDistance=globals.stepSetDistance,
+                                                  nDistance=nRemainingSet)
+          else:
+            listRemainingDistance = []
+
+          newCombo = [listRepeatDistance, listRemainingDistance]
+
+          combos.append(newCombo)
+    
+    # 2. Determination of whether it will be a distanceRepeatSetTraining or a random training
+    if len(combos) > 0:
+      self.trainingType = np.random.choice(globals.trainingTypes, globals.trainingProba)
+    else:
+      self.trainingType = "Random Training"
+
+    # 3. Then determining the distances and number of sets depending on the type of training
+    
+    if self.trainingType == "Set Rep Training":
+      
+      # We first need to choose a random combo
+      selComboIndex = np.random.randint(len(combos))
+      selCombo = combos[selComboIndex]
+
+      # Then we extract the distances
+      self.listSetDistance = selCombo[0] + selCombo[1]
+      self.nSetRepeat = len(selCombo[0])
+      self.numberSets = len(self.listSetDistance)
+
+    if self.trainingType == "Random Training":
+
+      # We first need to determine the number of sets
+      self.numberSets = int(np.round(self.mainsetDistance / globals.avSetDistance))
+
+      # We then use the random pick distance function to determine the set distances
       self.listSetDistance = pickDistances(distance=self.mainsetDistance,
                                            minDistance=globals.minSetDistance,
-                                           avDistance=self.distance/self.numberSets, # better here to take the actual value of the set rather than the user-defined value
+                                           avDistance=self.mainsetDistance/self.numberSets, # better here to take the actual value of the set rather than the user-defined value
                                            stepDistance=globals.stepSetDistance,
                                            nDistance=self.numberSets)
   
