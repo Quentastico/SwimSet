@@ -199,6 +199,115 @@ allowedVariationFrequencyIncrease1 = {"stroke": ["cycle"],
                                 "drill": None,
                                 "kick": ["cycle"]}
 
+## META SETS
+# This section of the file describes the patterns that "meta sets" can have (these sets are repeats of the same set with with one thing 
+# changing from one to the other)
+
+# In these patterns we define the neutral segment
+metaSetNeutralSegment = {"stroke": "freestyle",
+                         "equipment": "No equipment",
+                         "intensity": 5,
+                         "drill": "No drill",
+                         "kick": "No kick"} 
+
+# Pattern 1: The "Everything"
+# This pattern reflects "Fast free", "Fast form", "Fins", "Pull", "Kick"
+metaSetPatternEverything = [{"stroke": "freestyle",
+                             "equipment": "No equipment",
+                             "intensity": 8,
+                             "drill": "No drill",
+                             "kick": "No kick"},
+                             {"stroke": "backstroke",
+                             "equipment": "No equipment",
+                             "intensity": 8,
+                             "drill": "No drill",
+                             "kick": "No kick"},
+                             {"stroke": "breaststroke",
+                             "equipment": "No equipment",
+                             "intensity": 8,
+                             "drill": "No drill",
+                             "kick": "No kick"},
+                             {"stroke": "butterfly",
+                             "equipment": "No equipment",
+                             "intensity": 8,
+                             "drill": "No drill",
+                             "kick": "No kick"},
+                             {"stroke": "IM",
+                             "equipment": "No equipment",
+                             "intensity": 8,
+                             "drill": "No drill",
+                             "kick": "No kick"},
+                             {"stroke": "freestyle",
+                             "equipment": "fins",
+                             "intensity": 8,
+                             "drill": "No drill",
+                             "kick": "No kick"},
+                             {"stroke": "freestyle",
+                             "equipment": "pullBuoyAndPaddles",
+                             "intensity": 5,
+                             "drill": "No drill",
+                             "kick": "No kick"},
+                             {"stroke": "freestyle",
+                             "equipment": "No equipment",
+                             "intensity": 5,
+                             "drill": "No drill",
+                             "kick": "kick"}]
+
+# Pattern 2: Multi Strokes
+# This pattern alternates between different strokes: "IM", "backstroke", "breaststroke", "butterfly", "freestyle"
+metaSetPatternStrokes = [{"stroke": "IM",
+                          "equipment": "No equipment",
+                          "intensity": 8,
+                          "drill": "No drill",
+                          "kick": "No kick"}, 
+                          {"stroke": "backstroke",
+                          "equipment": "No equipment",
+                          "intensity": 8,
+                          "drill": "No drill",
+                          "kick": "No kick"}, 
+                          {"stroke": "breaststroke",
+                          "equipment": "No equipment",
+                          "intensity": 8,
+                          "drill": "No drill",
+                          "kick": "No kick"},
+                          {"stroke": "butterfly",
+                          "equipment": "No equipment",
+                          "intensity": 8,
+                          "drill": "No drill",
+                          "kick": "No kick"}, 
+                          {"stroke": "freestyle",
+                          "equipment": "No equipment",
+                          "intensity": 8,
+                          "drill": "No drill",
+                          "kick": "No kick"}]
+
+# Pattern 3: Multi Equipment
+# This pattern alternates between different equipment: "No equipment", "fins", "pullBuoyAndPaddles"
+metaSetPatternEquipment = [{"stroke": "freestyle",
+                            "equipment": "No equipment",
+                            "intensity": 8,
+                            "drill": "No drill",
+                            "kick": "No kick"},
+                            {"stroke": "freestyle",
+                            "equipment": "fins",
+                            "intensity": 8,
+                            "drill": "No drill",
+                            "kick": "No kick"},
+                            {"stroke": "freestyle",
+                            "equipment": "pullBuoyAndPaddles",
+                            "intensity": 5,
+                            "drill": "No drill",
+                            "kick": "No kick"}]
+
+# Just listing all the patterns in a dictionary
+metaSetPatterns = {"everything": metaSetPatternEverything,
+                   "stroke": metaSetPatternStrokes,
+                   "equipment": metaSetPatternEquipment}
+
+metaSetPatternProba = {"everything": 1/3,
+                       "stroke": 1/3, 
+                       "equipment": 1/3}
+
 ## BLOCK
 
 # Minimum and maximum values for a block distance (m)
@@ -257,6 +366,13 @@ minIntensity = 4
 maxIntensity = 10
 stepIntensity = 1
 
+# Creating a dictionary listing all these parameters, their values and their probas
+segmentParameterTypeProba = {"stroke": [strokeTypes, strokeProba],
+                             "equipment": [equipmentTypes, equipmentProba],
+                             "intensity": [np.arange(minIntensity, maxIntensity+1, stepIntensity), []],
+                             "drill": [drillTypes, drillProba],
+                             "kick": [kickTypes, kickProba]}
+
 # Definition of the path to the excel spreadsheet for the variation of parameters from one block to the other in a set
 segmentConstraintsPath = "/content/SwimSet/segmentConstraints.xlsx"
 
@@ -276,7 +392,7 @@ baseTimeParameters = {"distance": 100,
                       "stroke": "freestyle",
                       "equipment": "No equipment",
                       "drill": "No drill",
-                      "kick": "no kick"}
+                      "kick": "No kick"}
 
 # Times for the different strokes (i.e. for the stroke being listed as in strokeTypes; all other parameters being defined in baseTimeParameters)
 baseTimeStroke = [105, 150, 135, 150, 135]
