@@ -79,7 +79,7 @@ class MetaSet:
             # redefining the validPatternProba
             sumProba = sum(validPatternProba)
             for i in np.arange(len(validPatternProba)):
-                validPatternProba[i] = validPatternProba/sumProba
+                validPatternProba[i] = validPatternProba[i]/sumProba
 
             # Then picking a pattern randomly from validPatterns
             selPattern = np.random.choice(validPatterns, p=validPatternProba)
