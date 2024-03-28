@@ -89,6 +89,8 @@ class MetaSet:
 
             availableParameterSet = filteredPatterns[selPattern]
 
+            print(availableParameterSet)
+
             for i in np.arange(self.numberSets):
 
                 # Picking a random parameter set
