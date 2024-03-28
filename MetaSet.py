@@ -100,7 +100,7 @@ class MetaSet:
                 listFocusSegments.append(selParameterSet)
 
                 # Removing the selected set
-                availableParameterSet.pop(selParameterSet)
+                availableParameterSet.pop(availableParameterSet.index(selParameterSet))
 
             # Finally stroing the value in the attribute
             self.listFocusSegments = listFocusSegments
