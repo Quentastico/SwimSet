@@ -11,11 +11,14 @@ import utils
 class PyramidDistanceSet(Set):
 
     # Object initialisation
-    def __init__(self, distance, standardInit = False):
+    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
 
-        super().__init__(distance, standardInit = standardInit)
+        super().__init__(distance, standardInit=standardInit)
 
         self.type = "Pyramid Distance"
+        self.standardInit = standardInit # This attribute indicates if the set is created all automatically or not
+        self.neutralSegment = neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
+        self.focusSegment = focusSegment # This attribute will contain the value of the "focus segment"
         self.increasingBlockDistance = [] # This list will contain the list of the distances withtin the distance block
         self.increasingSet = None # This will contain the IncreasingDecreasingSet of the first half of the pyramid
 
@@ -70,7 +73,10 @@ class PyramidDistanceSet(Set):
 
         # We first create an Increasing/Decreasing Set based on the increasing block distance
         # Note: Here it is important to ensure that standardInit = False to avoid recreating the distance. 
-        increasingSet = IncreasingDecreasingDistanceSet(distance=np.sum(self.increasingBlockDistance), standardInit=False)
+        increasingSet = IncreasingDecreasingDistanceSet(distance=np.sum(self.increasingBlockDistance),
+                                                        standardInit=False,
+                                                        neutralSegment=self.neutralSegment,
+                                                        focusSegment=self.focusSegment)
 
         # We then need to force the block distance list &  the type (increase)
         increasingSet.listBlockDistance = np.flip(self.increasingBlockDistance) # Note: we reverse it as by defualt, the IncreaseDecreaseSet takes a decreasing distance pattern
