@@ -160,7 +160,7 @@ class Training:
 
       # 4. Then we create these sets
       for i in np.arange(len(listRepeatDistance)):
-        newSet = globals.setTypes[selSetType](distance=distance,
+        newSet = globals.setTypes[selSetType](distance=listRepeatDistance[0],
                                               standardInit=True,
                                               neutralSegment=metaSet.neutralSegment,
                                               focusSegment=metaSet.listFocusSegments[i])
