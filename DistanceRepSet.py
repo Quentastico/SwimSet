@@ -76,7 +76,7 @@ class DistanceRepSet(Set):
         # Either this is not a meta set: the variation will be random
         # Or we are in a meta set: the changing segment will be the same each time and dicated by the focusSegment characteristics
             
-        if self.neutralSegment is not None: 
+        if self.neutralSegment is None: 
 
             # 3. Then determine what parameter can change from one block to the other
             varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
