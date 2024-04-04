@@ -4,7 +4,6 @@
 
 import numpy as np
 from utils import pickDistances
-from utils import removeTypeProba
 from utils import pickSetType
 import globals
 from Set import Set
