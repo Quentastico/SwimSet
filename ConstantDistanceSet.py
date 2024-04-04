@@ -10,12 +10,15 @@ import utils
 class ConstantDistanceSet(Set):
 
     # Object initialisation
-    def __init__(self, distance, standardInit=False):
+    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
 
         super().__init__(distance=distance, standardInit=standardInit)
 
         self.type = "Constant Distance"
         self.listSegmentDistance = [] # This attribute will contain a list of the list of segment distances withtin each block
+        self.standardInit = standardInit # This attribute indicates if the set is created all automatically or not
+        self.neutralSegment = neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
+        self.focusSegment = focusSegment # This attribute will contain the value of the "focus segment"
 
         if self.standardInit:
             self.setBlockDistances()
@@ -104,41 +107,65 @@ class ConstantDistanceSet(Set):
                 newBlock = firstBlock.copy()
                 self.listBlock.append(newBlock)
 
-            # We then determine the parameter than will vary from one block to the other in the changing block
-            varyingParameters = changingSegment.getVaryingParameters()
+            # First case: this set is not part of a meta set: here we create a variation and change a single parameter in a segment from one block
+            # to the other
+            
+            if self.neutralSegment is None: 
 
-            # We then create a variation for this changing segment
-            variationSegment =  Variation(allowedVariation=globals.allowedVariationConstantDistance1,
-                                          varyingParameters=varyingParameters,
-                                          nBlocks=len(self.listBlockDistance),
-                                          standardInit=True)
-            self.variationSegment = variationSegment
+                # We then determine the parameter than will vary from one block to the other in the changing block
+                varyingParameters = changingSegment.getVaryingParameters()
 
-            # We then change the value of the changing parameter of the changing segment from one block to the other. 
-            # We also need to change the value of the other segments is there is any constraint brought by the changing segment
-            # Note this second change (on the non-changing segments) needs to happen here as for each block, the constraint may change ("same" values)
-            if variationSegment.selParameter is not None:
-                
-                indexBlock = 0
+                # We then create a variation for this changing segment
+                variationSegment =  Variation(allowedVariation=globals.allowedVariationConstantDistance1,
+                                            varyingParameters=varyingParameters,
+                                            nBlocks=len(self.listBlockDistance),
+                                            standardInit=True)
+                self.variationSegment = variationSegment
+
+                # We then change the value of the changing parameter of the changing segment from one block to the other. 
+                # We also need to change the value of the other segments is there is any constraint brought by the changing segment
+                # Note this second change (on the non-changing segments) needs to happen here as for each block, the constraint may change ("same" values)
+                if variationSegment.selParameter is not None:
+                    
+                    indexBlock = 0
+                    for block in self.listBlock:
+                        
+                        # Changing segment in the block
+                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
+                                                                                parameterValue=variationSegment.selParameterVariation[indexBlock])
+                        
+                        # Then determining the constraints on the non-changing segments
+                        constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(variationSegment.selParameter)
+                        
+                        # Non changing segment(s) in the block
+                        for indexSegment in nonChangingSegmentIndexes:
+
+                            # Applying the constratint(s), if any, on the other segments
+                            for parameter in constraintBaseSegment.keys():
+
+                                block.listSegment[indexSegment].setForcedParameter(parameterName=parameter,
+                                                                                   parameterValue=constraintBaseSegment[parameter])
+
+                        indexBlock += 1
+            
+            else: 
+
+                # We need to loop in all the block of the set
+                # The changing segment will be forced to have all the characetristics of the focus segments; 
+                # all the others will have the values of the neutral segment
+
                 for block in self.listBlock:
-                    
-                    # Changing segment in the block
-                    block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
-                                                                               parameterValue=variationSegment.selParameterVariation[indexBlock])
-                    
-                    # Then determining the constraints on the non-changing segments
-                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(variationSegment.selParameter)
-                    
-                    # Non changing segment(s) in the block
-                    for indexSegment in nonChangingSegmentIndexes:
 
-                        # Applying the constratint(s), if any, on the other segments
-                        for parameter in constraintBaseSegment.keys():
+                    for parameter in globals.listAllParameters:
 
+                        # Changing the values of the focus segment
+                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
+                                                                                   parameterValue=self.focusSegment[parameter])
+                        
+                        # Changing the values of the neutral segment(s)
+                        for indexSegment in nonChangingSegmentIndexes:
                             block.listSegment[indexSegment].setForcedParameter(parameterName=parameter,
-                                                                               parameterValue=constraintBaseSegment[parameter])
-
-                    indexBlock += 1
+                                                                               parameterValue=self.neutralSegment[parameter])
 
         # 2. Case 2: Increase/decrease split
         if self.sequenceType == "increaseDecreaseSplit":
@@ -164,38 +191,63 @@ class ConstantDistanceSet(Set):
             changingSegmentIndex = np.random.randint(0, 2)
             nonChangingSegmentIndex = np.delete(np.arange(2), changingSegmentIndex)[0]
             changingSegment = firstBlock.listSegment[changingSegmentIndex]
-            if changingSegmentIndex == 0:
-                allowedVariationConstantDistance = globals.allowedVariationConstantDistance21
+
+            # Then we have two cases: 
+            # Either this is not a meta set: the variation will be random
+            # Or we are in a meta set: the changing segment will be the same each time and dicated by the focusSegment characteristics
+
+            if self.neutralSegment is None: 
+
+                if changingSegmentIndex == 0:
+                    allowedVariationConstantDistance = globals.allowedVariationConstantDistance21
+                else: 
+                    allowedVariationConstantDistance = globals.allowedVariationConstantDistance22
+
+                # We then determine the parameter than can vary from one block to the other in the changing block
+                varyingParameters = changingSegment.getVaryingParameters()
+                
+                # We then determine what parameter will actually vary from one block to the other through the creation of a Variation
+                variationSegment =  Variation(allowedVariation=allowedVariationConstantDistance,
+                                            varyingParameters=varyingParameters,
+                                            nBlocks=len(self.listBlockDistance),
+                                            standardInit=True)
+                self.variationSegment = variationSegment                
+
+                # We finally adjust the changing segment withtin the block
+                if variationSegment.selParameter is not None:
+
+                    indexBlock = 0
+
+                    for block in self.listBlock:
+
+                        # changing segment
+                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+
+                        # Then determining the constraints on the non-changing segments
+                        constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(variationSegment.selParameter)
+
+                        # Non-changing segment
+                        for parameter in globals.listAllParameters:
+
+                            block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
+                                                                                        parameterValue=constraintBaseSegment[parameter])
+
+                        indexBlock += 1
+
             else: 
-                allowedVariationConstantDistance = globals.allowedVariationConstantDistance22
 
-            # We then determine the parameter than can vary from one block to the other in the changing block
-            varyingParameters = changingSegment.getVaryingParameters()
-            
-            # We then determine what parameter will actually vary from one block to the other through the creation of a Variation
-            variationSegment =  Variation(allowedVariation=allowedVariationConstantDistance,
-                                          varyingParameters=varyingParameters,
-                                          nBlocks=len(self.listBlockDistance),
-                                          standardInit=True)
-            self.variationSegment = variationSegment
-
-            # We finally adjust the changing segment withtin the block
-            if variationSegment.selParameter is not None:
-
-                indexBlock = 0
+                # We need to loop in all the block of the set
+                # The changing segment will be forced to have all the characetristics of the focus segments; 
+                # all the others will have the values of the neutral segment
 
                 for block in self.listBlock:
 
-                    # changing segment
-                    block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
-
-                    # Then determining the constraints on the non-changing segments
-                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(variationSegment.selParameter)
-
-                    # Non-changing segment
                     for parameter in globals.listAllParameters:
 
+                        # Changing the values of the focus segment
+                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
+                                                                                   parameterValue=self.focusSegment[parameter])
+                        
+                        # Changing the values of the neutral segment(s)
                         block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
-                                                                                      parameterValue=constraintBaseSegment[parameter])
-
-                    indexBlock += 1
+                                                                                      parameterValue=self.neutralSegment[parameter])
