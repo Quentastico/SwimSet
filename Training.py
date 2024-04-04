@@ -5,6 +5,7 @@
 import numpy as np
 from utils import pickDistances
 from utils import pickSetType
+from utils import removeTypeProba
 import globals
 from Set import Set
 from MetaSet import MetaSet
@@ -185,6 +186,35 @@ class Training:
         # 2. Then create the set and add it to the list
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
         self.listSet.append(newSet)
+
+  # Defining a util function to pick a set type
+  def pickSetType(distance):
+
+    # distance: the distance of the set (m)
+          
+    # Extraction of all the possible types of sets
+    possibleSetTypes = list(globals.setTypes.keys())
+          
+    # Initiating the while loop which will make sure that the set can be created
+    newSetListDistance = None
+    setProba = globals.setProba.copy()
+
+    while newSetListDistance is None:
+
+      # Picking a random set type
+      selSetType = np.random.choice(possibleSetTypes, p=setProba)
+
+      # Creating a new set
+      newSet = globals.setTypes[selSetType](distance=distance, standardInit=False)
+      newSet.setBlockDistance()
+      newSetListDistance = newSet.listBlockDistance
+
+      # Redefining the newSetListDistance (for the loop)
+      possibleSetTypes, setProba = removeTypeProba(typeArray=possibleSetTypes,
+                                                    probaArray=setProba,
+                                                    typeToRemove=selSetType)
+    
+    return selSetType
 
   # Creating an info method
   def info(self):
