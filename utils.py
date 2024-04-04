@@ -296,3 +296,5 @@ def pickSetType(distance):
     possibleSetTypes, setProba = removeTypeProba(typeArray=possibleSetTypes,
                                                   probaArray=setProba,
                                                   typeToRemove=selSetType)
+    
+  return selSetType
