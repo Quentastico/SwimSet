@@ -152,7 +152,7 @@ class Training:
         # Creating a new set
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
 
-        # Redefining the newSetListDistance
+        # Redefining the newSetListDistance (for the loop)
         newSetListDistance = newSet.listBlockDistance
 
         # Finding the index of the selected set type
