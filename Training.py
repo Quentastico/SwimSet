@@ -56,6 +56,9 @@ class Training:
       # 3.4. Determination of the distances of the sets (and number of sets)
       self.setSetDistances()
 
+      # 3.5. Creation of the sets
+      self.createSets()
+
 
   # Method to determine the warmup distance
   def setWarmupDistance(self):
@@ -169,7 +172,7 @@ class Training:
       for distance in listNonRepeatDistance:
 
         # First select the type of the set
-        selSetType = pickSetType(distance=distance)
+        selSetType = self.pickSetType(distance=distance)
 
         # Then create the set and add it to the list
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
@@ -180,7 +183,7 @@ class Training:
       for distance in self.listSetDistance:
 
         # 1. First select the type of the set
-        selSetType = pickSetType(distance=distance)
+        selSetType = self.pickSetType(distance=distance)
 
         # 2. Then create the set and add it to the list
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
