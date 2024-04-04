@@ -4,14 +4,17 @@ import globals
 class MetaSet:
 
     # Initialisation function
-    def __init__(self, distance, setType, numberSets):
+    def __init__(self, numberSets, standardInit=False):
 
         # Definition of attributes
-        self.distance = distance # The distance of the set that will be repeated in the MetaSet (in m)
-        self.setType = setType # The type of sets that will be created among the collection of sets
         self.numberSets = numberSets # The number of repeats for this set in the meta set
+        self.standardInit = standardInit # This determines if this meta set initiates itself or will be done manually
         self.neutralSegment = {}
         self.listFocusSegments = []
+
+        if self.standardInit == True: 
+            self.selectNeutralSegment()
+            self.selectFocusSegment()
 
     # Method to select the neutral segment
     def selectNeutralSegment(self):
