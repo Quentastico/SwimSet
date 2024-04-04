@@ -190,7 +190,7 @@ class Training:
         self.listSet.append(newSet)
 
   # Defining a util function to pick a set type
-  def pickSetType(distance):
+  def pickSetType(self, distance):
 
     # distance: the distance of the set (m)
           
