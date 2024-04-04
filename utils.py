@@ -1,5 +1,6 @@
 import numpy as np
 from itertools import product
+import globals
 
 # Tool function that picks a random distance between two min and max values
 def pickDistance(minValue, maxValue, avValue, stepDistance):
@@ -268,3 +269,30 @@ def removeTypeProba(typeArray, probaArray, typeToRemove):
     probas[i] = probas[i]/sumProbas
 
   return types, probas
+
+# function that determines the type of a set randomly given a distance
+def pickSetType(distance):
+
+  # distance: the distance of the set (m)
+        
+  # Extraction of all the possible types of sets
+  possibleSetTypes = list(globals.setTypes.keys())
+        
+  # Initiating the while loop which will make sure that the set can be created
+  newSetListDistance = None
+  setProba = globals.setProba.copy()
+
+  while newSetListDistance is None:
+
+    # Picking a random set type
+    selSetType = np.random.choice(possibleSetTypes, p=setProba)
+
+    # Creating a new set
+    newSet = globals.setTypes[selSetType](distance=distance, standardInit=False)
+    newSet.setBlockDistance()
+    newSetListDistance = newSet.listBlockDistance
+
+    # Redefining the newSetListDistance (for the loop)
+    possibleSetTypes, setProba = removeTypeProba(typeArray=possibleSetTypes,
+                                                  probaArray=setProba,
+                                                  typeToRemove=selSetType)

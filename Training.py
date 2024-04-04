@@ -4,8 +4,11 @@
 
 import numpy as np
 from utils import pickDistances
+from utils import removeTypeProba
+from utils import pickSetType
 import globals
 from Set import Set
+from MetaSet import MetaSet
 
 class Training:
 
@@ -24,6 +27,7 @@ class Training:
     self.standardInit = standardInit
     self.trainingType = None # This indicates what type of training it will be (repeat sets or random)
     self.nSetRepeat = None # IN the case of a repeat set trainig, thi indicates how many sets will repeat at the start of the training
+    self.combo = [] # In the case of a repeat set training, this is the combo defining the distances
 
     # 2. DATA CHECKS
 
@@ -114,6 +118,7 @@ class Training:
       # We first need to choose a random combo
       selComboIndex = np.random.randint(len(combos))
       selCombo = combos[selComboIndex]
+      self.combo = selCombo.copy()
 
       # Then we extract the distances
       self.listSetDistance = selCombo[0] + selCombo[1]
@@ -135,36 +140,52 @@ class Training:
   # Creation of the Sets
   def createSets(self):
 
-    for distance in self.listSetDistance:
+    # Here we have two ways to create the sets
+    # If we are in a distance Set format, then we need to repeat the same type of set logically
+    # with some changes according to a pattern (this is what metaSet is for)
+    # But if we are not in a meta set, then we need to be more random.
 
-      # Extraction of all the possible types of sets
-      possibleSetTypes = list(globals.setTypes.keys())
-      
-      # Initiating the while loop which will make sure that the set can be created
-      newSetListDistance = None
-      setProba = globals.setProba.copy()
+    if self.trainingType == "Set Rep Training": #Meta set
 
-      while newSetListDistance is None:
+      # 1. We first create the repeating sets
+      listRepeatDistance = self.combo[0]
 
-        # Picking a random set type
-        selSetType = np.random.choice(possibleSetTypes, p=setProba)
+      # 2. We then determine randomly the set type for this repeat set
+      selSetType = pickSetType(distance=listRepeatDistance[0])
 
-        # Creating a new set
+      # 3. Making the meta Set that will determine the pattern to follow in these first sets
+      metaSet = MetaSet(numberSets=len(listRepeatDistance), standardInit=True)
+
+      # 4. Then we create these sets
+      for i in np.arange(len(listRepeatDistance)):
+        newSet = globals.setTypes[selSetType](distance=distance,
+                                              standardInit=True,
+                                              neutralSegment=metaSet.neutralSegment,
+                                              focusSegment=metaSet.listFocusSegments[i])
+        self.listSet.append(newSet)
+
+      # 5. then for the remaining sets, we just create random sets each time
+      listNonRepeatDistance = self.combo[1]
+
+      for distance in listNonRepeatDistance:
+
+        # First select the type of the set
+        selSetType = pickSetType(distance=distance)
+
+        # Then create the set and add it to the list
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
+        self.listSet.append(newSet)
 
-        # Redefining the newSetListDistance (for the loop)
-        newSetListDistance = newSet.listBlockDistance
+    if self.trainingType == "Random Training": # Random Training
 
-        # Finding the index of the selected set type
-        indexSelSetType = possibleSetTypes.index(selSetType)        
+      for distance in self.listSetDistance:
 
-        # Removing the possibleSetTypes from the list and redefining the proba
-        possibleSetTypes.pop(indexSelSetType)
-        setProba.pop(indexSelSetType)
-        sumProba = sum(setProba)
-        setProba = [setProba[i] / sumProba for i in np.arange(len(setProba))]
+        # 1. First select the type of the set
+        selSetType = pickSetType(distance=distance)
 
-      self.listSet.append(newSet)
+        # 2. Then create the set and add it to the list
+        newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
+        self.listSet.append(newSet)
 
   # Creating an info method
   def info(self):
