@@ -153,7 +153,7 @@ class Training:
       listRepeatDistance = self.combo[0]
 
       # 2. We then determine randomly the set type for this repeat set
-      selSetType = pickSetType(distance=listRepeatDistance[0])
+      selSetType = self.pickSetType(distance=listRepeatDistance[0])
 
       # 3. Making the meta Set that will determine the pattern to follow in these first sets
       metaSet = MetaSet(numberSets=len(listRepeatDistance), standardInit=True)
