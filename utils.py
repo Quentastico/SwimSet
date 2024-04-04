@@ -1,6 +1,5 @@
 import numpy as np
 from itertools import product
-import globals
 
 # Tool function that picks a random distance between two min and max values
 def pickDistance(minValue, maxValue, avValue, stepDistance):
