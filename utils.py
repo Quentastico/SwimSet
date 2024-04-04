@@ -264,7 +264,7 @@ def removeTypeProba(typeArray, probaArray, typeToRemove):
 
   # Making sure the sum of probas are still equal to 0
   sumProbas = sum(probas)
-  for i in np.arange(probas):
+  for i in np.arange(len(probas)):
     probas[i] = probas[i]/sumProbas
 
   return types, probas
