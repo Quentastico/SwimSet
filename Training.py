@@ -208,7 +208,7 @@ class Training:
 
       # Creating a new set
       newSet = globals.setTypes[selSetType](distance=distance, standardInit=False)
-      newSet.setBlockDistance()
+      newSet.setBlockDistances()
       newSetListDistance = newSet.listBlockDistance
 
       # Redefining the newSetListDistance (for the loop)

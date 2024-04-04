@@ -31,7 +31,7 @@ class FrequencyIncreaseSet(Set):
                 self.finalise()
 
     # Method to determine the specific distance combo
-    def setBlockDistance(self):
+    def setBlockDistances(self):
 
         # 1. We first need to get all the possible scores by using the appropriate utils function
         optionCombos, scores = splitSetFrequencyIncrease(distance=self.distance,

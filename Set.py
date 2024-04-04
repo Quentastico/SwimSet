@@ -25,7 +25,7 @@ class Set:
   def finalise(self):
 
     # Initialisasing the duration of the set
-    self.duration =0
+    self.duration = 0
 
     # Looping on all the blocks withtin the set
     for block in self.listBlock:
