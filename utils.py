@@ -243,3 +243,28 @@ def convertDuration(duration):
   durationSeconds = int(np.round((duration-60*durationMinutes)/5) * 5)
 
   return durationMinutes, durationSeconds
+
+# function that removes a type in a given array and also removes the corresponding proba value in an associated array
+def removeTypeProba(typeArray, probaArray, typeToRemove):
+  
+  # typeArray: An array of types (usually of strings)
+  # typeProba: An array of probas (normally all between 0 and 1)
+  # typeToRemove: A value that is in "typeArray" that needs to be removed
+
+  # Making copies of the arrays
+  types = typeArray.copy()
+  probas = probaArray.copy()
+
+  # Finding the index of the type to remove
+  index = typeArray.index(typeToRemove)
+
+  # Removing the non-wanted values
+  types.remove(typeToRemove)
+  probas.pop(index)
+
+  # Making sure the sum of probas are still equal to 0
+  sumProbas = sum(probas)
+  for i in np.arange(probas):
+    probas[i] = probas[i]/sumProbas
+
+  return types, probas

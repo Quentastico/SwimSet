@@ -3,11 +3,11 @@
 import numpy as np
 import globals
 from utils import splitSetIncreaseDecrease
+from utils import removeTypeProba
 from Block import Block
 from Set import Set
 from Variation import Variation
 from Segment import Segment
-import utils
 
 # Note: this class was coded by assuming that the set will DECREASE in length from one set to the other
 # Note: At the end of the set creation, it is therefore important to decide if the set will increase or decrease in block distance and potentially flip the set if required. 
@@ -15,12 +15,15 @@ import utils
 class IncreasingDecreasingDistanceSet(Set):
 
     # Object initialisation
-    def __init__(self, distance, standardInit = False):
+    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
 
         super().__init__(distance=distance, standardInit=standardInit)
 
         self.type = "Increasing/Decreasing Distance"
         self.increaseDecrease = "" # This attribute will determine if the set will have blocks increasing or decreasing in length
+        self.standardInit = standardInit # This attribute indicates if the set is created all automatically or not
+        self.neutralSegment = neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
+        self.focusSegment = focusSegment # This attribute will contain the value of the "focus segment"
 
         if self.standardInit:
             self.setBlockDistances()
@@ -53,21 +56,27 @@ class IncreasingDecreasingDistanceSet(Set):
     def setSequenceType(self):
 
         # Just picking a random type from available options
-        # Note: it must be ensured that for the "half-half" scheme to be selected, half of the minimal block distance is higher than the minimal segment distance
-        
-        if np.min(self.listBlockDistance)/2 >= globals.minSegmentDistance:
-            self.sequenceType = np.random.choice(globals.splitTypeIncreaseDecreaseDistance, p=globals.splitProbaIncreaseDecreaseDistance)
-        else:
-            splitType = globals.splitTypeIncreaseDecreaseDistance.copy()
-            splitProba = globals.splitProbaIncreaseDecreaseDistance.copy()
-            halfHalfIndex = splitType.index("halfHalf")
-            splitType.remove("halfHalf")
-            splitProba.pop(halfHalfIndex)
-            newSumProba = np.sum(splitProba)
-            for i in np.arange(len(splitProba)):
-                splitProba[i] = splitProba[i]/newSumProba
-            self.sequenceType = np.random.choice(splitType, p=splitProba)
+        # Note: In the case of a metaSet, we also need to remove the type "buildblock" - not relevant at all
+        # Note': it must be ensured that for the "half-half" scheme to be selected, half of the minimal block distance is higher than the minimal segment distance
 
+        # Creating copies of the splitType and splitProba arrays from globals
+        splitType = globals.splitTypeIncreaseDecreaseDistance.copy()
+        splitProba = globals.splitProbaIncreaseDecreaseDistance.copy()
+
+        # Removal of the "buildblock" for the metaSet
+        if self.neutralSegment is not None: 
+            splitType, splitProba = removeTypeProba(typeArray=splitType,
+                                                    probaArray=splitProba,
+                                                    typeToRemove="buildBlock")
+            
+        # Removal of the type halfHalf if the half distance of the block is too small
+        if np.min(self.listBlockDistance)/2 < globals.minSegmentDistance:
+            splitType, splitProba = removeTypeProba(typeArray=splitType,
+                                                    probaArray=splitProba,
+                                                    typeToRemove="halfHalf")
+        
+        # Picking a type in the remaining options available
+        self.sequenceType = np.random.choice(splitType, p=splitProba)
 
     # Method to create the blocks of the set
     def createBlocks(self):
@@ -88,22 +97,42 @@ class IncreasingDecreasingDistanceSet(Set):
                 newBlock.listSegment[0].distance = blockDistance
                 self.listBlock.append(newBlock)
 
-            # We then determine what can change from one block to another 
-            varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
+            # Then we have two cases: 
+            # Either this is not a meta set: the variation will be random
+            # Or we are in a meta set: the changing segment will be the same each time and dicated by the focusSegment characteristics
+                
+            if self.neutralSegment is None:
 
-            # We then select the parameter that will change and its values through the creation of a variation
-            variationSegment =  Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance1,
-                                          varyingParameters=varyingParameters,
-                                          nBlocks=len(self.listBlockDistance),
-                                          standardInit=True)
-            self.variationSegment = variationSegment
+                # We then determine what can change from one block to another 
+                varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
 
-            # We then change the relevant parameter in the blocks
-            if variationSegment.selParameter is not None:
-                indexBlock = 0
+                # We then select the parameter that will change and its values through the creation of a variation
+                variationSegment =  Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance1,
+                                            varyingParameters=varyingParameters,
+                                            nBlocks=len(self.listBlockDistance),
+                                            standardInit=True)
+                self.variationSegment = variationSegment
+
+                # We then change the relevant parameter in the blocks
+                if variationSegment.selParameter is not None:
+                    indexBlock = 0
+                    for block in self.listBlock:
+                        block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+                        indexBlock += 1
+
+            else: 
+
+                # We need to loop in all the block of the set
+                # The changing segment will be forced to have all the characetristics of the focus segments; 
+                # all the others will have the values of the neutral segment
+
                 for block in self.listBlock:
-                    block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
-                    indexBlock += 1
+
+                    for parameter in globals.listAllParameters:
+
+                        # Changing the values of the focus segment - The only segment in this case
+                        block.listSegment[0].setForcedParameter(parameterName=parameter,
+                                                                parameterValue=self.focusSegment[parameter])
 
         # Case 2: "Half-half"
         if self.sequenceType=="halfHalf":
@@ -130,37 +159,61 @@ class IncreasingDecreasingDistanceSet(Set):
             changingSegmentIndex = np.random.randint(0, 2)
             nonChangingSegmentIndex = np.delete(np.arange(2), changingSegmentIndex)[0]
 
-            # Then we need to determine what parameters can vary from one block to the other from this segment
-            varyingParameters = firstBlock.listSegment[changingSegmentIndex].getVaryingParameters()
+            # Then we have two cases: 
+            # Either this is not a meta set: the variation will be random
+            # Or we are in a meta set: the changing segment will be the same each time and dicated by the focusSegment characteristics
 
-            # We then select the parameter that will change and its values through the creation of a variation
-            variationSegment =  Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance2,
-                                          varyingParameters=varyingParameters,
-                                          nBlocks=len(self.listBlockDistance),
-                                          standardInit=True)
-            self.variationSegment = variationSegment
+            if self.neutralSegment is None: 
 
-            # We then change the relevant parameter in the blocks for the changing segment and the non-changing segment
-            if variationSegment.selParameter is not None:
+                # Then we need to determine what parameters can vary from one block to the other from this segment
+                varyingParameters = firstBlock.listSegment[changingSegmentIndex].getVaryingParameters()
 
-                indexBlock = 0
+                # We then select the parameter that will change and its values through the creation of a variation
+                variationSegment =  Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance2,
+                                            varyingParameters=varyingParameters,
+                                            nBlocks=len(self.listBlockDistance),
+                                            standardInit=True)
+                self.variationSegment = variationSegment
+
+                # We then change the relevant parameter in the blocks for the changing segment and the non-changing segment
+                if variationSegment.selParameter is not None:
+
+                    indexBlock = 0
+
+                    for block in self.listBlock:
+
+                        # Changing segment
+                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
+                                                                parameterValue=variationSegment.selParameterVariation[indexBlock])
+                        
+                        # Getting the constraits created by the changing segment on the non-changing segment
+                        constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
+
+                        # Changing all the parameters values in the non-changing segment
+                        for parameter in globals.listAllParameters:
+
+                            block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
+                                                                                        parameterValue=constraintBaseSegment[parameter])
+
+                        indexBlock += 1
+
+            else: 
+
+                # We need to loop in all the block of the set
+                # The changing segment will be forced to have all the characetristics of the focus segments; 
+                # all the others will have the values of the neutral segment
 
                 for block in self.listBlock:
 
-                    # Changing segment
-                    block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
-                                                            parameterValue=variationSegment.selParameterVariation[indexBlock])
-                    
-                    # Getting the constraits created by the changing segment on the non-changing segment
-                    constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
-
-                    # Changing all the parameters values in the non-changing segment
                     for parameter in globals.listAllParameters:
 
+                        # Changing the values of the focus segment
+                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
+                                                                                   parameterValue=self.focusSegment[parameter])
+                        
+                        # Changing the values of the neutral segment(s)
                         block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
-                                                                                      parameterValue=constraintBaseSegment[parameter])
-
-                    indexBlock += 1
+                                                                                      parameterValue=self.neutralSegment[parameter])
 
         # Case 3: constant bit + changing bit
         if self.sequenceType == "constantChanging":
@@ -188,40 +241,68 @@ class IncreasingDecreasingDistanceSet(Set):
                     newBlock.listSegment = [firstBlock.listSegment[1].copy()]
                     newBlock.listSegment[0].distance = constantDistance
                 self.listBlock.append(newBlock)
+
+            # Then we define what segment will vary from one block to the other
+            changingSegmentIndex = 0 # The first segment (which changes in distance)
+            nonChangingSegmentIndex = 1 # The last segment - which keeps a constant distance
+
+            # Then we have two cases: 
+            # Either this is not a meta set: the variation will be random
+            # Or we are in a meta set: the changing segment will be the same each time and dicated by the focusSegment characteristics
+
+            if self.neutralSegment is None: 
             
-            # We then determine the parameters that can vary for the first segment
-            varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
+                # We then determine the parameters that can vary for the first segment
+                varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
 
-            # We then determine the parameter that will actually vary from one block to the other through the creation of a Variation
-            variationSegment =  Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance3,
-                                          varyingParameters=varyingParameters,
-                                          nBlocks=len(self.listBlockDistance),
-                                          standardInit=True)
-            self.variationSegment = variationSegment
+                # We then determine the parameter that will actually vary from one block to the other through the creation of a Variation
+                variationSegment =  Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance3,
+                                            varyingParameters=varyingParameters,
+                                            nBlocks=len(self.listBlockDistance),
+                                            standardInit=True)
+                self.variationSegment = variationSegment
 
-            # We then modify the first segment accordingly (the changing one) and the last one (the non-changing one)
-            if variationSegment.selParameter is not None:
+                # We then modify the first segment accordingly (the changing one) and the last one (the non-changing one)
+                if variationSegment.selParameter is not None:
 
-                indexBlock = 0
+                    indexBlock = 0
 
-                for block in self.listBlock[:-1]:
+                    for block in self.listBlock[:-1]:
 
-                    # Changing segment
-                    block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter,
-                                                            parameterValue=variationSegment.selParameterVariation[indexBlock])
+                        # Changing segment
+                        block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter,
+                                                                parameterValue=variationSegment.selParameterVariation[indexBlock])
 
-                    # Getting the constraits created by the changing segment on the non-changing segment
-                    constraintBaseSegment = block.listSegment[0].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
+                        # Getting the constraits created by the changing segment on the non-changing segment
+                        constraintBaseSegment = block.listSegment[0].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
 
-                    # Changing all the parameters values in the non-changing segment
+                        # Changing all the parameters values in the non-changing segment
+                        for parameter in globals.listAllParameters:
+
+                            block.listSegment[1].setForcedParameter(parameterName=parameter,
+                                                                    parameterValue=constraintBaseSegment[parameter])
+
+                        indexBlock += 1
+
+            else: 
+
+                # We need to loop in all the block of the set
+                # The changing segment will be forced to have all the characetristics of the focus segments; 
+                # all the others will have the values of the neutral segment
+
+                for block in self.listBlock:
+
                     for parameter in globals.listAllParameters:
 
-                        block.listSegment[1].setForcedParameter(parameterName=parameter,
-                                                                parameterValue=constraintBaseSegment[parameter])
-
-                    indexBlock += 1
+                        # Changing the values of the focus segment
+                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
+                                                                                   parameterValue=self.focusSegment[parameter])
+                        
+                        # Changing the values of the neutral segment(s)
+                        block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
+                                                                                      parameterValue=self.neutralSegment[parameter])
             
-            # We then choose to flip or not the order of the segment in each block
+            # We finally choose to flip or not the order of the segment in each block
             flip = np.random.choice([True, False])
             if flip:
                 for block in self.listBlock:
