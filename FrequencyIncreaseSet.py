@@ -10,12 +10,15 @@ from Variation import Variation
 class FrequencyIncreaseSet(Set):
 
     # Object initialisation
-    def __init__(self, distance, standardInit=False):
+    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
 
         super().__init__(distance=distance, standardInit=standardInit)
 
         self.type = "Frequency Increase"
         self.selCombo = [] # The combination that is reatined, in the format n, d, where n is the number of segments in a bunch and d is the segment length
+        self.standardInit = standardInit # This attribute indicates if the set is created all automatically or not
+        self.neutralSegment = neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
+        self.focusSegment = focusSegment # This attribute will contain the value of the "focus segment"
 
         if self.standardInit:
 
@@ -61,36 +64,61 @@ class FrequencyIncreaseSet(Set):
     # Method to create the blocks
     def createBlocks(self):
 
-        # 1. First we create a "base" segment, which will be random
-        baseSegment = Segment(distance=self.selCombo[1])
-        baseSegment.setRandomAll()
+        # In a first part of the code, we will aime to create the "base segment" and the "special segment"
+        # The base segment will repeat multiple times
+        # The special segment will not repeat as often, but will be the focus of the swimmer
+        # We have two ways to generate these two segments
+        # Either randomly 
+        # Or according to a meta-pattern if we are in a meta set
 
-        # Note that we need to remove the pullBuoyandPaddles option for this one as otherwise there won't be any option for a variation
-        if baseSegment.equipment == "pullBuoyAndPaddles":
-            baseSegment.setForcedParameter(parameterName="equipment", parameterValue="No equipment")
+        # Case of the random defintiion of the two segments
+        if self.neutralSegment is None: 
 
-        # 2. Then we determine what can vary from this segment
-        varyingParameters = baseSegment.getVaryingParameters()
+            # 1. First we create a "base" segment, which will be random
+            baseSegment = Segment(distance=self.selCombo[1])
+            baseSegment.setRandomAll()
 
-        # 3. We then create a variation that will determine what parameters will actually change from the base segment to the special segment
-        variationSegment = Variation(allowedVariation=globals.allowedVariationFrequencyIncrease1, 
-                                     varyingParameters=varyingParameters, 
-                                     nBlocks=2, 
-                                     standardInit=True)
-        self.variationSegment = variationSegment
+            # Note that we need to remove the pullBuoyandPaddles option for this one as otherwise there won't be any option for a variation
+            if baseSegment.equipment == "pullBuoyAndPaddles":
+                baseSegment.setForcedParameter(parameterName="equipment", parameterValue="No equipment")
 
-        # 4. We then change the value of baseSegment parameter which is supposed to change
-        baseSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[0])
+            # 2. Then we determine what can vary from this segment
+            varyingParameters = baseSegment.getVaryingParameters()
 
-        # 5. We then create the special Segment
-        specialSegment = baseSegment.copy()
-        specialSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[1])
+            # 3. We then create a variation that will determine what parameters will actually change from the base segment to the special segment
+            variationSegment = Variation(allowedVariation=globals.allowedVariationFrequencyIncrease1, 
+                                        varyingParameters=varyingParameters, 
+                                        nBlocks=2, 
+                                        standardInit=True)
+            self.variationSegment = variationSegment
 
-        # 6. We then apply to the base segment the constraints created by the newly created special segment
-        constraintBaseSegment = specialSegment.getBaseSegmentParameters(selParameter=variationSegment.selParameter)
-        for parameter in constraintBaseSegment:
-            baseSegment.setForcedParameter(parameterName=parameter, parameterValue=constraintBaseSegment[parameter])
+            # 4. We then change the value of baseSegment parameter which is supposed to change
+            baseSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[0])
 
+            # 5. We then create the special Segment
+            specialSegment = baseSegment.copy()
+            specialSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[1])
+
+            # 6. We then apply to the base segment the constraints created by the newly created special segment
+            constraintBaseSegment = specialSegment.getBaseSegmentParameters(selParameter=variationSegment.selParameter)
+            for parameter in constraintBaseSegment:
+                baseSegment.setForcedParameter(parameterName=parameter, parameterValue=constraintBaseSegment[parameter])
+
+        # Case of a meta-set: the two segments are defined by neutralSegment and focusSegment
+        else:
+
+            # Base segment: set by neutralSegment characteristics
+            baseSegment = Segment(distance=self.selCombo[1])
+            for parameter in globals.listAllParameters:
+                baseSegment.setForcedParameter(parameterName=parameter,
+                                               parameterValue=self.neutralSegment[parameter])
+                
+            # Special segment: set by the focusSegment characteristics
+            specialSegment = baseSegment.copy()
+            for parameter in globals.listAllParameters:
+                specialSegment.setForcedParameter(parameterName=parameter,
+                                                  parameterValue=self.focusSegment[parameter])
+        
         # 7. We then need to create the blocks "from scratch" by collating the baseSegment and the specialSegment at a given frequency
 
         # 7.1. Extracting the useful combo parameters
@@ -119,3 +147,4 @@ class FrequencyIncreaseSet(Set):
                 newBlock.listSegment += subBlocks
 
             self.listBlock.append(newBlock)
+
