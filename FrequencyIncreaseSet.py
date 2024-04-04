@@ -23,7 +23,7 @@ class FrequencyIncreaseSet(Set):
         if self.standardInit:
 
             # Defining the distance list of this block in the set
-            self.setBlockDistance()
+            self.setBlockDistances()
 
             # Then making sure that the distance list for the block has been defined
             if self.listBlockDistance is not None: 
