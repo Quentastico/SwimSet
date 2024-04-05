@@ -57,6 +57,8 @@ class Set:
       newBlock = block.copy()
       newSet.listBlock.append(newBlock)
 
+    return newSet
+
   # Info method        
   def info(self):
 
