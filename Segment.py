@@ -17,6 +17,7 @@ class Segment:
     self.duration = None # Duration of the segment (in seconds)
     self.drill = None # Whether this segment is a drill segment
     self.kick = None # Whether this segment is kick
+    self.focus = False # This attribute indicates if this segment is the focus of the block (Boolean)
 
   # Method to set the equipment
   def setRandomEquipment(self):
@@ -271,6 +272,7 @@ class Segment:
     newSegment.duration = self.duration
     newSegment.drill = self.drill
     newSegment.kick = self.kick
+    newSegment.focus = self.focus
 
     return newSegment
 
@@ -308,7 +310,13 @@ class Segment:
     else: 
       printDuration = ""
 
+    # Focus
+    if self.focus:
+      printFocus = " *"
+    else:
+      printFocus = ""
+
     # intensity
     printIntensity = "Intensity: " + str(self.intensity) + " "
 
-    print("    SEGMENT: " + printDistance + printKick + printStroke + printEquipment + printDrill + printIntensity + printDuration)
+    print("    SEGMENT: " + printDistance + printKick + printStroke + printEquipment + printDrill + printIntensity + printDuration + printFocus)

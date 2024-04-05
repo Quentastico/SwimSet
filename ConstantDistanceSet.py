@@ -12,13 +12,10 @@ class ConstantDistanceSet(Set):
     # Object initialisation
     def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
 
-        super().__init__(distance=distance, standardInit=standardInit)
+        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
 
         self.type = "Constant Distance"
-        self.listSegmentDistance = [] # This attribute will contain a list of the list of segment distances withtin each block
-        self.standardInit = standardInit # This attribute indicates if the set is created all automatically or not
-        self.neutralSegment = neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
-        self.focusSegment = focusSegment # This attribute will contain the value of the "focus segment"
+        self.listSegmentDistance = [] # This attribute will contain a list of the list of segment distances within each block
 
         if self.standardInit:
             self.setBlockDistances()
@@ -134,6 +131,9 @@ class ConstantDistanceSet(Set):
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
                                                                                 parameterValue=variationSegment.selParameterVariation[indexBlock])
                         
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[changingSegmentIndex].focus = True
+                        
                         # Then determining the constraints on the non-changing segments
                         constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(variationSegment.selParameter)
                         
@@ -161,6 +161,9 @@ class ConstantDistanceSet(Set):
                         # Changing the values of the focus segment
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                    parameterValue=self.focusSegment[parameter])
+                        
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[changingSegmentIndex].focus = True
                         
                         # Changing the values of the neutral segment(s)
                         for indexSegment in nonChangingSegmentIndexes:
@@ -221,7 +224,11 @@ class ConstantDistanceSet(Set):
                     for block in self.listBlock:
 
                         # changing segment
-                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
+                                                                                   parameterValue=variationSegment.selParameterVariation[indexBlock])
+                        
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[changingSegmentIndex].focus = True
 
                         # Then determining the constraints on the non-changing segments
                         constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(variationSegment.selParameter)
@@ -247,6 +254,9 @@ class ConstantDistanceSet(Set):
                         # Changing the values of the focus segment
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                    parameterValue=self.focusSegment[parameter])
+                        
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[changingSegmentIndex].focus = True
                         
                         # Changing the values of the neutral segment(s)
                         block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,

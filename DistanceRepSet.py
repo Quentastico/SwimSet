@@ -11,13 +11,10 @@ class DistanceRepSet(Set):
     # Object initialisation
     def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
 
-        super().__init__(distance=distance, standardInit=standardInit)
+        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
 
         self.type = "Distance Rep"
         self.increaseDecrease = "" # This attribute will determine if the set will have blocks increasing or decreasing in length
-        self.standardInit = standardInit # This attribute indicates if the set is created all automatically or not
-        self.neutralSegment = neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
-        self.focusSegment = focusSegment # This attribute will contain the value of the "focus segment"
 
         if self.standardInit:
 
@@ -93,14 +90,21 @@ class DistanceRepSet(Set):
             # 5. Then changing the value of the changing parameter from one block to the other
             # Note that when populating the value of the parameter, it is important to keep the value constant unless the distance of the block changes. 
             if variationSegment.selParameter is not None: 
+
                 indexBlockDistance = 0
                 indexBlock = 0
+
                 for block in self.listBlock:
+
                     if indexBlock > 0:
+                        # Checking if there is there is a change of distance
                         if self.listBlockDistance[indexBlock-1] != self.listBlockDistance[indexBlock]:
                             indexBlockDistance += 1
                     block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, 
                                                             parameterValue=variationSegment.selParameterVariation[indexBlockDistance])
+                    
+                    # Then marking the changing segment as the "focus segment"
+                    block.listSegment[0].focus = True
                     indexBlock += 1
 
         else: 
@@ -116,6 +120,9 @@ class DistanceRepSet(Set):
                     # Changing the values of the unique segment we have per block to align with the focus segment
                     block.listSegment[0].setForcedParameter(parameterName=parameter,
                                                             parameterValue=self.focusSegment[parameter])
+                    
+                    # Then marking the changing segment as the "focus segment"
+                    block.listSegment[0].focus = True
 
         # 6. Finally flipping the block if necessary
         if self.increaseDecrease == "decrease":
