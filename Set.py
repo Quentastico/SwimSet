@@ -42,8 +42,10 @@ class Set:
     
     # Copying all the attribute values of the set - With the exception of the list of blocks
     newSet.standardInit = self.standardInit # This indicates if the set will be defined automatically during the init or not
-    newSet.neutralSegment = self.neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
-    newSet.focusSegment = self.focusSegment # This attribute will contain the value of the "focus segment"
+    if self.neutralSegment is not None:
+      newSet.neutralSegment = self.neutralSegment.copy() # This attribute will contain the value of the "neutral segment" in the case of a metaset
+    if self.focusSegment is not None:
+      newSet.focusSegment = self.focusSegment.copy() # This attribute will contain the value of the "focus segment"
     newSet.type = self.type # Type of variation of distances for the different blocks composing the Set
     newSet.listBlockDistance = self.listBlockDistance.copy() # List of the distances of the block composing the set (in m)
     #newSet.listBlock = [] # List of the block objects that will compose the Set
