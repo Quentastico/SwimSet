@@ -158,13 +158,17 @@ class Training:
       # 3. Making the meta Set that will determine the pattern to follow in these first sets
       metaSet = MetaSet(numberSets=len(listRepeatDistance), standardInit=True)
 
-      # 4. Then we create these sets
-      for i in np.arange(len(listRepeatDistance)):
-        newSet = globals.setTypes[selSetType](distance=listRepeatDistance[0],
+      # 4. Then we create the first set of the series
+      firstSet = globals.setTypes[selSetType](distance=listRepeatDistance[0],
                                               standardInit=True,
                                               neutralSegment=metaSet.neutralSegment,
-                                              focusSegment=metaSet.listFocusSegments[i])
-        self.listSet.append(newSet)
+                                              focusSegment=metaSet.listFocusSegments[0])
+      
+      # 5. Then we create the following sets by copying the first set using the newFocusCopy() method of set
+      if len(listRepeatDistance) > 1:
+        for i in np.arange(len(listRepeatDistance)-1):
+          newSet = firstSet.newFocusCopy(newFocusSegment=metaSet.listFocusSegments[i+1])
+          self.listSet.append(newSet)
 
       # 5. then for the remaining sets, we just create random sets each time
       listNonRepeatDistance = self.combo[1]

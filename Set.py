@@ -34,7 +34,7 @@ class Set:
       block.finalise()
       self.duration += block.duration
 
-  # Cpy method
+  # Copy method
   def copy(self):
 
     # Creating a new empty set
@@ -60,6 +60,37 @@ class Set:
       newSet.listBlock.append(newBlock)
 
     return newSet
+  
+  # Copy method that also changes the value of the "focus set" parameter for all the focus segments in the set
+  def newFocusCopy(self, newFocusSegment):
+
+    # newFocusSegment: dictionary which describes the new values of the focus segment
+
+    # Starting by making a copy of the Set
+    newSet = self.copy()
+
+    # Changing the value of the focus segment attribute
+    newSet.focusSegment = newFocusSegment.copy()
+
+    # Then looping on all the blocks
+    for block in self.listBlock:
+
+      # Then loopping on all the segments
+      for segment in block.listSegment:
+
+        # In the case where the segment is the focus of the block
+        if segment.focus:
+
+          # Looping on all the parameters of the block
+          for parameter in globals.listAllParameters:
+            segment.setForcedParameter(parameterName=parameter,
+                                       paramaterValue=newFocusSegment[parameter])
+            
+    # finalising the Set - Just to make sure that the durations are right
+    newSet.finalise()
+
+    return newSet         
+
 
   # Info method        
   def info(self):
