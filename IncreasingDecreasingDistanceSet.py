@@ -17,13 +17,10 @@ class IncreasingDecreasingDistanceSet(Set):
     # Object initialisation
     def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
 
-        super().__init__(distance=distance, standardInit=standardInit)
+        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
 
         self.type = "Increasing/Decreasing Distance"
         self.increaseDecrease = "" # This attribute will determine if the set will have blocks increasing or decreasing in length
-        self.standardInit = standardInit # This attribute indicates if the set is created all automatically or not
-        self.neutralSegment = neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
-        self.focusSegment = focusSegment # This attribute will contain the value of the "focus segment"
 
         if self.standardInit:
             self.setBlockDistances()
@@ -117,7 +114,14 @@ class IncreasingDecreasingDistanceSet(Set):
                 if variationSegment.selParameter is not None:
                     indexBlock = 0
                     for block in self.listBlock:
-                        block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexBlock])
+
+                        # Changing the parameter of the unique segment according to the variation
+                        block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter,
+                                                                parameterValue=variationSegment.selParameterVariation[indexBlock])
+                        
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[0].focus = True
+
                         indexBlock += 1
 
             else: 
@@ -133,6 +137,9 @@ class IncreasingDecreasingDistanceSet(Set):
                         # Changing the values of the focus segment - The only segment in this case
                         block.listSegment[0].setForcedParameter(parameterName=parameter,
                                                                 parameterValue=self.focusSegment[parameter])
+                        
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[changingSegmentIndex].focus = True
 
         # Case 2: "Half-half"
         if self.sequenceType=="halfHalf":
@@ -186,6 +193,9 @@ class IncreasingDecreasingDistanceSet(Set):
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
                                                                 parameterValue=variationSegment.selParameterVariation[indexBlock])
                         
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[changingSegmentIndex].focus = True
+                        
                         # Getting the constraits created by the changing segment on the non-changing segment
                         constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
 
@@ -210,6 +220,9 @@ class IncreasingDecreasingDistanceSet(Set):
                         # Changing the values of the focus segment
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                    parameterValue=self.focusSegment[parameter])
+                        
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[changingSegmentIndex].focus = True
                         
                         # Changing the values of the neutral segment(s)
                         block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
@@ -272,6 +285,9 @@ class IncreasingDecreasingDistanceSet(Set):
                         # Changing segment
                         block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter,
                                                                 parameterValue=variationSegment.selParameterVariation[indexBlock])
+                        
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[changingSegmentIndex].focus = True
 
                         # Getting the constraits created by the changing segment on the non-changing segment
                         constraintBaseSegment = block.listSegment[0].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
@@ -297,6 +313,9 @@ class IncreasingDecreasingDistanceSet(Set):
                         # Changing the values of the focus segment
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                    parameterValue=self.focusSegment[parameter])
+                        
+                        # Then marking the changing segment as the "focus segment"
+                        block.listSegment[changingSegmentIndex].focus = True
                         
                         # Changing the values of the neutral segment(s)
                         block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
@@ -339,9 +358,13 @@ class IncreasingDecreasingDistanceSet(Set):
 
             # We then update the list of segments with the right value of the parameter
             if variationSegment.selParameter is not None:
+
                 indexSegment = 0
+
                 for segment in listSegment: 
-                    segment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[indexSegment])
+                    # Changing the value of the segments
+                    segment.setForcedParameter(parameterName=variationSegment.selParameter,
+                                               parameterValue=variationSegment.selParameterVariation[indexSegment])
                     indexSegment += 1                    
             
             # We then create the list of blocks: The first one has the complete list of segments, the second has all of them minus the last one, etc.

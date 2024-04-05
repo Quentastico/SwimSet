@@ -12,13 +12,10 @@ class FrequencyIncreaseSet(Set):
     # Object initialisation
     def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
 
-        super().__init__(distance=distance, standardInit=standardInit)
+        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
 
         self.type = "Frequency Increase"
         self.selCombo = [] # The combination that is reatined, in the format n, d, where n is the number of segments in a bunch and d is the segment length
-        self.standardInit = standardInit # This attribute indicates if the set is created all automatically or not
-        self.neutralSegment = neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
-        self.focusSegment = focusSegment # This attribute will contain the value of the "focus segment"
 
         if self.standardInit:
 
@@ -119,13 +116,16 @@ class FrequencyIncreaseSet(Set):
                 specialSegment.setForcedParameter(parameterName=parameter,
                                                   parameterValue=self.focusSegment[parameter])
         
-        # 7. We then need to create the blocks "from scratch" by collating the baseSegment and the specialSegment at a given frequency
+        # 7. We then "mark" specialSegment as the focus one
+        specialSegment.focus = True
 
-        # 7.1. Extracting the useful combo parameters
+        # 8. We then need to create the blocks "from scratch" by collating the baseSegment and the specialSegment at a given frequency
+
+        # 8.1. Extracting the useful combo parameters
         n = self.selCombo[0]
         d = self.selCombo[1]
 
-        # 7.2. Looping all all the blocks
+        # 8.2. Looping all all the blocks
         for blockDistance in self.listBlockDistance:
 
             # Calculating the number of segments in this block

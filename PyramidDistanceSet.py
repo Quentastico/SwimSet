@@ -13,12 +13,9 @@ class PyramidDistanceSet(Set):
     # Object initialisation
     def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
 
-        super().__init__(distance, standardInit=standardInit)
+        super().__init__(distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
 
         self.type = "Pyramid Distance"
-        self.standardInit = standardInit # This attribute indicates if the set is created all automatically or not
-        self.neutralSegment = neutralSegment # This attribute will contain the value of the "neutral segment" in the case of a metaset
-        self.focusSegment = focusSegment # This attribute will contain the value of the "focus segment"
         self.increasingBlockDistance = [] # This list will contain the list of the distances withtin the distance block
         self.increasingSet = None # This will contain the IncreasingDecreasingSet of the first half of the pyramid
 
