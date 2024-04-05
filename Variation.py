@@ -278,6 +278,6 @@ class Variation:
         newVariation.selParameter = self.selParameter # Parameter that will be selected for a variation from one change to the other
         newVariation.selParameterValues = self.selParameterValues.copy() # Possible values of this parameter
         newVariation.selParameterVariation = self.selParameterVariation.copy() # Final sequence of values for the selected parameter
-        newVariation.standardInit = self.standardInit.copy() # If True, then the initiailisation is automatic
+        newVariation.standardInit = self.standardInit # If True, then the initiailisation is automatic
 
         return newVariation
