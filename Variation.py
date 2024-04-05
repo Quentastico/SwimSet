@@ -265,3 +265,17 @@ class Variation:
         # Here the strategy is simply to offer to go through drill 1, drill 2, etc. 
         for i in np.arange(self.nBlocks):
             self.selParameterVariation.append("drill " + str(i+1))
+
+    # Method that create a copy of the variation
+    def copy(self):
+
+        # Creating an empty variation
+        newVariation = Variation(allowedVariation=self.allowedVariation.copy(),
+                                 varyingParameters=self.varyingParameters.copy())
+        
+        # Copying the attributes
+        newVariation.nBlocks = self.nBlocks # Number of blocks that will compose the set
+        self.selParameter = self.selParameter # Parameter that will be selected for a variation from one change to the other
+        newVariation.selParameterValues = self.selParameterValues.copy() # Possible values of this parameter
+        newVariation.selParameterVariation = self.selParameterVariation.copy() # Final sequence of values for the selected parameter
+        newVariation.standardInit = self.standardInit.copy() # If True, then the initiailisation is automatic
