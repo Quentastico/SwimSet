@@ -271,11 +271,13 @@ class Variation:
 
         # Creating an empty variation
         newVariation = Variation(allowedVariation=self.allowedVariation.copy(),
-                                 varyingParameters=self.varyingParameters.copy())
+                                 varyingParameters=self.varyingParameters.copy(),
+                                 nBlocks=self.nBlocks)
         
         # Copying the attributes
-        newVariation.nBlocks = self.nBlocks # Number of blocks that will compose the set
-        self.selParameter = self.selParameter # Parameter that will be selected for a variation from one change to the other
+        newVariation.selParameter = self.selParameter # Parameter that will be selected for a variation from one change to the other
         newVariation.selParameterValues = self.selParameterValues.copy() # Possible values of this parameter
         newVariation.selParameterVariation = self.selParameterVariation.copy() # Final sequence of values for the selected parameter
         newVariation.standardInit = self.standardInit.copy() # If True, then the initiailisation is automatic
+
+        return newVariation
