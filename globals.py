@@ -180,6 +180,9 @@ allowedVariationDistanceRep1 = {"stroke": None,
                                 "drill": None,
                                 "kick": None}
 
+# Maximal distance allowed for a distance Rep Set - To avoid very long calculations
+maxDistanceRepDistance = 700
+
 ## FREQUENCY INCREASE SET
 
 # These parameters fix the min and max numbers of Blocks in the frequency increase set

@@ -30,8 +30,8 @@ class DistanceRepSet(Set):
     def setBlockDistances(self): 
 
         # Making sure that the distance is lower than 800m (to avoid very long calculation times)
-        if self.distance > 800:
-            print("Careful - The DistanceRep type of set is not catered for distances beyond 800m")
+        if self.distance > globals.maxDistanceRepDistance:
+            print("Careful - The DistanceRep type of set is not catered for long distances")
             self.listBlockDistance = None
 
         else:
