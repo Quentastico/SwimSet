@@ -139,7 +139,7 @@ class IncreasingDecreasingDistanceSet(Set):
                                                                 parameterValue=self.focusSegment[parameter])
                         
                         # Then marking the changing segment as the "focus segment"
-                        block.listSegment[changingSegmentIndex].focus = True
+                        block.listSegment[0].focus = True
 
         # Case 2: "Half-half"
         if self.sequenceType=="halfHalf":
