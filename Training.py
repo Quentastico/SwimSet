@@ -163,6 +163,7 @@ class Training:
                                               standardInit=True,
                                               neutralSegment=metaSet.neutralSegment,
                                               focusSegment=metaSet.listFocusSegments[0])
+      self.listSet.append(firstSet)
       
       # 5. Then we create the following sets by copying the first set using the newFocusCopy() method of set
       if len(listRepeatDistance) > 1:
