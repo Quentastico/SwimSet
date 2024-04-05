@@ -84,7 +84,7 @@ class Set:
           # Looping on all the parameters of the block
           for parameter in globals.listAllParameters:
             segment.setForcedParameter(parameterName=parameter,
-                                       paramaterValue=newFocusSegment[parameter])
+                                       parameterValue=newFocusSegment[parameter])
             
     # finalising the Set - Just to make sure that the durations are right
     newSet.finalise()
