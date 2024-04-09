@@ -78,18 +78,6 @@ setProba = [0.2, 0.2, 0.2, 0.2, 0.2]
 # minimal distance between two sets will be set at 50m, etc. 
 stepBlockDistance = 50
 
-# Minimal number of blocks in the case of an "increase" type of set
-# For example, if this is set at 3, then this means that the miminal number of blocks in an "increase" of the distance variation will be three blocks. 
-minBlocksIncrease = 3
-
-# Minimal number of blocks in the case of a "decrease" type of set
-# Same as above, but for sets with an decreasing distance from one block to the other
-minBlocksDecrease = 3
-
-# Minimal number of blocks in the case of a pyramid
-# For example, if set to 3, this measn that the pyramid will have 3 blocks (2 increase and 1 decrease)
-minBlocksPyramid = 3
-
 ## CONSTANT DISTANCE SET
 
 # Distribution of probabilities between random split of segments from one block to another (case 1) of non-random split (case 2)
@@ -128,6 +116,14 @@ allowedVariationConstantDistance22 = {"stroke": None,
 increaseDecreaseType = ["increase", "decrease"]
 increaseDecreaseProba = [0.5, 0.5]
 
+# Minimal number of blocks in the case of an "increase" type of set
+# For example, if this is set at 3, then this means that the miminal number of blocks in an "increase" of the distance variation will be three blocks. 
+minBlocksIncrease = 3
+
+# Minimal number of blocks in the case of a "decrease" type of set
+# Same as above, but for sets with an decreasing distance from one block to the other
+minBlocksDecrease = 3
+
 # Distribution of probabilities between the different cases
 # Case 1: Only one segment per block
 # Case 2: Each block will be split in 2 halves
@@ -163,6 +159,13 @@ allowedVariationIncreaseDecreaseDistance4 = {"stroke": ["cycle"],
                                              "intensity": ["increase", "decrease"],
                                              "drill": ["cycle"],
                                              "kick": None}
+
+
+# PYRAMID SET
+
+# Minimal number of blocks in the case of a pyramid
+# For example, if set to 3, this measn that the pyramid will have 3 blocks (2 increase and 1 decrease)
+minBlocksPyramid = 3
 
 ## DISTANCE REP SET
 

@@ -233,6 +233,69 @@ def splitSetFrequencyIncrease(distance, stepBlockDistance, minBlockDistance, max
 
   return optionCombos, scores
 
+# Method to split the distance of a "CyclicDistance" set
+def splitSetCyclicDistance(distance, minBlockDistance, maxBlockDistance, stepBlockDistance):
+
+  # distance: The distance of the set (m)
+  # minBlockDistance: the minimal distance of a block (m)
+  # maxBlockDistance: the maximal distance of a block (m)
+  # stepBlockDistance: the minimal difference between two block distances (m)
+
+  # Here the format of the set will be
+  # distance = (d + (d+s) + (d+2s) + ... + (d + ns)) * N
+
+  # Creating the list of combos [d,s,n,N]
+  combos = []
+
+  # Looping first on all the possible initial distance d in a series
+  for d in np.arange(minBlockDistance, maxBlockDistance+stepBlockDistance, stepBlockDistance):
+
+    # Calculating the maximal value for s - the increase of distance between each block
+    maxs = int(distance/2 - 2*d)
+
+    if maxs >= 0:
+
+      # Looping on these s values from the min to the max
+      for s in np.arange(stepBlockDistance, maxs + stepBlockDistance, stepBlockDistance):
+
+        # Calculating the maximum number of repeats in the same series (very conservative)
+        maxn = np.floor(distance/2/d)
+
+        if maxn >= 1:
+
+          # Looping on the possible number of series
+          for n in np.arange(1, maxn+1):
+
+            # Calculating the maximal number of series
+            maxN = np.floor(distance / (2*d+stepBlockDistance))
+
+            if maxN >= 2:
+
+              for N in np.arange(2, maxN+1, 1):
+
+                # Calcuting the sum of all the distance blocks
+                sum = N * ((n+1)*d + s*(n+1)*n/2)
+                if distance == sum:
+                  combos.append([d,s,n,N])
+
+  # Removing the combos which have a block distance higher than the maxBlockDistance
+
+  cleanCombos = []
+
+  for combo in combos: 
+
+    # The maximal length of combo is d + n*s
+    d = combo[0]
+    s = combo[1]
+    n = combo[2]
+
+    if d + n*s <= maxBlockDistance:
+      cleanCombos.append(combo)
+
+  # Picking a combo randomly
+
+  return cleanCombos
+
 # Function to convert a time expressed in seconds into a time expressed in minutes + seconds
 def convertDuration(duration):
 
