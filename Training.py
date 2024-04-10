@@ -81,48 +81,52 @@ class Training:
     repeatPossible = False
 
     # Then we loop on max repeat by removing one at each time of the loop
-    while ~repeatPossible:
-      repeatPossible -= 1
-      metaSet = MetaSet(numberSets=repeatPossible, standardInit=True)
+    while ~repeatPossible & maxRepeatSet > globals.minNumberRepeatSet:
+      maxRepeatSet -= 1
+      metaSet = MetaSet(numberSets=maxRepeatSet, standardInit=True)
       if len(metaSet.listFocusSegments) > 0:
         repeatPossible = True
 
+    print(maxRepeatSet)
     print(repeatPossible)
 
     # 1. Determination of all the possible "combos" of repeat sets + other
     combos = []
 
     # Looping on all the values of number of repeats (nRepeat) and possible set distances (stepDistance):
+    # Note that we only do this when there is a potential metaSet available
 
-    for nRepeat in np.arange(globals.minNumberRepeatSet, maxRepeatPossible+1, 1):
-      for setDistance in np.arange(globals.minSetDistance, globals.maxRepeatSetDistance+globals.stepSetDistance, globals.stepSetDistance):
+    if repeatPossible: 
 
-        # Defining the distance of the repeat sets (all together) and the remaining distance set
-        repeatDistance = nRepeat * setDistance
-        remainingDistance = self.mainsetDistance - repeatDistance
+      for nRepeat in np.arange(globals.minNumberRepeatSet, maxRepeatSet+1, 1):
+        for setDistance in np.arange(globals.minSetDistance, globals.maxRepeatSetDistance+globals.stepSetDistance, globals.stepSetDistance):
 
-        # Selection of the possible cases
-        if (remainingDistance == 0) | (remainingDistance >= globals.minSetDistance):
+          # Defining the distance of the repeat sets (all together) and the remaining distance set
+          repeatDistance = nRepeat * setDistance
+          remainingDistance = self.mainsetDistance - repeatDistance
 
-          # Creating the first half of the combo: nRepeat times the distance setDistance
-          newCombo = []
-          listRepeatDistance = [setDistance] * nRepeat
+          # Selection of the possible cases
+          if (remainingDistance == 0) | (remainingDistance >= globals.minSetDistance):
 
-          # Creating the second part of the combo: the list of the distances
+            # Creating the first half of the combo: nRepeat times the distance setDistance
+            newCombo = []
+            listRepeatDistance = [setDistance] * nRepeat
 
-          if remainingDistance > 0:
-            nRemainingSet = max(int(np.round(remainingDistance/globals.avSetDistance)), 1)
-            listRemainingDistance = pickDistances(distance=remainingDistance,
-                                                  minDistance=globals.minSetDistance,
-                                                  avDistance=remainingDistance/nRemainingSet,
-                                                  stepDistance=globals.stepSetDistance,
-                                                  nDistance=nRemainingSet)
-          else:
-            listRemainingDistance = []
+            # Creating the second part of the combo: the list of the distances
 
-          newCombo = [listRepeatDistance, listRemainingDistance]
+            if remainingDistance > 0:
+              nRemainingSet = max(int(np.round(remainingDistance/globals.avSetDistance)), 1)
+              listRemainingDistance = pickDistances(distance=remainingDistance,
+                                                    minDistance=globals.minSetDistance,
+                                                    avDistance=remainingDistance/nRemainingSet,
+                                                    stepDistance=globals.stepSetDistance,
+                                                    nDistance=nRemainingSet)
+            else:
+              listRemainingDistance = []
 
-          combos.append(newCombo)
+            newCombo = [listRepeatDistance, listRemainingDistance]
+
+            combos.append(newCombo)
     
     # 2. Determination of whether it will be a distanceRepeatSetTraining or a random training
     if len(combos) > 0:
