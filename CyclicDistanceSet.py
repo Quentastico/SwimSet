@@ -67,9 +67,9 @@ class CyclicDistanceSet(Set):
 
         # 1. We need to create a new IncreasingDecreasingDistanceSet
         seriesSet = IncreasingDecreasingDistanceSet(distance=sum(self.series),
-                                                      standardnit = False,
-                                                      neutralSegment = self.neutralSegment,
-                                                      focusSegment = self.focusSegment)
+                                                    standardInit = False,
+                                                    neutralSegment = self.neutralSegment,
+                                                    focusSegment = self.focusSegment)
         
         # 2. We then force the block distances to the values in "series"
         # Note that we need to flip the array as initially an Increase/Decrease set needs to be made on a decreasing distance array
