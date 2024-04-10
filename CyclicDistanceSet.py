@@ -79,9 +79,11 @@ class CyclicDistanceSet(Set):
         # 3. We then set the "sequence type" by using the native method
         seriesSet.setSequenceType()
         self.sequenceType = seriesSet.sequenceType
+        print(seriesSet.sequenceType)
 
         # 4. We then set the increase or decrease by using the native method
         seriesSet.setIncreaseDecrease()
+        print(seriesSet.increaseDecrease)
 
         # 5. We then create the block of the seriesSet by using the native method too 
         seriesSet.createBlocks()
