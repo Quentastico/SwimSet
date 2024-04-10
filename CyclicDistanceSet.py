@@ -87,7 +87,10 @@ class CyclicDistanceSet(Set):
         seriesSet.createBlocks()
 
         # 6. We then store the variation used for seriesSet
-        self.variationSegment = seriesSet.variationSegment.copy()
+        if seriesSet.variationSegment is not None:
+            self.variationSegment = seriesSet.variationSegment.copy()
+        else: 
+            self.variationSegment = None
 
         # 7. We finally create the list of blocks
         Nseries = self.selCombo[3]
