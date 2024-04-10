@@ -219,12 +219,12 @@ class Training:
 
       for distance in listNonRepeatDistance:
 
+        # First select the type of the set
+        selSetType = self.pickSetType(distance=distance)
+
         if self.verbose >= 2:
             print("NEW SET Creation")
             print("Set type: " + selSetType)
-
-        # First select the type of the set
-        selSetType = self.pickSetType(distance=distance)
 
         # Then create the set and add it to the list
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
@@ -233,13 +233,13 @@ class Training:
     if self.trainingType == "Random Training": # Random Training
 
       for distance in self.listSetDistance:
-
-        if self.verbose >= 2:
-            print("NEW SET Creation")
-            print("Set type: " + selSetType)
           
         # 1. First select the type of the set
         selSetType = self.pickSetType(distance=distance)
+
+        if self.verbose >= 2:
+          print("NEW SET Creation")
+          print("Set type: " + selSetType)
 
         # 2. Then create the set and add it to the list
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
