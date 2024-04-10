@@ -39,6 +39,7 @@ class CyclicDistanceSet(Set):
             # Selecting a random combo
             selComboIndex = np.random.choice(np.arange(len(combos)))
             selCombo = combos[selComboIndex]
+            self.selCombo = selCombo
 
             # Creating the distance list for the selected combo
             d = selCombo[0]
