@@ -98,9 +98,7 @@ class Training:
     # Then we loop on max repeat by removing one at each time of the loop
     while (~repeatPossible) & (maxRepeatSet > globals.minNumberRepeatSet):
       maxRepeatSet -= 1
-      print(maxRepeatSet)
       metaSet = MetaSet(numberSets=maxRepeatSet, standardInit=True)
-      print(len(metaSet.listFocusSegments))
       if len(metaSet.listFocusSegments) > 0:
         repeatPossible = True
 
@@ -194,45 +192,52 @@ class Training:
       metaSet = MetaSet(numberSets=len(listRepeatDistance), standardInit=True)
 
       # 4. Then we create the first set of the series
+      if self.verbose >=2:
+        print("SET 1 creation")
+        print("Set type: " + selSetType)
+
       firstSet = globals.setTypes[selSetType](distance=listRepeatDistance[0],
                                               standardInit=True,
                                               neutralSegment=metaSet.neutralSegment,
                                               focusSegment=metaSet.listFocusSegments[0])
       self.listSet.append(firstSet)
 
-      if self.verbose >=2:
-        print("SET 1 created")
-        print("Set type: " + selSetType)
+      
       
       # 5. Then we create the following sets by copying the first set using the newFocusCopy() method of set
       if len(listRepeatDistance) > 1:
         for i in np.arange(len(listRepeatDistance)-1):
+          if self.verbose >= 2:
+            print("SET " + str(i+2) + " Creation")
+            print("Set type: " + selSetType)
           newSet = firstSet.newFocusCopy(newFocusSegment=metaSet.listFocusSegments[i+1])
           self.listSet.append(newSet)
-          if self.verbose >= 2:
-            print("SET " + str(i+2) + " Created")
-            print("Set type: " + selSetType)
+          
 
       # 5. then for the remaining sets, we just create random sets each time
       listNonRepeatDistance = self.combo[1]
 
       for distance in listNonRepeatDistance:
 
+        if self.verbose >= 2:
+            print("NEW SET Creation")
+            print("Set type: " + selSetType)
+
         # First select the type of the set
         selSetType = self.pickSetType(distance=distance)
 
         # Then create the set and add it to the list
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
-        self.listSet.append(newSet)
-
-        if self.verbose >= 2:
-            print("NEW SET Created")
-            print("Set type: " + selSetType)
+        self.listSet.append(newSet)        
 
     if self.trainingType == "Random Training": # Random Training
 
       for distance in self.listSetDistance:
 
+        if self.verbose >= 2:
+            print("NEW SET Creation")
+            print("Set type: " + selSetType)
+          
         # 1. First select the type of the set
         selSetType = self.pickSetType(distance=distance)
 
@@ -240,9 +245,6 @@ class Training:
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
         self.listSet.append(newSet)
 
-        if self.verbose >= 2:
-            print("NEW SET Created")
-            print("Set type: " + selSetType)
 
   # Defining a util function to pick a set type
   def pickSetType(self, distance):
