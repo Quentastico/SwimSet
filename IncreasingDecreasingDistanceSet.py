@@ -24,10 +24,12 @@ class IncreasingDecreasingDistanceSet(Set):
 
         if self.standardInit:
             self.setBlockDistances()
-            self.setSequenceType()
-            self.setIncreaseDecrease()
-            self.createBlocks()   
-            self.finalise()         
+
+            if len(self.listBlockDistance) > 0:
+                self.setSequenceType()
+                self.setIncreaseDecrease()
+                self.createBlocks()   
+                self.finalise()         
 
     # Method to decide if this will be a decrease or an increase
     def setIncreaseDecrease(self):
@@ -35,7 +37,7 @@ class IncreasingDecreasingDistanceSet(Set):
         self.increaseDecrease = np.random.choice(globals.increaseDecreaseType, p=globals.increaseDecreaseProba)
 
     # Method to split the set into a given distance
-    def setBlockDistances(self): 
+    def setBlockDistances(self):
 
         # Finding all the ways to cut the set
         optionBlocks = splitSetIncreaseDecrease(distance = self.distance,
@@ -43,11 +45,15 @@ class IncreasingDecreasingDistanceSet(Set):
                                                 minBlockDistance = globals.minBlockDistance,
                                                 minBlocks = globals.minBlocksIncrease)
 
-        # Choosing a random way
-        selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
+        # Choosing a random way (if it exists)
+        if len(optionBlocks) > 0:
+            selectedOptionBlock = optionBlocks[np.random.randint(low=0, high=len(optionBlocks))]
         
-        # Constracting the distances of the blocks withtin the set
-        self.listBlockDistance = list(np.flip(np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])))
+            # Creating the distances of the blocks withtin the set
+            self.listBlockDistance = list(np.flip(np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])))
+
+        else: 
+            print("There is no way to make a set of this type with this distance")
 
     # Method to select the type of sequence
     def setSequenceType(self):
