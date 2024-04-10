@@ -5,6 +5,7 @@ from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
 from PyramidDistanceSet import PyramidDistanceSet
 from DistanceRepSet import DistanceRepSet
 from FrequencyIncreaseSet import FrequencyIncreaseSet
+from CyclicDistanceSet import CyclicDistanceSet
 
 #TRAINING
 
@@ -41,7 +42,7 @@ trainingProba = [0.5, 0.5]
 minNumberRepeatSet = 2
 maxNumberRepeatSet = 5
 
-# The maximal distance of a repeted set (based onthe max of the distance rep set), in m
+# The maximal distance of a repeated set (based onthe max of the distance rep set), in m
 maxRepeatSetDistance = 800
 
 ## SET
@@ -68,10 +69,11 @@ setTypes = {"Constant Distance": ConstantDistanceSet,
             "Increasing/Decreasing Distance": IncreasingDecreasingDistanceSet,
             "Pyramid Distance": PyramidDistanceSet,
             "Distance Rep": DistanceRepSet,
-            "Frequency Increase": FrequencyIncreaseSet}
+            "Frequency Increase": FrequencyIncreaseSet,
+            "Cyclic Distance": CyclicDistanceSet}
 
 # Defining the probability of picking any type of any set randomly
-setProba = [0.2, 0.2, 0.2, 0.2, 0.2]
+setProba = [1/6, 1/6, 1/6, 1/6, 1/6, 1/6]
 
 # Minimal difference distance between two blocks (m)
 # If this variable is set at 25m, this means that we could have a set where the blocks are for example 25m, 50m, 75m, etc. If set at 50m, then the 
@@ -108,6 +110,7 @@ allowedVariationConstantDistance22 = {"stroke": None,
                                   "kick": None}
 
 ## INCREASING/DECREASING DISTANCE SET
+# Note that the following aplies to PyramidDistanceSet and CyclicDistanceSet
 
 # Note that values below are set mainly for a set which block decrease in length
 
