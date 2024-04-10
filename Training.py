@@ -12,7 +12,7 @@ from MetaSet import MetaSet
 class Training:
 
   # Initialisation function
-  def __init__(self, distance, standardInit=False):
+  def __init__(self, distance, standardInit=False, verbose=0):
 
     # 1. ATTRIBUTE DEFINITION
 
@@ -27,17 +27,20 @@ class Training:
     self.trainingType = None # This indicates what type of training it will be (repeat sets or random)
     self.nSetRepeat = None # IN the case of a repeat set trainig, thi indicates how many sets will repeat at the start of the training
     self.combo = [] # In the case of a repeat set training, this is the combo defining the distances
+    self.verbose = verbose # defines the level of information displayed to to the user (0: no info; increases with this argument)
 
     # 2. DATA CHECKS
 
     # 2.1. Data Check 1 - Checking that the total distance if higher than the minimal limit
-    if self.distance < globals.minTotalDistance:
-      print("Please enter a distance value higher than the minimal allowed value: "+ str(globals.minBlockDistance) + "m")
+    if (self.distance < globals.minTotalDistance):
+      if self.verbose >= 1: 
+        print("Please enter a distance value higher than the minimal allowed value: "+ str(globals.minBlockDistance) + "m")
       return
 
     # 2.2. Data Check 2 - Checking that the distance is a multiple of 100
     if self.distance / 100 != np.floor(self.distance / 100):
-      print("Please enter a distance being a multiple of 100m")
+      if self.verbose >= 1:
+        print("Please enter a distance being a multiple of 100m")
       return
 
     # 3. DISTANCES
@@ -46,15 +49,27 @@ class Training:
 
       # 3.1. Calculation of the warmup distance
       self.setWarmupDistance()
+      if self.verbose >= 2:
+        print("Warm up distance calculated")
 
       # 3.2. Calculation of the cool down distance
       self.setCooldownDistance()
+      if self.verbose >= 2:
+        print("Cooldown distance calculated")
 
       # 3.3. Calculation of the mainset distance
       self.mainsetDistance = self.distance - self.warmupDistance - self.cooldownDistance
+      if self.verbose >= 2:
+        print("Main set distance calculated")
 
       # 3.4. Determination of the distances of the sets (and number of sets)
       self.setSetDistances()
+      if self.verbose >= 2:
+        print("Set distance calculated")
+        print("Distance of the sets:") 
+        print(self.listSetDistance)
+        print("Training Type")
+        print(self.trainingType)
 
       # 3.5. Creation of the sets
       self.createSets()
@@ -88,9 +103,6 @@ class Training:
       print(len(metaSet.listFocusSegments))
       if len(metaSet.listFocusSegments) > 0:
         repeatPossible = True
-
-    print(maxRepeatSet)
-    print(repeatPossible)
 
     # 1. Determination of all the possible "combos" of repeat sets + other
     combos = []
@@ -187,12 +199,19 @@ class Training:
                                               neutralSegment=metaSet.neutralSegment,
                                               focusSegment=metaSet.listFocusSegments[0])
       self.listSet.append(firstSet)
+
+      if self.verbose >=2:
+        print("SET 1 created")
+        print("Set type: " + selSetType)
       
       # 5. Then we create the following sets by copying the first set using the newFocusCopy() method of set
       if len(listRepeatDistance) > 1:
         for i in np.arange(len(listRepeatDistance)-1):
           newSet = firstSet.newFocusCopy(newFocusSegment=metaSet.listFocusSegments[i+1])
           self.listSet.append(newSet)
+          if self.verbose >= 2:
+            print("SET " + str(i+2) + " Created")
+            print("Set type: " + selSetType)
 
       # 5. then for the remaining sets, we just create random sets each time
       listNonRepeatDistance = self.combo[1]
@@ -206,6 +225,10 @@ class Training:
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
         self.listSet.append(newSet)
 
+        if self.verbose >= 2:
+            print("NEW SET Created")
+            print("Set type: " + selSetType)
+
     if self.trainingType == "Random Training": # Random Training
 
       for distance in self.listSetDistance:
@@ -216,6 +239,10 @@ class Training:
         # 2. Then create the set and add it to the list
         newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
         self.listSet.append(newSet)
+
+        if self.verbose >= 2:
+            print("NEW SET Created")
+            print("Set type: " + selSetType)
 
   # Defining a util function to pick a set type
   def pickSetType(self, distance):
