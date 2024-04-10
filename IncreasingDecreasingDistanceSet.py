@@ -380,8 +380,8 @@ class IncreasingDecreasingDistanceSet(Set):
     
         # At the very end of the creation of the blocks, the blocks need to be flipped if we are in an "increase" type of block
         if self.increaseDecrease == "increase":
-            self.listBlockDistance = np.flip(self.listBlockDistance)
-            self.listBlock = np.flip(self.listBlock)
+            self.listBlockDistance = list(np.flip(self.listBlockDistance))
+            self.listBlock = list(np.flip(self.listBlock))
             
 
             
