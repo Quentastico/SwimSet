@@ -92,4 +92,4 @@ class CyclicDistanceSet(Set):
         # 7. We finally create the list of blocks
         Nseries = self.selCombo[3]
         for i in np.arange(Nseries):
-            self.listBlock.append(seriesSet.listBlock)
+            self.listBlock += seriesSet.listBlock
