@@ -103,7 +103,7 @@ class MetaSet:
                 # Removing the selected set
                 availableParameterSet.pop(availableParameterSet.index(selParameterSet))
 
-            # Finally stroing the value in the attribute
+            # Finally storing the value in the attribute
             self.listFocusSegments = listFocusSegments
 
         else: 

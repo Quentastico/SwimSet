@@ -62,22 +62,39 @@ class Training:
 
   # Method to determine the warmup distance
   def setWarmupDistance(self):
+
     self.warmupDistance = max(globals.minWarmupDistance, 100 * np.round(globals.fracWarmupDistance * self.distance / 100))
 
 
   # Method to determine the cooldown distance
   def setCooldownDistance(self):
+
     self.cooldownDistance = min(100*np.ceil(globals.fracCooldownDistance * self.distance / 100), globals.maxCooldownDistance)
 
   # Method to determine the split of block distances into the set (and numer of sets too!)
   def setSetDistances(self):
+
+    # 1. Determination of the maximal number of repeats of the same set
+
+    # We first start with "6" repeats, which is not possible 
+    maxRepeatSet = globals.maxNumberRepeatSet + 1
+    repeatPossible = False
+
+    # Then we loop on max repeat by removing one at each time of the loop
+    while ~repeatPossible:
+      repeatPossible -= 1
+      metaSet = MetaSet(numberSets=repeatPossible, standardInit=True)
+      if len(metaSet.listFocusSegments) > 0:
+        repeatPossible = True
+
+    print(repeatPossible)
 
     # 1. Determination of all the possible "combos" of repeat sets + other
     combos = []
 
     # Looping on all the values of number of repeats (nRepeat) and possible set distances (stepDistance):
 
-    for nRepeat in np.arange(globals.minNumberRepeatSet, globals.maxNumberRepeatSet+1, 1):
+    for nRepeat in np.arange(globals.minNumberRepeatSet, maxRepeatPossible+1, 1):
       for setDistance in np.arange(globals.minSetDistance, globals.maxRepeatSetDistance+globals.stepSetDistance, globals.stepSetDistance):
 
         # Defining the distance of the repeat sets (all together) and the remaining distance set
