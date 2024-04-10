@@ -81,7 +81,7 @@ class Training:
     repeatPossible = False
 
     # Then we loop on max repeat by removing one at each time of the loop
-    while ~repeatPossible & maxRepeatSet > globals.minNumberRepeatSet:
+    while (~repeatPossible) & (maxRepeatSet > globals.minNumberRepeatSet):
       maxRepeatSet -= 1
       print(maxRepeatSet)
       metaSet = MetaSet(numberSets=maxRepeatSet, standardInit=True)
