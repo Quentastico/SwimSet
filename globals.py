@@ -75,11 +75,6 @@ setTypes = {"Constant Distance": ConstantDistanceSet,
 # Defining the probability of picking any type of any set randomly
 setProba = [1/6, 1/6, 1/6, 1/6, 1/6, 1/6]
 
-# Minimal difference distance between two blocks (m)
-# If this variable is set at 25m, this means that we could have a set where the blocks are for example 25m, 50m, 75m, etc. If set at 50m, then the 
-# minimal distance between two sets will be set at 50m, etc. 
-stepBlockDistance = 50
-
 ## CONSTANT DISTANCE SET
 
 # Distribution of probabilities between random split of segments from one block to another (case 1) of non-random split (case 2)
@@ -200,7 +195,6 @@ maxDistanceRepDistance = 700
 minNumberFrequencyIncrease = 2
 maxNumberFrequencyIncrease = 4
 
-# Case 1: As many segment as required in each block
 # The "allowed variation" is here defined between the base segment and the special segment
 allowedVariationFrequencyIncrease1 = {"stroke": ["cycle"],
                                 "equipment": None,
@@ -324,6 +318,11 @@ metaSetPatternProba = {"everything": 1/3,
 minBlockDistance = 50
 maxBlockDistance = 500
 
+# Minimal difference distance between two blocks (m)
+# If this variable is set at 25m, this means that we could have a set where the blocks are for example 25m, 50m, 75m, etc. If set at 50m, then the 
+# minimal distance between two sets will be set at 50m, etc. 
+stepBlockDistance = 50
+
 # Minimum number of segments per block
 # If fixed at 2, this means that unless forced otherwise, the minimal number of segments will be 2 in any block. 
 # Note that for some types of sets (for example pyramid, increasing or decreasing, we do not allow the blocks to change)
@@ -354,7 +353,7 @@ stepSegmentDistance = 25
 
 # Definition of the possible equipment
 equipmentTypes = ["pullBuoyAndPaddles", "fins", "No equipment"]
-equipmentProba = [0, 0, 1]
+equipmentProba = [0.1, 0.1, 0.8]
 
 # Definition of the possible variations of kicks
 kickTypes = ["kick", "No kick"]
@@ -366,7 +365,7 @@ drillProba = [0.1, 0.9]
 
 # Definition of the different types of stroke
 strokeTypes = ["freestyle", "breaststroke", "backstroke", "butterfly", "IM"]
-strokeProba = [0.8, 0.1, 0.1, 0, 0]
+strokeProba = [0.6, 0.1, 0.1, 0.1, 0.1]
 
 # Definition of the types of intensity
 # The intensity usually varies from 4 to 10; anything under 4 is considered as being very slow, so the minIntensity is not set at 1; 
@@ -403,20 +402,42 @@ baseTimeParameters = {"distance": 100,
                       "drill": "No drill",
                       "kick": "No kick"}
 
-# Times for the different strokes (i.e. for the stroke being listed as in strokeTypes; all other parameters being defined in baseTimeParameters)
-baseTimeStroke = [105, 150, 135, 150, 135]
+# Times for the base segment
+baseTime = 105
+
+# Times for the other strokes
+baseTimeBreaststroke = 150 
+baseTimeBackstroke = 135
+baseTimeButterfly = 150
+baseTimeIM = 135
+
+# Concatenating this into a vector aligned on the strokeType vector
+baseTimeStroke = [baseTime, baseTimeBreaststroke, baseTimeBackstroke, baseTimeButterfly, baseTimeIM]
 
 # Times for the different equipmment (i.e. for the equipment being listed as in equipmentTypes; all other parameters being defined in baseTimeParameters)
-baseTimeEquipment = [105, 95, 105]
+baseTimePullBuoyAndPaddles = 105
+baseTimeFins = 95
 
-# Times for the different drills (i.e. for the drill being listed as in strokeTypes; all other parameters being defined in baseTimeParameters)
-baseTimeDrill = [120, 105]
+# Concatenating the equipment times into the same array aligned on equipmentTypes
+baseTimeEquipment = [baseTimePullBuoyAndPaddles, baseTimeFins, baseTime]
 
-# Times for the different kicks (i.e. for the stroke being listed as in kickTypes; all other parameters being defined in baseTimeParameters)
-baseTimeKick = [150, 105]
+# Times for drill and asscoiated array
+baseTimeWithDrill = 120
+baseTimeDrill = [baseTimeWithDrill, baseTime]
+
+# Times for the different kicks
+baseTimeWithKicks = 150
+baseTimeKick = [baseTimeWithKicks, baseTime]
 
 # Times for the different intensities (i.e. between 4 and 10); all other parameters being defined in baseTimeParameters
-baseTimeIntensity = [120, 105, 110, 120, 130, 140, 150]
+baseTimeIntensity5Excluded = [100, 110, 120, 130, 140, 150]
+baseTimeIntensity = [baseTimeIntensity5Excluded[0],
+                     baseTime,
+                     baseTimeIntensity5Excluded[1],
+                     baseTimeIntensity5Excluded[2],
+                     baseTimeIntensity5Excluded[3],
+                     baseTimeIntensity5Excluded[4],
+                     baseTimeIntensity5Excluded[5]]
 
 # Creating a dictionary indicating the base times for each parameter variation
 baseTimes = {"stroke": baseTimeStroke,
