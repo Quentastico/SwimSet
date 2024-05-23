@@ -117,3 +117,16 @@ class Block:
     print("   BLOCK: " + printDistance + printDuration)
     for segment in self.listSegment:
       segment.info()
+
+  # Making a function to generate a dictionary for the API output
+  def dictionary(self): 
+
+    listSegmentDictionary = []
+    for segment in self.listSegment:
+      listSegmentDictionary.append(segment.dictionary())
+
+    blockDictionary = {"blockTime": self.duration, 
+                       "blockDistance": self.distance,
+                       "listSegment": listSegmentDictionary}
+    
+    return blockDictionary
