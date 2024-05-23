@@ -320,3 +320,22 @@ class Segment:
     printIntensity = "Intensity: " + str(self.intensity) + " "
 
     print("    SEGMENT: " + printDistance + printKick + printStroke + printEquipment + printDrill + printIntensity + printDuration + printFocus)
+
+  # Function that generates a dictionary (API output)
+  def dictionary(self):
+
+    if self.focus:
+      focusValue = "yes"
+    else:
+      focusValue = "no"
+
+    segmentDictionary = {"segmentTime": self.duration, 
+                         "segmentDistance": self.distance, 
+                         "segmentStroke": self.stroke,
+                         "segmentEquipment": self.equipment,
+                         "segmentIntensity": self.intensity,
+                         "SegmentKick": self.kick,
+                         "SegmentDrill": self.drill,
+                         "SegmentFocus": focusValue}
+    
+    return segmentDictionary
