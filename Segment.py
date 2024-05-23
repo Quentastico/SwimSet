@@ -334,8 +334,8 @@ class Segment:
                          "segmentStroke": self.stroke,
                          "segmentEquipment": self.equipment,
                          "segmentIntensity": self.intensity,
-                         "SegmentKick": self.kick,
-                         "SegmentDrill": self.drill,
-                         "SegmentFocus": focusValue}
+                         "segmentKick": self.kick,
+                         "segmentDrill": self.drill,
+                         "segmentFocus": focusValue}
     
     return segmentDictionary

@@ -109,3 +109,16 @@ class Set:
     print("  SET - " + printDistance + printType + printDuration)
     for block in self.listBlock:
       block.info()
+
+  # Dictionary method for the API outputs
+  def dictionary(self):
+
+    listBlockDictionary = []
+    for block in self.listBlock:
+      listBlockDictionary.append(block.dictionary())
+
+    setDictionary = {"setType": self.duration,
+                     "setDistance": self.distance,
+                     "listBlock": listBlockDictionary}
+    
+    return setDictionary
