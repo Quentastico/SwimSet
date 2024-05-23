@@ -283,3 +283,17 @@ class Training:
     for set in self.listSet:
       set.info()
     print(" COOL DOWN - Distance: " + str(self.cooldownDistance))
+
+  # Creation of the dictionary output for the API
+  def dictionary(self):
+
+    listSetDictionary = []
+    for set in self.listSet:
+      listSetDictionary.append(set.dictionary())
+
+    trainingDictionary = {"trainingType": self.trainingType,
+                          "warmupDistance": self.warmupDistance,
+                          "cooldownDistance": self.cooldownDistance,
+                          "listSet": listSetDictionary}
+    
+    return trainingDictionary
