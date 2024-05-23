@@ -382,10 +382,12 @@ segmentParameterTypeProba = {"stroke": [strokeTypes, strokeProba],
                              "kick": [kickTypes, kickProba]}
 
 # Definition of the path to the excel spreadsheet for the variation of parameters from one block to the other in a set
-segmentConstraintsPath = "/content/SwimSet/segmentConstraints.xlsx"
+# segmentConstraintsPath = "/content/SwimSet/segmentConstraints.xlsx"
+segmentConstraintsPath = "segmentConstraints.xlsx"
 
 # Definition of the path to the excel setting the constraints on the "base segment(s)" in a block (i.e. the non-changing segment)
-baseSegmentPath = "/content/SwimSet/baseSegment.xlsx"
+# baseSegmentPath = "/content/SwimSet/baseSegment.xlsx"
+baseSegmentPath = "baseSegment.xlsx"
 
 # Definition of the "base" times for different strokes, equipment, etc. 
 # Note: All the times below are in seconds
