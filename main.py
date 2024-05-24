@@ -20,6 +20,9 @@ def generateTraining(req):
     training = Training(distance=distance, standardInit=True, verbose=0)
 
     # Generation of the training output
-    outputTraining = training.dictionary()
+    output = training.dictionary()
 
-    return outputTraining
+    ## Generating a json compatible object
+    jsonOutput = json.dumps(output, default=str)
+
+    return jsonOutput
