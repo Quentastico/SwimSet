@@ -78,13 +78,13 @@ class Training:
   # Method to determine the warmup distance
   def setWarmupDistance(self):
 
-    self.warmupDistance = max(globals.minWarmupDistance, 100 * np.round(globals.fracWarmupDistance * self.distance / 100))
+    self.warmupDistance = int(max(globals.minWarmupDistance, 100 * np.round(globals.fracWarmupDistance * self.distance / 100)))
 
 
   # Method to determine the cooldown distance
   def setCooldownDistance(self):
 
-    self.cooldownDistance = min(100*np.ceil(globals.fracCooldownDistance * self.distance / 100), globals.maxCooldownDistance)
+    self.cooldownDistance = int(min(100*np.ceil(globals.fracCooldownDistance * self.distance / 100), globals.maxCooldownDistance))
 
   # Method to determine the split of block distances into the set (and numer of sets too!)
   def setSetDistances(self):
