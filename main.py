@@ -19,6 +19,7 @@ def generateTraining(req):
     # Creation of a training function
     training = Training(distance=distance, standardInit=True, verbose=0)
 
-    return {"message": "You should see the distance you previously entered",
-            "distance": distance, 
-            "warmupDistance": training.warmupDistance}
+    # Generation of the training output
+    outputTraining = training.dictionary()
+
+    return outputTraining
