@@ -5,6 +5,7 @@ from Block import Block
 from Set import Set
 from Variation import Variation
 import utils
+import settings
 
 class ConstantDistanceSet(Set):
 
@@ -32,7 +33,7 @@ class ConstantDistanceSet(Set):
         optionIncreaseDecreaseSplit = {}
 
         # Loop over all possible distances for the constant blocks
-        for distance in np.arange(globals.minBlockDistance, self.distance + globals.stepBlockDistance, globals.stepBlockDistance):
+        for distance in np.arange(settings.globals.minBlockDistance, self.distance + settings.globals.stepBlockDistance, settings.globals.stepBlockDistance):
             
             # Condition: the number of blocks is an integer
             nBlocks = self.distance / distance
@@ -43,12 +44,12 @@ class ConstantDistanceSet(Set):
                 if nBlocks >2:
 
                     # Extra condition: we need to be able to split the distance in a logical way for the segments
-                    if distance/nBlocks/globals.minSegmentDistance == np.floor(distance/nBlocks/globals.minSegmentDistance):
+                    if distance/nBlocks/settings.globals.minSegmentDistance == np.floor(distance/nBlocks/settings.globals.minSegmentDistance):
                         optionIncreaseDecreaseSplit[distance] = np.arange(start=distance/nBlocks, stop=int((nBlocks+1)*distance/nBlocks), step=int(distance/nBlocks), dtype=int)
 
                     # We also accept cases where we add a "0" at the start of the sequence
                     if nBlocks != 1:
-                        if distance/(nBlocks-1)/globals.minSegmentDistance == np.floor(distance/(nBlocks-1)/globals.minSegmentDistance):
+                        if distance/(nBlocks-1)/settings.globals.minSegmentDistance == np.floor(distance/(nBlocks-1)/settings.globals.minSegmentDistance):
                             optionIncreaseDecreaseSplit[distance] = np.arange(start=0, stop=int((nBlocks)*distance/(nBlocks-1)), step=int(distance/(nBlocks-1)), dtype=int) 
 
         # Then deciding what type of Block sequence this will be: 
@@ -56,7 +57,7 @@ class ConstantDistanceSet(Set):
             # increaseDecreaseSplit: The block will have exactly two segments that will vary according to an increasing or decreasing pattern (if possible)
         
         if len(optionIncreaseDecreaseSplit.keys())>0:
-            self.sequenceType = np.random.choice(globals.splitTypeConstantDistance, p=globals.splitProbaConstantDistance)
+            self.sequenceType = np.random.choice(settings.globals.splitTypeConstantDistance, p=settings.globals.splitProbaConstantDistance)
         else: 
             self.sequenceType = "randomSplit"
 
@@ -112,7 +113,7 @@ class ConstantDistanceSet(Set):
                 varyingParameters = changingSegment.getVaryingParameters()
 
                 # We then create a variation for this changing segment
-                variationSegment =  Variation(allowedVariation=globals.allowedVariationConstantDistance1,
+                variationSegment =  Variation(allowedVariation=settings.globals.allowedVariationConstantDistance1,
                                             varyingParameters=varyingParameters,
                                             nBlocks=len(self.listBlockDistance),
                                             standardInit=True)
@@ -155,7 +156,7 @@ class ConstantDistanceSet(Set):
 
                 for block in self.listBlock:
 
-                    for parameter in globals.listAllParameters:
+                    for parameter in settings.globals.listAllParameters:
 
                         # Changing the values of the focus segment
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
@@ -201,9 +202,9 @@ class ConstantDistanceSet(Set):
             if self.neutralSegment is None: 
 
                 if changingSegmentIndex == 0:
-                    allowedVariationConstantDistance = globals.allowedVariationConstantDistance21
+                    allowedVariationConstantDistance = settings.globals.allowedVariationConstantDistance21
                 else: 
-                    allowedVariationConstantDistance = globals.allowedVariationConstantDistance22
+                    allowedVariationConstantDistance = settings.globals.allowedVariationConstantDistance22
 
                 # We then determine the parameter than can vary from one block to the other in the changing block
                 varyingParameters = changingSegment.getVaryingParameters()
@@ -233,7 +234,7 @@ class ConstantDistanceSet(Set):
                         constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(variationSegment.selParameter)
 
                         # Non-changing segment
-                        for parameter in globals.listAllParameters:
+                        for parameter in settings.globals.listAllParameters:
 
                             block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                         parameterValue=constraintBaseSegment[parameter])
@@ -248,7 +249,7 @@ class ConstantDistanceSet(Set):
 
                 for block in self.listBlock:
 
-                    for parameter in globals.listAllParameters:
+                    for parameter in settings.globals.listAllParameters:
 
                         # Changing the values of the focus segment
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,

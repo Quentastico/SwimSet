@@ -5,6 +5,7 @@ from Block import Block
 from Set import Set
 from Segment import Segment
 from Variation import Variation
+import settings
 
 class FrequencyIncreaseSet(Set):
 
@@ -31,12 +32,12 @@ class FrequencyIncreaseSet(Set):
 
         # 1. We first need to get all the possible scores by using the appropriate utils function
         optionCombos, scores = splitSetFrequencyIncrease(distance=self.distance,
-                                                         stepBlockDistance=globals.stepBlockDistance,
-                                                         minBlockDistance=globals.minBlockDistance,
-                                                         maxBlockDistance=globals.maxBlockDistance,
-                                                         minN=globals.minNumberFrequencyIncrease,
-                                                         maxN=globals.maxNumberFrequencyIncrease,
-                                                         maxDistanceDiff=globals.maxDistanceDiff)
+                                                         stepBlockDistance=settings.globals.stepBlockDistance,
+                                                         minBlockDistance=settings.globals.minBlockDistance,
+                                                         maxBlockDistance=settings.globals.maxBlockDistance,
+                                                         minN=settings.globals.minNumberFrequencyIncrease,
+                                                         maxN=settings.globals.maxNumberFrequencyIncrease,
+                                                         maxDistanceDiff=settings.globals.maxDistanceDiff)
         
         # 2. We then need to select a combo
         if len(optionCombos) == 0:
@@ -82,7 +83,7 @@ class FrequencyIncreaseSet(Set):
             varyingParameters = baseSegment.getVaryingParameters()
 
             # 3. We then create a variation that will determine what parameters will actually change from the base segment to the special segment
-            variationSegment = Variation(allowedVariation=globals.allowedVariationFrequencyIncrease1, 
+            variationSegment = Variation(allowedVariation=settings.globals.allowedVariationFrequencyIncrease1, 
                                         varyingParameters=varyingParameters, 
                                         nBlocks=2, 
                                         standardInit=True)
@@ -105,13 +106,13 @@ class FrequencyIncreaseSet(Set):
 
             # Base segment: set by neutralSegment characteristics
             baseSegment = Segment(distance=self.selCombo[1])
-            for parameter in globals.listAllParameters:
+            for parameter in settings.globals.listAllParameters:
                 baseSegment.setForcedParameter(parameterName=parameter,
                                                parameterValue=self.neutralSegment[parameter])
                 
             # Special segment: set by the focusSegment characteristics
             specialSegment = baseSegment.copy()
-            for parameter in globals.listAllParameters:
+            for parameter in settings.globals.listAllParameters:
                 specialSegment.setForcedParameter(parameterName=parameter,
                                                   parameterValue=self.focusSegment[parameter])
         

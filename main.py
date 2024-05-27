@@ -3,7 +3,7 @@ import json
 import urllib
 from Training import Training
 from utils import extractFromJSON
-from Globals import Globals
+import settings
 
 @functions_framework.http
 def generateTraining(req):
@@ -19,10 +19,9 @@ def generateTraining(req):
                                requestArgs=requestArgs)
     
     # Creation of the parameter object "Globals"
-    global globals
-    globals = Globals()
-    globals.buildFromReq(requestJSON=requestJSON,
-                         requestArgs=requestArgs)
+    settings.init()
+    settings.globals.buildFromReq(requestJSON=requestJSON,
+                                  requestArgs=requestArgs)
 
     # Creation of a training function
     training = Training(distance=distance,
