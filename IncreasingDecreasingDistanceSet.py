@@ -330,7 +330,7 @@ class IncreasingDecreasingDistanceSet(Set):
                         
                 # Then taking care of the last block
                 for parameter in settings.globals.listAllParameters:
-                    self.listBlock[len(self.listBlock)].listSegment[0].setForcedParameter(parameterName=parameter, 
+                    self.listBlock[len(self.listBlock)-1].listSegment[0].setForcedParameter(parameterName=parameter, 
                                                                                           parameterValue=self.neutralSegment[parameter])
             
             # We finally choose to flip or not the order of the segment in each block
