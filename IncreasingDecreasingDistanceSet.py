@@ -1,7 +1,6 @@
 ## GLOBAL VARIABLES
 
 import numpy as np
-import globals
 from utils import splitSetIncreaseDecrease
 from utils import removeTypeProba
 from Block import Block

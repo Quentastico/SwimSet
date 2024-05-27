@@ -1,7 +1,6 @@
 # IMPORTS
 
 import numpy as np
-import globals
 
 class Variation:
 

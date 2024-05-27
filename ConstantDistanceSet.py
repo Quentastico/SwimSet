@@ -1,7 +1,6 @@
 ## IMPORTS
 
 import numpy as np
-import globals
 from Block import Block
 from Set import Set
 from Variation import Variation

@@ -1,5 +1,4 @@
 import numpy as np
-import globals
 from utils import pickDistances
 from utils import convertDuration
 from Segment import Segment
