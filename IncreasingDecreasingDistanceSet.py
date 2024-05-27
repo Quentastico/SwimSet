@@ -328,8 +328,6 @@ class IncreasingDecreasingDistanceSet(Set):
                         # Changing the values of the neutral segment(s)
                         block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                       parameterValue=self.neutralSegment[parameter])
-                        
-                    indexBlock += 1
             
             # We finally choose to flip or not the order of the segment in each block
             flip = np.random.choice([True, False])
