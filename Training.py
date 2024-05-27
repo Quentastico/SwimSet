@@ -34,7 +34,7 @@ class Training:
     # 2.1. Data Check 1 - Checking that the total distance if higher than the minimal limit
     if (self.distance < settings.globals.minTotalDistance):
       if self.verbose >= 1: 
-        print("Please enter a distance value higher than the minimal allowed value: "+ str(globals.minBlockDistance) + "m")
+        print("Please enter a distance value higher than the minimal allowed value: "+ str(settings.globals.minBlockDistance) + "m")
       return
 
     # 2.2. Data Check 2 - Checking that the distance is a multiple of 100
@@ -78,13 +78,13 @@ class Training:
   # Method to determine the warmup distance
   def setWarmupDistance(self):
 
-    self.warmupDistance = int(max(globals.minWarmupDistance, 100 * np.round(globals.fracWarmupDistance * self.distance / 100)))
+    self.warmupDistance = int(max(settings.globals.minWarmupDistance, 100 * np.round(settings.globals.fracWarmupDistance * self.distance / 100)))
 
 
   # Method to determine the cooldown distance
   def setCooldownDistance(self):
 
-    self.cooldownDistance = int(min(100*np.ceil(globals.fracCooldownDistance * self.distance / 100), globals.maxCooldownDistance))
+    self.cooldownDistance = int(min(100*np.ceil(settings.globals.fracCooldownDistance * self.distance / 100), settings.globals.maxCooldownDistance))
 
   # Method to determine the split of block distances into the set (and numer of sets too!)
   def setSetDistances(self):
@@ -92,11 +92,11 @@ class Training:
     # 1. Determination of the maximal number of repeats of the same set
 
     # We first start with "6" repeats, which is not possible 
-    maxRepeatSet = globals.maxNumberRepeatSet + 1
+    maxRepeatSet = settings.globals.maxNumberRepeatSet + 1
     repeatPossible = False
 
     # Then we loop on max repeat by removing one at each time of the loop
-    while (~repeatPossible) & (maxRepeatSet > globals.minNumberRepeatSet):
+    while (~repeatPossible) & (maxRepeatSet > settings.globals.minNumberRepeatSet):
       maxRepeatSet -= 1
       metaSet = MetaSet(numberSets=maxRepeatSet, standardInit=True)
       if len(metaSet.listFocusSegments) > 0:
@@ -110,15 +110,15 @@ class Training:
 
     if repeatPossible: 
 
-      for nRepeat in np.arange(globals.minNumberRepeatSet, maxRepeatSet+1, 1):
-        for setDistance in np.arange(globals.minSetDistance, globals.maxRepeatSetDistance+globals.stepSetDistance, globals.stepSetDistance):
+      for nRepeat in np.arange(settings.globals.minNumberRepeatSet, maxRepeatSet+1, 1):
+        for setDistance in np.arange(settings.globals.minSetDistance, settings.globals.maxRepeatSetDistance+settings.globals.stepSetDistance, settings.globals.stepSetDistance):
 
           # Defining the distance of the repeat sets (all together) and the remaining distance set
           repeatDistance = nRepeat * setDistance
           remainingDistance = self.mainsetDistance - repeatDistance
 
           # Selection of the possible cases
-          if (remainingDistance == 0) | (remainingDistance >= globals.minSetDistance):
+          if (remainingDistance == 0) | (remainingDistance >= settings.globals.minSetDistance):
 
             # Creating the first half of the combo: nRepeat times the distance setDistance
             newCombo = []
@@ -127,11 +127,11 @@ class Training:
             # Creating the second part of the combo: the list of the distances
 
             if remainingDistance > 0:
-              nRemainingSet = max(int(np.round(remainingDistance/globals.avSetDistance)), 1)
+              nRemainingSet = max(int(np.round(remainingDistance/settings.globals.avSetDistance)), 1)
               listRemainingDistance = pickDistances(distance=remainingDistance,
-                                                    minDistance=globals.minSetDistance,
+                                                    minDistance=settings.globals.minSetDistance,
                                                     avDistance=remainingDistance/nRemainingSet,
-                                                    stepDistance=globals.stepSetDistance,
+                                                    stepDistance=settings.globals.stepSetDistance,
                                                     nDistance=nRemainingSet)
             else:
               listRemainingDistance = []
@@ -142,7 +142,7 @@ class Training:
     
     # 2. Determination of whether it will be a distanceRepeatSetTraining or a random training
     if len(combos) > 0:
-      self.trainingType = np.random.choice(globals.trainingTypes, p=globals.trainingProba)
+      self.trainingType = np.random.choice(settings.globals.trainingTypes, p=settings.globals.trainingProba)
     else:
       self.trainingType = "Random Training"
 
@@ -163,13 +163,13 @@ class Training:
     if self.trainingType == "Random Training":
 
       # We first need to determine the number of sets
-      self.numberSets = int(np.round(self.mainsetDistance / globals.avSetDistance))
+      self.numberSets = int(np.round(self.mainsetDistance / settings.globals.avSetDistance))
 
       # We then use the random pick distance function to determine the set distances
       self.listSetDistance = pickDistances(distance=self.mainsetDistance,
-                                           minDistance=globals.minSetDistance,
+                                           minDistance=settings.globals.minSetDistance,
                                            avDistance=self.mainsetDistance/self.numberSets, # better here to take the actual value of the set rather than the user-defined value
-                                           stepDistance=globals.stepSetDistance,
+                                           stepDistance=settings.globals.stepSetDistance,
                                            nDistance=self.numberSets)
   
   # Creation of the Sets
@@ -196,7 +196,7 @@ class Training:
         print("SET 1 creation")
         print("Set type: " + selSetType)
 
-      firstSet = globals.setTypes[selSetType](distance=listRepeatDistance[0],
+      firstSet = settings.globals.setTypes[selSetType](distance=listRepeatDistance[0],
                                               standardInit=True,
                                               neutralSegment=metaSet.neutralSegment,
                                               focusSegment=metaSet.listFocusSegments[0])
@@ -227,7 +227,7 @@ class Training:
             print("Set type: " + selSetType)
 
         # Then create the set and add it to the list
-        newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
+        newSet = settings.globals.setTypes[selSetType](distance=distance, standardInit=True)
         self.listSet.append(newSet)        
 
     if self.trainingType == "Random Training": # Random Training
@@ -242,7 +242,7 @@ class Training:
           print("Set type: " + selSetType)
 
         # 2. Then create the set and add it to the list
-        newSet = globals.setTypes[selSetType](distance=distance, standardInit=True)
+        newSet = settings.globals.setTypes[selSetType](distance=distance, standardInit=True)
         self.listSet.append(newSet)
 
 
@@ -252,11 +252,11 @@ class Training:
     # distance: the distance of the set (m)
           
     # Extraction of all the possible types of sets
-    possibleSetTypes = list(globals.setTypes.keys())
+    possibleSetTypes = list(settings.globals.setTypes.keys())
           
     # Initiating the while loop which will make sure that the set can be created
     newSetListDistance = None
-    setProba = globals.setProba.copy()
+    setProba = settings.globals.setProba.copy()
 
     while newSetListDistance is None:
 
@@ -264,7 +264,7 @@ class Training:
       selSetType = np.random.choice(possibleSetTypes, p=setProba)
 
       # Creating a new set
-      newSet = globals.setTypes[selSetType](distance=distance, standardInit=False)
+      newSet = settings.globals.setTypes[selSetType](distance=distance, standardInit=False)
       newSet.setBlockDistances()
       newSetListDistance = newSet.listBlockDistance
 
