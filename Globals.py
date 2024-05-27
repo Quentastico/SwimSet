@@ -71,7 +71,7 @@ class Globals:
         self.equipmentProba = globalsDefault.equipmentProba
         self.kickTypes = globalsDefault.kickTypes
         self.kickProba = globalsDefault.kickProba
-        self.drillType = globalsDefault.drillType
+        self.drillTypes = globalsDefault.drillTypes
         self.drillProba = globalsDefault.drillProba
         self.strokeTypes = globalsDefault.strokeTypes
         self.strokeProba = globalsDefault.strokeProba
