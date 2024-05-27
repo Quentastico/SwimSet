@@ -7,7 +7,6 @@ from utils import pickDistances
 from utils import removeTypeProba
 from Set import Set
 from MetaSet import MetaSet
-global globals
 
 class Training:
 
