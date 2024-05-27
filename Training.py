@@ -7,7 +7,7 @@ from utils import pickDistances
 from utils import removeTypeProba
 from Set import Set
 from MetaSet import MetaSet
-from settings import globals
+import settings
 
 class Training:
 
@@ -32,7 +32,7 @@ class Training:
     # 2. DATA CHECKS
 
     # 2.1. Data Check 1 - Checking that the total distance if higher than the minimal limit
-    if (self.distance < globals.minTotalDistance):
+    if (self.distance < settings.globals.minTotalDistance):
       if self.verbose >= 1: 
         print("Please enter a distance value higher than the minimal allowed value: "+ str(globals.minBlockDistance) + "m")
       return
