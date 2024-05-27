@@ -312,16 +312,7 @@ class IncreasingDecreasingDistanceSet(Set):
                 # The changing segment will be forced to have all the characetristics of the focus segments; 
                 # all the others will have the values of the neutral segment
 
-                print("POSITION 1")
-
-                indexBlock = 0
-
                 for block in self.listBlock[:-1]:
-
-                    print("index of the block")
-                    print(indexBlock)
-                    print("block info")
-                    block.info()
 
                     for parameter in settings.globals.listAllParameters:
 
