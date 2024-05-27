@@ -1,11 +1,5 @@
 import globalsDefault
 import numpy as np
-from ConstantDistanceSet import ConstantDistanceSet
-from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
-from PyramidDistanceSet import PyramidDistanceSet
-from DistanceRepSet import DistanceRepSet
-from FrequencyIncreaseSet import FrequencyIncreaseSet
-from CyclicDistanceSet import CyclicDistanceSet
 from utils import extractFromJSON
 
 class Globals:
@@ -28,7 +22,6 @@ class Globals:
         self.avSetDistance = globalsDefault.avSetDistance
         self.stepSetDistance = globalsDefault.stepSetDistance
         self.maxDistanceDiff = globalsDefault.maxDistanceDiff
-        self.setTypes = globalsDefault.setTypes
         self.setProba = globalsDefault.setProba
         self.splitTypeConstantDistance = globalsDefault.splitTypeConstantDistance
         self.splitProbaConstantDistance = globalsDefault.splitProbaConstantDistance

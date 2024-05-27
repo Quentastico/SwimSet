@@ -1,11 +1,11 @@
 # IMPORTS
 import numpy as np
-from ConstantDistanceSet import ConstantDistanceSet
-from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
-from PyramidDistanceSet import PyramidDistanceSet
-from DistanceRepSet import DistanceRepSet
-from FrequencyIncreaseSet import FrequencyIncreaseSet
-from CyclicDistanceSet import CyclicDistanceSet
+# from ConstantDistanceSet import ConstantDistanceSet
+# from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
+# from PyramidDistanceSet import PyramidDistanceSet
+# from DistanceRepSet import DistanceRepSet
+# from FrequencyIncreaseSet import FrequencyIncreaseSet
+# from CyclicDistanceSet import CyclicDistanceSet
 
 #TRAINING
 
@@ -65,12 +65,7 @@ stepSetDistance = 100
 maxDistanceDiff = 50
 
 # Defining the different types of variation withtin a set and associating an object type
-setTypes = {"Constant Distance": ConstantDistanceSet,
-            "Increasing/Decreasing Distance": IncreasingDecreasingDistanceSet,
-            "Pyramid Distance": PyramidDistanceSet,
-            "Distance Rep": DistanceRepSet,
-            "Frequency Increase": FrequencyIncreaseSet,
-            "Cyclic Distance": CyclicDistanceSet}
+
 
 # Defining the probability of picking any type of any set randomly
 setProba = [1/6, 1/6, 1/6, 1/6, 1/6, 1/6]
