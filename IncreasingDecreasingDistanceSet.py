@@ -316,7 +316,7 @@ class IncreasingDecreasingDistanceSet(Set):
 
                 indexBlock = 0
 
-                for block in self.listBlock:
+                for block in self.listBlock[:-1]:
 
                     print("index of the block")
                     print(indexBlock)
