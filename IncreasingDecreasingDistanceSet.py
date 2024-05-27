@@ -312,9 +312,20 @@ class IncreasingDecreasingDistanceSet(Set):
                 # The changing segment will be forced to have all the characetristics of the focus segments; 
                 # all the others will have the values of the neutral segment
 
+                print("POSITION 1")
+
+                indexBlock = 0
+
                 for block in self.listBlock:
 
+                    print("index of the block")
+                    print(indexBlock)
+                    print("block info")
+                    block.info()
+
                     for parameter in settings.globals.listAllParameters:
+
+                        print(parameter)
 
                         # Changing the values of the focus segment
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
@@ -326,6 +337,8 @@ class IncreasingDecreasingDistanceSet(Set):
                         # Changing the values of the neutral segment(s)
                         block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                       parameterValue=self.neutralSegment[parameter])
+                        
+                    indexBlock += 1
             
             # We finally choose to flip or not the order of the segment in each block
             flip = np.random.choice([True, False])
