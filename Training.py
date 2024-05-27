@@ -7,6 +7,12 @@ from utils import pickDistances
 from utils import removeTypeProba
 from Set import Set
 from MetaSet import MetaSet
+from ConstantDistanceSet import ConstantDistanceSet
+from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
+from PyramidDistanceSet import PyramidDistanceSet
+from DistanceRepSet import DistanceRepSet
+from FrequencyIncreaseSet import FrequencyIncreaseSet
+from CyclicDistanceSet import CyclicDistanceSet
 import settings
 
 class Training:
@@ -28,6 +34,13 @@ class Training:
     self.nSetRepeat = None # IN the case of a repeat set trainig, thi indicates how many sets will repeat at the start of the training
     self.combo = [] # In the case of a repeat set training, this is the combo defining the distances
     self.verbose = verbose # defines the level of information displayed to to the user (0: no info; increases with this argument)
+    # Useful dictionary which will associate a settype to its name
+    self.setTypes =  {"Constant Distance": ConstantDistanceSet,
+                      "Increasing/Decreasing Distance": IncreasingDecreasingDistanceSet, 
+                      "Pyramid Distance": PyramidDistanceSet,
+                      "Distance Rep": DistanceRepSet,
+                      "Frequency Increase": FrequencyIncreaseSet,
+                      "Cyclic Distance": CyclicDistanceSet}
 
     # 2. DATA CHECKS
 
@@ -196,7 +209,7 @@ class Training:
         print("SET 1 creation")
         print("Set type: " + selSetType)
 
-      firstSet = settings.globals.setTypes[selSetType](distance=listRepeatDistance[0],
+      firstSet = self.setTypes[selSetType](distance=listRepeatDistance[0],
                                               standardInit=True,
                                               neutralSegment=metaSet.neutralSegment,
                                               focusSegment=metaSet.listFocusSegments[0])
@@ -227,7 +240,7 @@ class Training:
             print("Set type: " + selSetType)
 
         # Then create the set and add it to the list
-        newSet = settings.globals.setTypes[selSetType](distance=distance, standardInit=True)
+        newSet = self.setTypes[selSetType](distance=distance, standardInit=True)
         self.listSet.append(newSet)        
 
     if self.trainingType == "Random Training": # Random Training
@@ -242,7 +255,7 @@ class Training:
           print("Set type: " + selSetType)
 
         # 2. Then create the set and add it to the list
-        newSet = settings.globals.setTypes[selSetType](distance=distance, standardInit=True)
+        newSet = self.setTypes[selSetType](distance=distance, standardInit=True)
         self.listSet.append(newSet)
 
 
@@ -252,7 +265,7 @@ class Training:
     # distance: the distance of the set (m)
           
     # Extraction of all the possible types of sets
-    possibleSetTypes = list(settings.globals.setTypes.keys())
+    possibleSetTypes = list(self.setTypes.keys())
           
     # Initiating the while loop which will make sure that the set can be created
     newSetListDistance = None
@@ -264,7 +277,7 @@ class Training:
       selSetType = np.random.choice(possibleSetTypes, p=setProba)
 
       # Creating a new set
-      newSet = settings.globals.setTypes[selSetType](distance=distance, standardInit=False)
+      newSet = self.setTypes[selSetType](distance=distance, standardInit=False)
       newSet.setBlockDistances()
       newSetListDistance = newSet.listBlockDistance
 
