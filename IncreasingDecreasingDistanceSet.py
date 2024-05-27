@@ -7,6 +7,7 @@ from Block import Block
 from Set import Set
 from Variation import Variation
 from Segment import Segment
+import settings
 
 # Note: this class was coded by assuming that the set will DECREASE in length from one set to the other
 # Note: At the end of the set creation, it is therefore important to decide if the set will increase or decrease in block distance and potentially flip the set if required. 
@@ -33,16 +34,16 @@ class IncreasingDecreasingDistanceSet(Set):
     # Method to decide if this will be a decrease or an increase
     def setIncreaseDecrease(self):
         
-        self.increaseDecrease = np.random.choice(globals.increaseDecreaseType, p=globals.increaseDecreaseProba)
+        self.increaseDecrease = np.random.choice(settings.globals.increaseDecreaseType, p=settings.globals.increaseDecreaseProba)
 
     # Method to split the set into a given distance
     def setBlockDistances(self):
 
         # Finding all the ways to cut the set
         optionBlocks = splitSetIncreaseDecrease(distance = self.distance,
-                                                stepBlockDistance = globals.stepBlockDistance,
-                                                minBlockDistance = globals.minBlockDistance,
-                                                minBlocks = globals.minBlocksIncrease)
+                                                stepBlockDistance = settings.globals.stepBlockDistance,
+                                                minBlockDistance = settings.globals.minBlockDistance,
+                                                minBlocks = settings.globals.minBlocksIncrease)
 
         # Choosing a random way (if it exists)
         if len(optionBlocks) > 0:
@@ -62,8 +63,8 @@ class IncreasingDecreasingDistanceSet(Set):
         # Note': it must be ensured that for the "half-half" scheme to be selected, half of the minimal block distance is higher than the minimal segment distance
 
         # Creating copies of the splitType and splitProba arrays from globals
-        splitType = globals.splitTypeIncreaseDecreaseDistance.copy()
-        splitProba = globals.splitProbaIncreaseDecreaseDistance.copy()
+        splitType = settings.globals.splitTypeIncreaseDecreaseDistance.copy()
+        splitProba = settings.globals.splitProbaIncreaseDecreaseDistance.copy()
 
         # Removal of the "buildblock" for the metaSet
         if self.neutralSegment is not None: 
@@ -72,7 +73,7 @@ class IncreasingDecreasingDistanceSet(Set):
                                                     typeToRemove="buildBlock")
             
         # Removal of the type halfHalf if the half distance of the block is too small
-        if np.min(self.listBlockDistance)/2 < globals.minSegmentDistance:
+        if np.min(self.listBlockDistance)/2 < settings.globals.minSegmentDistance:
             splitType, splitProba = removeTypeProba(typeArray=splitType,
                                                     probaArray=splitProba,
                                                     typeToRemove="halfHalf")
@@ -109,7 +110,7 @@ class IncreasingDecreasingDistanceSet(Set):
                 varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
 
                 # We then select the parameter that will change and its values through the creation of a variation
-                variationSegment =  Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance1,
+                variationSegment =  Variation(allowedVariation=settings.globals.allowedVariationIncreaseDecreaseDistance1,
                                             varyingParameters=varyingParameters,
                                             nBlocks=len(self.listBlockDistance),
                                             standardInit=True)
@@ -137,7 +138,7 @@ class IncreasingDecreasingDistanceSet(Set):
 
                 for block in self.listBlock:
 
-                    for parameter in globals.listAllParameters:
+                    for parameter in settings.globals.listAllParameters:
 
                         # Changing the values of the focus segment - The only segment in this case
                         block.listSegment[0].setForcedParameter(parameterName=parameter,
@@ -181,7 +182,7 @@ class IncreasingDecreasingDistanceSet(Set):
                 varyingParameters = firstBlock.listSegment[changingSegmentIndex].getVaryingParameters()
 
                 # We then select the parameter that will change and its values through the creation of a variation
-                variationSegment = Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance2,
+                variationSegment = Variation(allowedVariation=settings.globals.allowedVariationIncreaseDecreaseDistance2,
                                             varyingParameters=varyingParameters,
                                             nBlocks=len(self.listBlockDistance),
                                             standardInit=True)
@@ -205,7 +206,7 @@ class IncreasingDecreasingDistanceSet(Set):
                         constraintBaseSegment = block.listSegment[changingSegmentIndex].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
 
                         # Changing all the parameters values in the non-changing segment
-                        for parameter in globals.listAllParameters:
+                        for parameter in settings.globals.listAllParameters:
 
                             block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                         parameterValue=constraintBaseSegment[parameter])
@@ -220,7 +221,7 @@ class IncreasingDecreasingDistanceSet(Set):
 
                 for block in self.listBlock:
 
-                    for parameter in globals.listAllParameters:
+                    for parameter in settings.globals.listAllParameters:
 
                         # Changing the values of the focus segment
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
@@ -274,7 +275,7 @@ class IncreasingDecreasingDistanceSet(Set):
                 varyingParameters = firstBlock.listSegment[0].getVaryingParameters()
 
                 # We then determine the parameter that will actually vary from one block to the other through the creation of a Variation
-                variationSegment =  Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance3,
+                variationSegment =  Variation(allowedVariation=settings.globals.allowedVariationIncreaseDecreaseDistance3,
                                             varyingParameters=varyingParameters,
                                             nBlocks=len(self.listBlockDistance),
                                             standardInit=True)
@@ -298,7 +299,7 @@ class IncreasingDecreasingDistanceSet(Set):
                         constraintBaseSegment = block.listSegment[0].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
 
                         # Changing all the parameters values in the non-changing segment
-                        for parameter in globals.listAllParameters:
+                        for parameter in settings.globals.listAllParameters:
 
                             block.listSegment[1].setForcedParameter(parameterName=parameter,
                                                                     parameterValue=constraintBaseSegment[parameter])
@@ -313,7 +314,7 @@ class IncreasingDecreasingDistanceSet(Set):
 
                 for block in self.listBlock:
 
-                    for parameter in globals.listAllParameters:
+                    for parameter in settings.globals.listAllParameters:
 
                         # Changing the values of the focus segment
                         block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=parameter,
@@ -355,7 +356,7 @@ class IncreasingDecreasingDistanceSet(Set):
             varyingParameters = firstSegment.getVaryingParameters()
 
             # We then determine the parameter that will actually vary from one block to the other through the creation of a Variation
-            variationSegment =  Variation(allowedVariation=globals.allowedVariationIncreaseDecreaseDistance4,
+            variationSegment =  Variation(allowedVariation=settings.globals.allowedVariationIncreaseDecreaseDistance4,
                                           varyingParameters=varyingParameters,
                                           nBlocks=len(self.listBlockDistance),
                                           standardInit=True)

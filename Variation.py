@@ -1,6 +1,7 @@
 # IMPORTS
 
 import numpy as np
+import settings
 
 class Variation:
 
@@ -19,7 +20,7 @@ class Variation:
         # DATA CHECK
 
         # We need to make sure that all the parameters are defined in the two dictionaries passed as inputs
-        for parameter in globals.listAllParameters:
+        for parameter in settings.globals.listAllParameters:
             if parameter not in self.allowedVariation.keys():
                 print("Be careful when calling the Variation object - Not all parameters have a defintion in allowedVariation")
             if parameter not in self.varyingParameters.keys():
@@ -38,7 +39,7 @@ class Variation:
         parameterValues = {}
 
         # Looping on all the possible parameters and populating the dictionary listing what values each parameter can take from one set to the other
-        for parameter in globals.listAllParameters:
+        for parameter in settings.globals.listAllParameters:
             if (self.allowedVariation[parameter] is not None) & (self.varyingParameters[parameter] is not None):
 
                 # Special case of stroke or equipment
@@ -46,12 +47,12 @@ class Variation:
 
                     # Identifying the vectors of interest
                     if parameter == "stroke":
-                        parameterTypes = globals.strokeTypes
-                        parameterProba = globals.strokeProba
+                        parameterTypes = settings.globals.strokeTypes
+                        parameterProba = settings.globals.strokeProba
                     
                     if parameter == "equipment":
-                        parameterTypes = globals.equipmentTypes
-                        parameterProba = globals.equipmentProba
+                        parameterTypes = settings.globals.equipmentTypes
+                        parameterProba = settings.globals.equipmentProba
 
                     # Then we need to determine the actual number of strokes based on user preferences (i.e. coeffs from 0 to 1): 
                     allowedValues = []
@@ -126,12 +127,12 @@ class Variation:
 
         # Identifying the vectors of interest
         if self.selParameter == "stroke":
-            parameterTypes = globals.strokeTypes
-            parameterProba = globals.strokeProba
+            parameterTypes = settings.globals.strokeTypes
+            parameterProba = settings.globals.strokeProba
         
         if self.selParameter == "equipment":
-            parameterTypes = globals.equipmentTypes
-            parameterProba = globals.equipmentProba
+            parameterTypes = settings.globals.equipmentTypes
+            parameterProba = settings.globals.equipmentProba
             
         for value in selParameterValues:
             indexValue = parameterTypes.index(value)
@@ -179,8 +180,8 @@ class Variation:
     def createIntensityVariation(self):       
             
         # Import useful parameters
-        maxIntensity = globals.maxIntensity
-        minIntensity = globals.minIntensity
+        maxIntensity = settings.globals.maxIntensity
+        minIntensity = settings.globals.minIntensity
 
         # determining if the intensity will increase or decrease
         optionIntensity = np.random.choice(self.allowedVariation[self.selParameter])

@@ -5,6 +5,7 @@ from utils import splitSetCyclicDistance
 from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
 from Block import Block
 from Set import Set
+import settings
 
 class CyclicDistanceSet(Set):
 
@@ -28,9 +29,9 @@ class CyclicDistanceSet(Set):
 
         # Create a way to split the set
         combos = splitSetCyclicDistance(distance=self.distance,
-                                        minBlockDistance=globals.minBlockDistance,
-                                        maxBlockDistance=globals.maxBlockDistance,
-                                        stepBlockDistance=globals.stepBlockDistance)
+                                        minBlockDistance=settings.globals.minBlockDistance,
+                                        maxBlockDistance=settings.globals.maxBlockDistance,
+                                        stepBlockDistance=settings.globals.stepBlockDistance)
         
         
         if len(combos) > 0:

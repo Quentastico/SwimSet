@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from utils import convertDuration
+import settings 
 
 class Segment:
 
@@ -22,13 +23,13 @@ class Segment:
   def setRandomEquipment(self):
 
     if self.equipment == None:
-      self.equipment = np.random.choice(globals.equipmentTypes, p=globals.equipmentProba)
+      self.equipment = np.random.choice(settings.globals.equipmentTypes, p=settings.globals.equipmentProba)
 
   # Method to set the Kick
   def setRandomKick(self):
 
     if self.equipment != "pullBuoyAndPaddles":
-      self.kick = np.random.choice(globals.kickTypes, p=globals.kickProba)
+      self.kick = np.random.choice(settings.globals.kickTypes, p=settings.globals.kickProba)
     else:
       self.kick = "No kick"
 
@@ -36,7 +37,7 @@ class Segment:
   def setRandomDrill(self):
 
     if self.equipment != "pullBuoyAndPaddles":
-      self.drill = np.random.choice(globals.drillTypes, p=globals.drillProba)
+      self.drill = np.random.choice(settings.globals.drillTypes, p=settings.globals.drillProba)
     else:
       self.drill = "No drill"
 
@@ -47,12 +48,12 @@ class Segment:
       self.stroke = "freestyle"
     
     else:
-      self.stroke = np.random.choice(globals.strokeTypes, p=globals.strokeProba)
+      self.stroke = np.random.choice(settings.globals.strokeTypes, p=settings.globals.strokeProba)
 
   # Method to set the intensity
   def setRandomIntensity(self):
     
-    self.intensity = np.random.randint(low = globals.minIntensity, high = globals.maxIntensity + 1)
+    self.intensity = np.random.randint(low = settings.globals.minIntensity, high = settings.globals.maxIntensity + 1)
 
   # Method to set all attributes randomly
   def setRandomAll(self):
@@ -114,7 +115,7 @@ class Segment:
   def getVaryingParameters(self):
 
     # Making the segmentConstraints excel into a proper Dataframe
-    segmentConstraints = pd.read_excel(globals.segmentConstraintsPath)
+    segmentConstraints = pd.read_excel(settings.globals.segmentConstraintsPath)
 
     # 1. Extracting the rows of interest
 
@@ -122,7 +123,7 @@ class Segment:
     relConstraints = segmentConstraints.iloc[0:2]
 
     # 1.2. Extracting the relevant table
-    for parameter in globals.listAllParameters:
+    for parameter in settings.globals.listAllParameters:
       if parameter != "intensity":
         relConstraints = pd.concat([relConstraints, segmentConstraints[(segmentConstraints['Parameter']==parameter) & (segmentConstraints['Value'] == self.getParameter(parameter))]])
       else: 
@@ -140,7 +141,7 @@ class Segment:
 
     # 2.2. Then we determine what value each parameter can take
     parameterValues = {}
-    for parameter in globals.listAllParameters:
+    for parameter in settings.globals.listAllParameters:
       if parameter in selParameters:
         parameterValues[parameter] = list(relConstraints[(relConstraints[0]==parameter) & (relConstraints["VALID"])][1].values)
       else:
@@ -167,7 +168,7 @@ class Segment:
   def getBaseSegmentParameters(self, selParameter):
 
     # 1. Importing the excel table listing the possible values for the baseSegment
-    baseSegment = pd.read_excel(globals.baseSegmentPath, skiprows=1)
+    baseSegment = pd.read_excel(settings.globals.baseSegmentPath, skiprows=1)
 
     # 2. Transforming the table to keep the row of interest by only selecting the row which corresponds to the changing segment parameter
     if selParameter is not None: 
@@ -178,7 +179,7 @@ class Segment:
     # 3. Looping on all the parameters and populating the dicionary adding constraing on the base segment
     constraintBaseSegment = {}
 
-    for parameter in globals.listAllParameters:
+    for parameter in settings.globals.listAllParameters:
 
       constraintValue = selBaseSegment.iloc[0][parameter]
 
@@ -201,7 +202,7 @@ class Segment:
     # Creating the dictionnary of multiplicative factors
     multFactors = {}
 
-    for parameter in globals.listAllParameters:
+    for parameter in settings.globals.listAllParameters:
 
       # Determining the value of this parameter for the given segment
       parameterValue = self.getParameter(parameterName=parameter)
@@ -210,10 +211,10 @@ class Segment:
           parameterValue = "drill"
 
       # Extracting the relevant values of the parameters
-      relBaseTimeTypes = globals.baseTimeTypes[parameter]
+      relBaseTimeTypes = settings.globals.baseTimeTypes[parameter]
 
       # Extracting the relevant values of the times for this parameter
-      relBaseTimes = globals.baseTimes[parameter]
+      relBaseTimes = settings.globals.baseTimes[parameter]
 
       # Finding the position of the parameter value in relBaseTimeTypes
       indexParameterValue = relBaseTimeTypes.index(parameterValue)
@@ -222,7 +223,7 @@ class Segment:
       relTime = relBaseTimes[indexParameterValue]
 
       # Calculating the multiplicative factor
-      multFactor = relTime / globals.baseTime
+      multFactor = relTime / settings.globals.baseTime
 
       # Storing the value of the factor in the dictionary
       multFactors[parameter] = multFactor
@@ -233,7 +234,7 @@ class Segment:
       totalMultFactor *= multFactors[parameter]
 
     # Calculating the duration
-    duration = globals.baseTime * totalMultFactor * self.distance / globals.baseTimeParameters["distance"]
+    duration = settings.globals.baseTime * totalMultFactor * self.distance / settings.globals.baseTimeParameters["distance"]
 
     # rounding up the duration at +/-5 seconds
     durationMinutes, durationSeconds = convertDuration(duration)

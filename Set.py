@@ -3,6 +3,7 @@
 import numpy as np
 from Block import Block
 from utils import convertDuration
+import settings
 
 class Set:
 
@@ -81,7 +82,7 @@ class Set:
         if segment.focus:
 
           # Looping on all the parameters of the block
-          for parameter in globals.listAllParameters:
+          for parameter in settings.globals.listAllParameters:
             segment.setForcedParameter(parameterName=parameter,
                                        parameterValue=newFocusSegment[parameter])
             

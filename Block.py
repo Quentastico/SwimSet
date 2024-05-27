@@ -2,6 +2,7 @@ import numpy as np
 from utils import pickDistances
 from utils import convertDuration
 from Segment import Segment
+import settings
 
 class Block:
 
@@ -23,18 +24,18 @@ class Block:
     # Determining the number of segments randomly between the minimum and maximum numbers (if not already user-defined)
     if self.nSegments is None:  
 
-      self.nSegments = np.random.randint(low=globals.minSegmentNumber, high=globals.maxSegmentNumber+1)
+      self.nSegments = np.random.randint(low=settings.globals.minSegmentNumber, high=settings.globals.maxSegmentNumber+1)
 
       # Checking that the number of segments are compatible with the distance
-      if self.distance/self.nSegments < globals.minSegmentDistance:
-        self.nSegments = int(np.floor(self.distance/globals.minSegmentDistance))
+      if self.distance/self.nSegments < settings.globals.minSegmentDistance:
+        self.nSegments = int(np.floor(self.distance/settings.globals.minSegmentDistance))
 
     # Attributing random values within the block
         
     self.listSegmentDistance = pickDistances(distance=self.distance,
-                                              minDistance=globals.minSegmentDistance,
+                                              minDistance=settings.globals.minSegmentDistance,
                                               avDistance=self.distance/self.nSegments,
-                                              stepDistance=globals.stepSegmentDistance,
+                                              stepDistance=settings.globals.stepSegmentDistance,
                                               nDistance=self.nSegments)
 
   # Method to create segments 

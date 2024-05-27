@@ -4,6 +4,7 @@ from utils import splitSetDistanceRep
 from Block import Block
 from Set import Set
 from Variation import Variation
+import settings
 
 class DistanceRepSet(Set):
 
@@ -29,7 +30,7 @@ class DistanceRepSet(Set):
     def setBlockDistances(self): 
 
         # Making sure that the distance is lower than 800m (to avoid very long calculation times)
-        if self.distance > globals.maxDistanceRepDistance:
+        if self.distance > settings.globals.maxDistanceRepDistance:
             print("Careful - The DistanceRep type of set is not catered for long distances")
             self.listBlockDistance = None
 
@@ -37,10 +38,10 @@ class DistanceRepSet(Set):
 
             # 1. Get all the possible combinations
             optionBlocks, scores = splitSetDistanceRep(distance=self.distance,
-                                                       stepBlockDistance=globals.stepBlockDistance,
-                                                       minBlockDistance=globals.minBlockDistance,
-                                                       maxBlockDistance=globals.maxBlockDistance,
-                                                       ratioDistanceRep=globals.ratioDistanceRep)
+                                                       stepBlockDistance=settings.globals.stepBlockDistance,
+                                                       minBlockDistance=settings.globals.minBlockDistance,
+                                                       maxBlockDistance=settings.globals.maxBlockDistance,
+                                                       ratioDistanceRep=settings.globals.ratioDistanceRep)
             
             #2. Then picking a combination based on the scores
             probaCombo = scores/sum(scores)
@@ -50,7 +51,7 @@ class DistanceRepSet(Set):
     # Method to decide if this will be a decrease or an increase
     def setIncreaseDecrease(self):
         
-        self.increaseDecrease = np.random.choice(globals.increaseDecreaseType, p=globals.increaseDecreaseProba)
+        self.increaseDecrease = np.random.choice(settings.globals.increaseDecreaseType, p=settings.globals.increaseDecreaseProba)
 
     # Method to create blocks
     def createBlocks(self):
@@ -80,7 +81,7 @@ class DistanceRepSet(Set):
             # 4. Then creating a variation
             # Note: In this scheme, the parameters will only change if the distance changes; we therefore need to provide the variation with the actual number of different values
             nDifferentBlocks = len(set(self.listBlockDistance))
-            variationSegment =  Variation(allowedVariation=globals.allowedVariationDistanceRep1,
+            variationSegment =  Variation(allowedVariation=settings.globals.allowedVariationDistanceRep1,
                                         varyingParameters=varyingParameters,
                                         nBlocks = nDifferentBlocks,
                                         standardInit=True)
@@ -114,7 +115,7 @@ class DistanceRepSet(Set):
 
             for block in self.listBlock:
 
-                for parameter in globals.listAllParameters:
+                for parameter in settings.globals.listAllParameters:
 
                     # Changing the values of the unique segment we have per block to align with the focus segment
                     block.listSegment[0].setForcedParameter(parameterName=parameter,

@@ -6,6 +6,7 @@ from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
 from Block import Block
 from Set import Set
 import utils
+import settings
 
 class PyramidDistanceSet(Set):
 
@@ -28,9 +29,9 @@ class PyramidDistanceSet(Set):
 
         # Finding all the ways to cut the set
         optionBlocks = splitSetPyramid(distance = self.distance, 
-                                       stepBlockDistance = globals.stepBlockDistance,
-                                       minBlockDistance = globals.minBlockDistance,
-                                       minBlocks = globals.minBlocksPyramid)
+                                       stepBlockDistance = settings.globals.stepBlockDistance,
+                                       minBlockDistance = settings.globals.minBlockDistance,
+                                       minBlocks = settings.globals.minBlocksPyramid)
 
         # Choosing an option
         # Note: the rule is that we pick a combination which number of blocks is as high as possible

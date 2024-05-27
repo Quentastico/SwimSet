@@ -1,4 +1,5 @@
 import numpy as np
+import settings
 
 class MetaSet:
 
@@ -19,17 +20,17 @@ class MetaSet:
     def selectNeutralSegment(self):
 
         # Here just copying the neutral segment
-        self.neutralSegment = globals.metaSetNeutralSegment
+        self.neutralSegment = settings.globals.metaSetNeutralSegment
 
     # Method to select the focus segment
     def selectFocusSegment(self):
 
         # Here we first import the metaSetPatterns from globals and the probabilities for each pattern
-        metaSetPatterns = globals.metaSetPatterns
-        metaSetPatternProba = globals.metaSetPatternProba
+        metaSetPatterns = settings.globals.metaSetPatterns
+        metaSetPatternProba = settings.globals.metaSetPatternProba
 
         # We also need to import the different probabilities reflecting user preferences
-        segmentParameterTypeProba = globals.segmentParameterTypeProba
+        segmentParameterTypeProba = settings.globals.segmentParameterTypeProba
 
         # Then for each pattern, we want to determine if this is compatible with the user choices (e.g. fins, etc.)
         filteredPatterns = {}
