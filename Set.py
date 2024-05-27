@@ -1,7 +1,6 @@
 ## GLOBAL VARIABLES
 
 import numpy as np
-import globals
 from Block import Block
 from utils import convertDuration
 

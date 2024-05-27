@@ -1,7 +1,6 @@
 ## IMPORTS
 
 import numpy as np
-import globals
 from utils import splitSetCyclicDistance
 from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
 from Block import Block

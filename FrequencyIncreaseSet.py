@@ -1,6 +1,5 @@
 ## IMPORTS
 import numpy as np
-import globals
 from utils import splitSetFrequencyIncrease
 from Block import Block
 from Set import Set

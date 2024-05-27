@@ -1,6 +1,5 @@
 ## IMPORTS
 import numpy as np
-import globals
 from utils import splitSetDistanceRep
 from Block import Block
 from Set import Set

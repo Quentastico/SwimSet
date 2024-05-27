@@ -331,3 +331,19 @@ def removeTypeProba(typeArray, probaArray, typeToRemove):
     probas[i] = probas[i]/sumProbas
 
   return types, probas
+
+# Util function that extracts a given parameters from a JSON object
+def extractFromJSON(parameterName, parameterDefault, requestJSON, requestArgs):
+  # parameterName: String that contains the name of the parameter as defined in the incoming JSON file
+  # parameterDefault: The default value of the parameter
+  # requestJSON: the JSON file associated with the request
+  # requestArgs: The args file associated with the request
+
+  if requestJSON and parameterName in requestJSON:
+    parameter = float(requestJSON[parameterName])
+  elif requestArgs and parameterName in requestArgs:
+    parameter = float(requestArgs[parameterName])  
+  else:
+    parameter = parameterDefault
+
+  return parameter
