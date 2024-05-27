@@ -340,9 +340,14 @@ def extractFromJSON(parameterName, parameterDefault, requestJSON, requestArgs):
   # requestArgs: The args file associated with the request
 
   if requestJSON and parameterName in requestJSON:
-    parameter = float(requestJSON[parameterName])
-  elif requestArgs and parameterName in requestArgs:
-    parameter = float(requestArgs[parameterName])  
+    if type(requestJSON[parameterName]) == list:
+      parameter = []
+      for value in requestJSON[parameterName]:
+        parameter.append(float(value))
+    else:
+      parameter = float(requestJSON[parameterName])
+#  elif requestArgs and parameterName in requestArgs:
+#    parameter = float(requestArgs[parameterName])  
   else:
     parameter = parameterDefault
 

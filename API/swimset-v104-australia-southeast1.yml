@@ -1,4 +1,4 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: swimset-api
   description: This API generates a training set and all inputs are now defined
@@ -13,16 +13,196 @@ paths:
     post:
       operationId: generateTraining
       parameters:
-        - in: path
+        - in: query
+          required: true
           name: distance
           type: string
-          required: true
-          description: training distance
-        - in: path
+        - in: query
           name: trainingProba
-          type: array
           required: false
-          description: the probabilities for different types of training
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - in: query
+          required: false
+          name: minNumberRepeatSet
+          type: string
+        - in: query
+          required: false
+          name: maxNumberRepeatSet
+          type: string
+        - in: query
+          required: false
+          name: minSetDistance
+          type: string
+        - in: query
+          required: false
+          name: avSetDistance
+          type: string
+        - in: query
+          required: false
+          name: stepSetDistance
+          type: string
+        - in: query
+          required: false
+          name: maxDistanceDiff
+          type: string
+        - in: query
+          name: setProba
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - in: query
+          name: splitProbaConstantDistance
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - in: query
+          name: increaseDecreaseProba
+          required: false
+          type: array
+          collectionFormat: csv
+          items: 
+            type: string
+        - in: query
+          required: false
+          name: minBlocksIncrease
+          type: string
+        - in: query
+          required: false
+          name: minBlocksDecrease
+          type: string
+        - in: query
+          name: splitProbaIncreaseDecreaseDistance
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - in: query
+          required: false
+          name: minBlocksPyramid
+          type: string
+        - in: query
+          required: false
+          name: ratioDistanceRep
+          type: string
+        - in: query
+          required: false
+          name: minNumberFrequencyIncrease
+          type: string
+        - in: query
+          required: false
+          name: maxNumberFrequencyIncrease
+          type: string
+        - in: query
+          required: false
+          name: minBlockDistance
+          type: string
+        - in: query
+          required: false
+          name: maxBlockDistance
+          type: string
+        - in: query
+          required: false
+          name: stepBlockDistance
+          type: string
+        - in: query
+          required: false
+          name: minSegmentNumber
+          type: string
+        - in: query
+          required: false
+          name: maxSegmentNumber
+          type: string
+        - in: query
+          required: false
+          name: minSegmentDistance
+          type: string
+        - in: query
+          required: false
+          name: maxSegmentDistance
+          type: string
+        - in: query
+          required: false
+          name: stepSegmentDistance
+          type: string
+        - in: query
+          name: equipmentProba
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - in: query
+          name: kickProba
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - in: query
+          name: drillProba
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - in: query
+          name: strokeProba
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - in: query
+          required: false
+          name: baseTime
+          type: string
+        - in: query
+          required: false
+          name: baseTimeBreaststroke
+          type: string
+        - in: query
+          required: false
+          name: baseTimeBackstroke
+          type: string
+        - in: query
+          required: false
+          name: baseTimeButterfly
+          type: string
+        - in: query
+          required: false
+          name: baseTimeIM
+          type: string
+        - in: query
+          required: false
+          name: baseTimePullBuoyAndPaddles
+          type: string
+        - in: query
+          required: false
+          name: baseTimeFins
+          type: string
+        - in: query
+          required: false
+          name: baseTimeWithDrill
+          type: string
+        - in: query
+          required: false
+          name: baseTimeWithKicks
+          type: string
+        - in: query
+          name: baseTimeIntensity5Excluded
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
       x-google-backend:
         address: https://australia-southeast1-swimset.cloudfunctions.net/swimset-v104
       security:
