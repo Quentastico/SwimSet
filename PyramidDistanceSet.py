@@ -36,33 +36,36 @@ class PyramidDistanceSet(Set):
         # Choosing an option
         # Note: the rule is that we pick a combination which number of blocks is as high as possible
 
-        # 1. We need to determine what the maximum number of block is
-        maxBlocks = 0
-        for option in optionBlocks:
-            if option[0] > maxBlocks:
-                maxBlocks = option[0]
-        print(maxBlocks)
+        # Making sure that there is at least one combo possible; otherwise the listBlockDistance will stay empty!
+        if len(optionBlocks) > 0:
 
-        # 2. Then we extract from optionBlocks the options with the maximal number of blocks
-        maxOptionBlocks = []
-        for option in optionBlocks:
-            if option[0] == maxBlocks:
-                maxOptionBlocks.append(option)
-        print(maxOptionBlocks)
+            # 1. We need to determine what the maximum number of block is
+            maxBlocks = 0
+            for option in optionBlocks:
+                if option[0] > maxBlocks:
+                    maxBlocks = option[0]
+            print(maxBlocks)
 
-        # 3. Finally we select the block within the selected options        
-        selectedOptionBlock = maxOptionBlocks[np.random.randint(low=0, high=len(maxOptionBlocks))]
-        
-        # Contracting the distances of the blocks withtin the set
-        increasingBlockDistance = list(np.arange(selectedOptionBlock[1],
-                                            selectedOptionBlock[1] + (selectedOptionBlock[0]+1) * selectedOptionBlock[2],
-                                            selectedOptionBlock[2]))
-        self.increasingBlockDistance = increasingBlockDistance
-        decreasingBlockDistance = list(np.arange(selectedOptionBlock[1],
-                                            selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2],
-                                            selectedOptionBlock[2]))
+            # 2. Then we extract from optionBlocks the options with the maximal number of blocks
+            maxOptionBlocks = []
+            for option in optionBlocks:
+                if option[0] == maxBlocks:
+                    maxOptionBlocks.append(option)
+            print(maxOptionBlocks)
 
-        self.listBlockDistance = list(np.concatenate([increasingBlockDistance, np.flip(decreasingBlockDistance)]))
+            # 3. Finally we select the block within the selected options        
+            selectedOptionBlock = maxOptionBlocks[np.random.randint(low=0, high=len(maxOptionBlocks))]
+            
+            # Contracting the distances of the blocks withtin the set
+            increasingBlockDistance = list(np.arange(selectedOptionBlock[1],
+                                                selectedOptionBlock[1] + (selectedOptionBlock[0]+1) * selectedOptionBlock[2],
+                                                selectedOptionBlock[2]))
+            self.increasingBlockDistance = increasingBlockDistance
+            decreasingBlockDistance = list(np.arange(selectedOptionBlock[1],
+                                                selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2],
+                                                selectedOptionBlock[2]))
+
+            self.listBlockDistance = list(np.concatenate([increasingBlockDistance, np.flip(decreasingBlockDistance)]))
 
     # Method to create the blocks
     # The method here is pretty simple: we create an increasing block distance and we mirror the blocks
