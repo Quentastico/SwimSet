@@ -43,7 +43,7 @@ class FrequencyIncreaseSet(Set):
         if len(optionCombos) == 0:
             print("It is not possible to find a frequency Increase set for this one - pick another type of set for this distance or change the distance")
             self.selCombo = None
-            self.listBlockDistance = None
+            self.listBlockDistance = []
 
         else: 
             probaCombos = scores/sum(scores)

@@ -32,7 +32,7 @@ class DistanceRepSet(Set):
         # Making sure that the distance is lower than 800m (to avoid very long calculation times)
         if self.distance > settings.globals.maxDistanceRepDistance:
             print("Careful - The DistanceRep type of set is not catered for long distances")
-            self.listBlockDistance = None
+            self.listBlockDistance = []
 
         else:
 
@@ -44,7 +44,9 @@ class DistanceRepSet(Set):
                                                        ratioDistanceRep=settings.globals.ratioDistanceRep)
             
             #2. Then picking a combination based on the scores
-            probaCombo = scores/sum(scores)
+            probaCombo = []
+            for score in scores: 
+                probaCombo.append(score/sum(scores))
             selOptionIndex = np.random.choice(np.arange(len(optionBlocks)), p=probaCombo)
             self.listBlockDistance = optionBlocks[selOptionIndex]
 
