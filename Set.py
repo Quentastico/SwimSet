@@ -118,8 +118,8 @@ class Set:
       listBlockDictionary.append(block.dictionary())
 
     setDictionary = {"setType": self.type,
-                     "setTime": self.duration,
-                     "setDistance": self.distance,
+                     "setTime": int(self.duration),
+                     "setDistance": int(self.distance),
                      "listBlock": listBlockDictionary}
     
     return setDictionary

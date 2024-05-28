@@ -125,8 +125,8 @@ class Block:
     for segment in self.listSegment:
       listSegmentDictionary.append(segment.dictionary())
 
-    blockDictionary = {"blockTime": self.duration, 
-                       "blockDistance": self.distance,
+    blockDictionary = {"blockTime": int(self.duration), 
+                       "blockDistance": int(self.distance),
                        "listSegment": listSegmentDictionary}
     
     return blockDictionary

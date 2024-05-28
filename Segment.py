@@ -329,11 +329,11 @@ class Segment:
     else:
       focusValue = "no"
 
-    segmentDictionary = {"segmentTime": self.duration, 
-                         "segmentDistance": self.distance, 
+    segmentDictionary = {"segmentTime": int(self.duration), 
+                         "segmentDistance": int(self.distance), 
                          "segmentStroke": self.stroke,
                          "segmentEquipment": self.equipment,
-                         "segmentIntensity": self.intensity,
+                         "segmentIntensity": int(self.intensity),
                          "segmentKick": self.kick,
                          "segmentDrill": self.drill,
                          "segmentFocus": focusValue}
