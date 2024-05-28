@@ -324,18 +324,13 @@ class Segment:
   # Function that generates a dictionary (API output)
   def dictionary(self):
 
-    if self.focus:
-      focusValue = "yes"
-    else:
-      focusValue = "no"
-
     segmentDictionary = {"segmentTime": int(self.duration), 
                          "segmentDistance": int(self.distance), 
                          "segmentStroke": self.stroke,
                          "segmentEquipment": self.equipment,
                          "segmentIntensity": int(self.intensity),
-                         "segmentKick": self.kick,
-                         "segmentDrill": self.drill,
-                         "segmentFocus": focusValue}
+                         "segmentKick": bool(self.kick == "kick"),
+                         "segmentDrill": bool(self.drill != "No drill"),
+                         "segmentFocus": bool(self.focus)}
     
     return segmentDictionary
