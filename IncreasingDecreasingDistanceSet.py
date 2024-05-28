@@ -71,7 +71,7 @@ class IncreasingDecreasingDistanceSet(Set):
             splitType, splitProba = removeTypeProba(typeArray=splitType,
                                                     probaArray=splitProba,
                                                     typeToRemove="buildBlock")
-            
+
         # Removal of the type halfHalf if the half distance of the block is too small
         if np.min(self.listBlockDistance)/2 < settings.globals.minSegmentDistance:
             splitType, splitProba = removeTypeProba(typeArray=splitType,

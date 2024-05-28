@@ -268,10 +268,10 @@ class Training:
     possibleSetTypes = list(self.setTypes.keys())
           
     # Initiating the while loop which will make sure that the set can be created
-    newSetListDistance = None
+    newSetListDistance = []
     setProba = settings.globals.setProba.copy()
 
-    while newSetListDistance is None:
+    while len(newSetListDistance) == 0:
 
       # Picking a random set type
       selSetType = np.random.choice(possibleSetTypes, p=setProba)

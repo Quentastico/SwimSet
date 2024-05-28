@@ -41,12 +41,14 @@ class PyramidDistanceSet(Set):
         for option in optionBlocks:
             if option[0] > maxBlocks:
                 maxBlocks = option[0]
+        print(maxBlocks)
 
         # 2. Then we extract from optionBlocks the options with the maximal number of blocks
         maxOptionBlocks = []
         for option in optionBlocks:
             if option[0] == maxBlocks:
                 maxOptionBlocks.append(option)
+        print(maxOptionBlocks)
 
         # 3. Finally we select the block within the selected options        
         selectedOptionBlock = maxOptionBlocks[np.random.randint(low=0, high=len(maxOptionBlocks))]
