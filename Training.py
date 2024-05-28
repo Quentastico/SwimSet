@@ -307,7 +307,7 @@ class Training:
     trainingDictionary = {"trainingType": self.trainingType,
                           "warmupDistance": int(self.warmupDistance),
                           "cooldownDistance": int(self.cooldownDistance),
-                          "distance": int(self.distance),
+                          "trainingDistance": int(self.distance),
                           "listSet": listSetDictionary}
     
     return trainingDictionary
