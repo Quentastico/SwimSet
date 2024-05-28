@@ -305,8 +305,8 @@ class Training:
       listSetDictionary.append(set.dictionary())
 
     trainingDictionary = {"trainingType": self.trainingType,
-                          "warmupDistance": self.warmupDistance,
-                          "cooldownDistance": self.cooldownDistance,
+                          "warmupDistance": int(self.warmupDistance),
+                          "cooldownDistance": int(self.cooldownDistance),
                           "listSet": listSetDictionary}
     
     return trainingDictionary
