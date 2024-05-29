@@ -27,6 +27,9 @@ def generateTraining(req):
     training = Training(distance=distance,
                         standardInit=True,
                         verbose=0)
+    
+    # Addition of a debugging step - printing the training
+    training.info()
 
     # Generation of the training output
     output = training.dictionary()

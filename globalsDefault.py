@@ -65,7 +65,12 @@ stepSetDistance = 100
 maxDistanceDiff = 50
 
 # Defining the different types of variation withtin a set and associating an object type
-
+setTypes = ["Constant Distance",
+            "Increasing/Decreasing Distance", 
+            "Pyramid Distance",
+            "Distance Rep",
+            "Frequency Increase",
+            "Cyclic Distance"]
 
 # Defining the probability of picking any type of any set randomly
 setProba = [1/6, 1/6, 1/6, 1/6, 1/6, 1/6]
