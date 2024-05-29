@@ -23,6 +23,7 @@ class Globals:
         self.stepSetDistance = globalsDefault.stepSetDistance
         self.maxDistanceDiff = globalsDefault.maxDistanceDiff
         self.setProba = globalsDefault.setProba
+        self.setTypes = globalsDefault.setTypes
         self.splitTypeConstantDistance = globalsDefault.splitTypeConstantDistance
         self.splitProbaConstantDistance = globalsDefault.splitProbaConstantDistance
         self.allowedVariationConstantDistance1 = globalsDefault.allowedVariationConstantDistance1

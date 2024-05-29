@@ -265,7 +265,7 @@ class Training:
     # distance: the distance of the set (m)
           
     # Extraction of all the possible types of sets
-    possibleSetTypes = list(self.setTypes.keys())
+    possibleSetTypes = settings.globals.setTypes.copy()
           
     # Initiating the while loop which will make sure that the set can be created
     newSetListDistance = []
