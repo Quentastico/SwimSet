@@ -312,3 +312,15 @@ class Training:
                           "listSet": listSetDictionary}
     
     return trainingDictionary
+
+  ## Creating a method that computes the average time per 100m
+  def calcAvPace(self):
+
+    totalDuration = 0
+    for qSet in self.listSet:
+      for block in qSet.listBlock:
+        for segment in block.listSegment:
+          totalDuration += segment.duration
+
+    return totalDuration / self.distance * 100
+
