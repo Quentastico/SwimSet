@@ -43,7 +43,7 @@ minNumberRepeatSet = 2
 maxNumberRepeatSet = 5
 
 # The maximal distance of a repeated set (based onthe max of the distance rep set), in m
-maxRepeatSetDistance = 800
+maxRepeatSetDistance = 700
 
 ## SET
 
