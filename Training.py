@@ -322,5 +322,5 @@ class Training:
         for segment in block.listSegment:
           totalDuration += segment.duration
 
-    return totalDuration / self.distance * 100
+    return totalDuration / self.mainsetDistance * 100
 
