@@ -10,9 +10,9 @@ import settings
 class FrequencyIncreaseSet(Set):
 
     # Object initialisation
-    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
+    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None, verbose=0):
 
-        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
+        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment, verbose=verbose)
 
         self.type = "Frequency Increase"
         self.selCombo = [] # The combination that is reatined, in the format n, d, where n is the number of segments in a bunch and d is the segment length
@@ -41,7 +41,8 @@ class FrequencyIncreaseSet(Set):
         
         # 2. We then need to select a combo
         if len(optionCombos) == 0:
-            print("It is not possible to find a frequency Increase set for this one - pick another type of set for this distance or change the distance")
+            if self.verbose>0:
+                print("It is not possible to find a frequency Increase set for this one - pick another type of set for this distance or change the distance")
             self.selCombo = None
             self.listBlockDistance = []
 

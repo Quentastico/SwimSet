@@ -4,13 +4,14 @@ import settings
 class MetaSet:
 
     # Initialisation function
-    def __init__(self, numberSets, standardInit=False):
+    def __init__(self, numberSets, standardInit=False, verbose=0):
 
         # Definition of attributes
         self.numberSets = numberSets # The number of repeats for this set in the meta set
         self.standardInit = standardInit # This determines if this meta set initiates itself or will be done manually
         self.neutralSegment = {}
         self.listFocusSegments = []
+        self.verbose = verbose # Defines the level of printing during execution
 
         if self.standardInit == True: 
             self.selectNeutralSegment()
@@ -107,5 +108,6 @@ class MetaSet:
             self.listFocusSegments = listFocusSegments
 
         else: 
-
-            print("No pattern available with the user choices")
+            
+            if self.verbose > 0:
+                print("No pattern available with the user choices")

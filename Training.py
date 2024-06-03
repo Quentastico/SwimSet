@@ -212,7 +212,8 @@ class Training:
       firstSet = self.setTypes[selSetType](distance=listRepeatDistance[0],
                                               standardInit=True,
                                               neutralSegment=metaSet.neutralSegment,
-                                              focusSegment=metaSet.listFocusSegments[0])
+                                              focusSegment=metaSet.listFocusSegments[0], 
+                                              verbose=self.verbose)
       self.listSet.append(firstSet)
 
       
@@ -240,7 +241,7 @@ class Training:
             print("Set type: " + selSetType)
 
         # Then create the set and add it to the list
-        newSet = self.setTypes[selSetType](distance=distance, standardInit=True)
+        newSet = self.setTypes[selSetType](distance=distance, standardInit=True, verbose=self.verbose)
         self.listSet.append(newSet)        
 
     if self.trainingType == "Random Training": # Random Training
@@ -255,7 +256,7 @@ class Training:
           print("Set type: " + selSetType)
 
         # 2. Then create the set and add it to the list
-        newSet = self.setTypes[selSetType](distance=distance, standardInit=True)
+        newSet = self.setTypes[selSetType](distance=distance, standardInit=True, verbose=self.verbose)
         self.listSet.append(newSet)
 
 
@@ -277,7 +278,7 @@ class Training:
       selSetType = np.random.choice(possibleSetTypes, p=setProba)
 
       # Creating a new set
-      newSet = self.setTypes[selSetType](distance=distance, standardInit=False)
+      newSet = self.setTypes[selSetType](distance=distance, standardInit=False, verbose=self.verbose)
       newSet.setBlockDistances()
       newSetListDistance = newSet.listBlockDistance
 
