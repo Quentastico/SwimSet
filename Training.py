@@ -176,7 +176,7 @@ class Training:
     if self.trainingType == "Random Training":
 
       # We first need to determine the number of sets
-      self.numberSets = int(np.round(self.mainsetDistance / settings.globals.avSetDistance))
+      self.numberSets = np.max([1, int(np.round(self.mainsetDistance / settings.globals.avSetDistance))])
 
       # We then use the random pick distance function to determine the set distances
       self.listSetDistance = pickDistances(distance=self.mainsetDistance,
