@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from utils import convertDuration
 import settings 
+import globalsDefault
 
 class Segment:
 
@@ -223,18 +224,22 @@ class Segment:
       relTime = relBaseTimes[indexParameterValue]
 
       # Calculating the multiplicative factor
-      multFactor = relTime / settings.globals.baseTime
+      multFactor = relTime / globalsDefault.baseTime
 
       # Storing the value of the factor in the dictionary
       multFactors[parameter] = multFactor
 
     # Calculating the final multiplicative factor
-    totalMultFactor = 1
+
+    # First setting the "basis" multiplicative factor on the 100m free time entered by the user. 
+    totalMultFactor = settings.globals.baseTime / globalsDefault.baseTime
+
+    # Then multiplying the factor based on the other strokes. 
     for parameter in multFactors.keys():
       totalMultFactor *= multFactors[parameter]
 
     # Calculating the duration
-    duration = settings.globals.baseTime * totalMultFactor * self.distance / settings.globals.baseTimeParameters["distance"]
+    duration = globalsDefault.baseTime * totalMultFactor * self.distance / settings.globals.baseTimeParameters["distance"]
 
     # rounding up the duration at +/-5 seconds
     durationMinutes, durationSeconds = convertDuration(duration)
