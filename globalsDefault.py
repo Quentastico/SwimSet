@@ -1,11 +1,5 @@
 # IMPORTS
 import numpy as np
-# from ConstantDistanceSet import ConstantDistanceSet
-# from IncreasingDecreasingDistanceSet import IncreasingDecreasingDistanceSet
-# from PyramidDistanceSet import PyramidDistanceSet
-# from DistanceRepSet import DistanceRepSet
-# from FrequencyIncreaseSet import FrequencyIncreaseSet
-# from CyclicDistanceSet import CyclicDistanceSet
 
 #TRAINING
 
