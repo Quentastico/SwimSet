@@ -9,9 +9,9 @@ import settings
 class DistanceRepSet(Set):
 
     # Object initialisation
-    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
+    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None, verbose=0):
 
-        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
+        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment, verbose=verbose)
 
         self.type = "Distance Rep"
         self.increaseDecrease = "" # This attribute will determine if the set will have blocks increasing or decreasing in length
@@ -30,7 +30,7 @@ class DistanceRepSet(Set):
     def setBlockDistances(self): 
 
         # Making sure that the distance is lower than 800m (to avoid very long calculation times)
-        if self.distance > settings.globals.maxDistanceRepDistance:
+        if (self.distance > settings.globals.maxDistanceRepDistance) & (self.verbose>0):
             print("Careful - The DistanceRep type of set is not catered for long distances")
             self.listBlockDistance = []
 

@@ -10,9 +10,9 @@ import settings
 class CyclicDistanceSet(Set):
 
     # Object initialisation
-    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
+    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None, verbose=0):
 
-        super().__init__(distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
+        super().__init__(distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment, verbose=verbose)
 
         self.type = "Cyclic Distance"
         self.selCombo = [] # Parameter of the selected distance combo
@@ -58,8 +58,8 @@ class CyclicDistanceSet(Set):
                 self.listBlockDistance += series
 
         else:
-
-            print("There is no distance combo possible for this type of set (Cyclic Distance)")
+            if self.verbose > 0:
+                print("There is no distance combo possible for this type of set (Cyclic Distance)")
 
     # Method to create the blocks
     def createBlocks(self):
@@ -70,7 +70,8 @@ class CyclicDistanceSet(Set):
         seriesSet = IncreasingDecreasingDistanceSet(distance=sum(self.series),
                                                     standardInit = False,
                                                     neutralSegment = self.neutralSegment,
-                                                    focusSegment = self.focusSegment)
+                                                    focusSegment = self.focusSegment, 
+                                                    verbose = self.verbose)
         
         # 2. We then force the block distances to the values in "series"
         # Note that we need to flip the array as initially an Increase/Decrease set needs to be made on a decreasing distance array

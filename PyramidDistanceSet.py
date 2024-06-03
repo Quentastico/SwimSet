@@ -11,9 +11,9 @@ import settings
 class PyramidDistanceSet(Set):
 
     # Object initialisation
-    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
+    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None, verbose=0):
 
-        super().__init__(distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
+        super().__init__(distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment, verbose=verbose)
 
         self.type = "Pyramid Distance"
         self.increasingBlockDistance = [] # This list will contain the list of the distances withtin the distance block
@@ -44,14 +44,12 @@ class PyramidDistanceSet(Set):
             for option in optionBlocks:
                 if option[0] > maxBlocks:
                     maxBlocks = option[0]
-            print(maxBlocks)
 
             # 2. Then we extract from optionBlocks the options with the maximal number of blocks
             maxOptionBlocks = []
             for option in optionBlocks:
                 if option[0] == maxBlocks:
                     maxOptionBlocks.append(option)
-            print(maxOptionBlocks)
 
             # 3. Finally we select the block within the selected options        
             selectedOptionBlock = maxOptionBlocks[np.random.randint(low=0, high=len(maxOptionBlocks))]
@@ -78,7 +76,8 @@ class PyramidDistanceSet(Set):
         increasingSet = IncreasingDecreasingDistanceSet(distance=np.sum(self.increasingBlockDistance),
                                                         standardInit=False,
                                                         neutralSegment=self.neutralSegment,
-                                                        focusSegment=self.focusSegment)
+                                                        focusSegment=self.focusSegment, 
+                                                        verbose=self.verbose)
 
         # We then need to force the block distance list &  the type (increase)
         increasingSet.listBlockDistance = np.flip(self.increasingBlockDistance) # Note: we reverse it as by defualt, the IncreaseDecreaseSet takes a decreasing distance pattern

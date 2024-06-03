@@ -8,7 +8,7 @@ import settings
 class Set:
 
   # Initialisation function
-  def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
+  def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None, verbose=0):
 
     # 1. ATTRIBUTES
 
@@ -22,6 +22,7 @@ class Set:
     self.variationSegment = None # The variation object that describes the variation selected for the set. 
     self.sequenceType = "" # This will indicate what type of sequence this set is: "Half-half", "buildblock", etc. 
     self.duration = None # This will contain the duration of the set in seconds
+    self.verbose = verbose # This will indicate if the warnings will be displayed or not
 
   # Method to finalise a block by fixing any issue with the segments withtin the set and calculating the duration of the segments, blocks and segments. 
   def finalise(self):

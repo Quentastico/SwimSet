@@ -15,9 +15,9 @@ import settings
 class IncreasingDecreasingDistanceSet(Set):
 
     # Object initialisation
-    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None):
+    def __init__(self, distance, standardInit=False, neutralSegment=None, focusSegment=None, verbose=0):
 
-        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment)
+        super().__init__(distance=distance, standardInit=standardInit, neutralSegment=neutralSegment, focusSegment=focusSegment, verbose=verbose)
 
         self.type = "Increasing/Decreasing Distance"
         self.increaseDecrease = "" # This attribute will determine if the set will have blocks increasing or decreasing in length
@@ -53,7 +53,8 @@ class IncreasingDecreasingDistanceSet(Set):
             self.listBlockDistance = list(np.flip(np.arange(selectedOptionBlock[1], selectedOptionBlock[1] + (selectedOptionBlock[0]) * selectedOptionBlock[2], selectedOptionBlock[2])))
 
         else: 
-            print("There is no way to make a set of this type with this distance")
+            if self.verbose > 0:
+                print("There is no way to make a set of this type with this distance")
 
     # Method to select the type of sequence
     def setSequenceType(self):
