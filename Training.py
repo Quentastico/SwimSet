@@ -379,6 +379,6 @@ class Training:
             drillPercentage += segment.distance
 
     ## Calculating the percenatge
-    drillPercentage = 100 * np.round(drillPercentage / self.mainsetDistance)
+    drillPercentage = np.round(drillPercentage / self.mainsetDistance * 100)
 
     return drillPercentage
