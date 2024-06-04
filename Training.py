@@ -382,3 +382,20 @@ class Training:
     drillPercentage = np.round(drillPercentage / self.mainsetDistance * 100)
 
     return drillPercentage
+  
+  ## Creation of a method to calculate the total kick distance in the main set
+  def calcAvKick(self):
+
+    kickPercentage = 0
+
+    ## Adding the distances of kick segment by segment
+    for qSet in self.listSet:
+      for block in qSet.listBlock:
+        for segment in block.listSegment:
+          if segment.kick == "kick": 
+            drillPercentage += segment.distance
+
+    # Calculating the percentage
+    kickPercentage = np.round(kickPercentage/self.mainsetDistance * 100)
+
+    return kickPercentage
