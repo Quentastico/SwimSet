@@ -344,3 +344,25 @@ class Training:
       strokePercentages[stroke] = np.round(strokePercentages[stroke] / self.mainsetDistance * 100)
 
     return strokePercentages
+  
+  ## Creates a method that computes the percentages of the main set with each type of equipment
+  def calcAvEquipment(self):
+
+    equipmentPercentages = {}
+
+    # Initialisation of a cumulated distance of 0 for each equipment
+    for equipment in settings.globals.equipmentTypes:
+      equipmentPercentages[equipment] = 0
+
+    # Then adding the distance for each equipment for each segment
+    for qSet in self.listSet:
+      for block in qSet.listBlock:
+        for segment in block.listSegment:
+          equipmentPercentages[segment.equipment] += segment.distance
+
+    # Then calculating percentages of main set distance
+    for equipment in settings.globals.equipmentTypes:
+      equipmentPercentages[equipment] = np.round(equipmentPercentages[equipment] / self.mainsetDistance * 100)
+
+    return equipmentPercentages
+
