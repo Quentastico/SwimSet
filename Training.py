@@ -393,7 +393,7 @@ class Training:
       for block in qSet.listBlock:
         for segment in block.listSegment:
           if segment.kick == "kick": 
-            drillPercentage += segment.distance
+            kickPercentage += segment.distance
 
     # Calculating the percentage
     kickPercentage = np.round(kickPercentage/self.mainsetDistance * 100)
