@@ -365,4 +365,20 @@ class Training:
       equipmentPercentages[equipment] = np.round(equipmentPercentages[equipment] / self.mainsetDistance * 100)
 
     return equipmentPercentages
+  
+  ## Creates a method to calculate the frequency of drill
+  def calcAvDrill(self): 
 
+    drillPercentage = 0
+
+    ## Adding the distance of drills from each segment
+    for qSet in self.listSet:
+      for block in qSet.listBlock:
+        for segment in block.listSegment:
+          if "drill " in segment.drill: 
+            drillPercentage += segment.distance
+
+    ## Calculating the percenatge
+    drillPercentage = 100 * np.round(drillPercentage / self.mainsetDistance)
+
+    return drillPercentage
