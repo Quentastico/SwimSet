@@ -313,7 +313,7 @@ class Training:
     
     return trainingDictionary
 
-  ## Creating a method that computes the average time per 100m
+  ## Creating a method that computes the average time per 100m (mainly for testing purposes)
   def calcAvPace(self):
 
     totalDuration = 0
@@ -324,3 +324,21 @@ class Training:
 
     return totalDuration / self.mainsetDistance * 100
 
+  ## Creating now a method that computes the percenatges of the main set in each stroke
+  def calcAvStrokes(self):
+
+    strokePercentages = {}
+
+    # Initialisation of a cumulated distance of 0 in the dictionary for each stroke
+    for stroke in settings.globals.strokeTypes:
+      strokePercentages[stroke] = 0
+
+    # Then counting the distance for each stroke in each segment
+    for qSet in self.listSet:
+      for block in qSet.listBlock:
+        for segment in block.listSegment:
+          strokePercentages[segment.stroke] += segment.distance
+    
+    # Then calculating these as ratio of the distance in the main set
+    for stroke in settings.globals.strokeTypes:
+      strokePercentages[stroke] /= np.round(self.mainsetDistance * 100)
