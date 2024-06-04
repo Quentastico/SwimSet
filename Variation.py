@@ -73,7 +73,27 @@ class Variation:
                 if (parameter == "intensity") | (parameter == "kick") | (parameter == "drill"):
 
                     # Here we simply use the value "Any" normally used in self.varyingParameters
-                    parameterValues[parameter] = self.varyingParameters[parameter]
+                    parameterValues[parameter] = "Any"
+
+                # Special case of drill: we have to make sure that the proba for drill is strictly higher than 0
+                if parameter == "drill":
+
+                    # Case where the value of drill is higher than 0: we can have any drill we want
+                    if settings.globals.drillProba[0] > 0:
+                        parameterValues[parameter] = "Any"
+                    # Otherwise we need to exclude drill from the possible parameters
+                    else:
+                        parameterValues[parameter] = None
+
+                # Special case for the kick: same case as drill; we do not want to allow kicks if they are not allowed by the user. 
+                if parameter == "kick":
+
+                    # Case where the value of kick is higher than 0, then we can include "kick" as a parmater which will vary
+                    if settings.globals.kickProba[0] > 0:
+                        parameterValues[parameter] = "Any"
+                    # Otherwise we must forbid any variation of the kick parameter
+                    else: 
+                        parameterValues[parameter] = None
 
             else: 
                 parameterValues[parameter] = None
