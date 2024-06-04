@@ -26,7 +26,7 @@ def generateTraining(req):
     # Creation of a training function
     training = Training(distance=distance,
                         standardInit=True,
-                        verbose=0)
+                        verbose=2)
     
     # Addition of a debugging step - printing the training
     training.info()
