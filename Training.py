@@ -342,3 +342,5 @@ class Training:
     # Then calculating these as ratio of the distance in the main set
     for stroke in settings.globals.strokeTypes:
       strokePercentages[stroke] /= np.round(self.mainsetDistance * 100)
+
+    return strokePercentages
