@@ -81,7 +81,7 @@ class FrequencyIncreaseSet(Set):
             if baseSegment.equipment == "pullBuoyAndPaddles":
                 baseSegment.setForcedParameter(parameterName="equipment", parameterValue="No equipment")
             if baseSegment.drill == "drill":
-                baseSegment.setForcedParameter(parameterName="drill", paramaterValue = "No drill")
+                baseSegment.setForcedParameter(parameterName="drill", parameterValue = "No drill")
 
             # DEBUG
             print("Base segment characteristics")
