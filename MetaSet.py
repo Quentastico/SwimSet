@@ -10,7 +10,8 @@ class MetaSet:
         self.numberSets = numberSets # The number of repeats for this set in the meta set
         self.standardInit = standardInit # This determines if this meta set initiates itself or will be done manually
         self.neutralSegment = {}
-        self.listFocusSegments = []
+        self.listNeutralSegments = [] # List of the neutral segment for each set (note they can vary because of the equipment selected in the focus segments)
+        self.listFocusSegments = [] # List of the focus segments for each set
         self.verbose = verbose # Defines the level of printing during execution
 
         if self.standardInit == True: 
@@ -106,6 +107,12 @@ class MetaSet:
 
             # Finally storing the value in the attribute
             self.listFocusSegments = listFocusSegments
+
+            # Then calculaing the list of the neutral segments in case of an equipment used in the focus segment
+            for focusSegment in listFocusSegments:
+                neutralSegment = self.neutralSegment
+                neutralSegment["equipment"] = focusSegment["equipment"]
+                self.listNeutralSegments.append(neutralSegment)
 
         else: 
             
