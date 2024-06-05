@@ -41,6 +41,7 @@ class Training:
                       "Distance Rep": DistanceRepSet,
                       "Frequency Increase": FrequencyIncreaseSet,
                       "Cyclic Distance": CyclicDistanceSet}
+    self.metaSet = None #This will contain the metaSet object if it is calculated. 
 
     # 2. DATA CHECKS
 
@@ -203,6 +204,7 @@ class Training:
 
       # 3. Making the meta Set that will determine the pattern to follow in these first sets
       metaSet = MetaSet(numberSets=len(listRepeatDistance), standardInit=True)
+      self.metaSet = metaSet
 
       # 4. Then we create the first set of the series
       if self.verbose >=2:
