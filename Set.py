@@ -63,29 +63,33 @@ class Set:
     return newSet
   
   # Copy method that also changes the value of the "focus set" parameter for all the focus segments in the set
-  def newFocusCopy(self, newFocusSegment):
+  def newFocusCopy(self, newFocusSegment, newNeutralSegment):
 
     # newFocusSegment: dictionary which describes the new values of the focus segment
+    # newNeutralSegment: dictionary that describes the new values of the neutral segment
 
     # Starting by making a copy of the Set
     newSet = self.copy()
 
     # Changing the value of the focus segment attribute
     newSet.focusSegment = newFocusSegment.copy()
+    self.neutralSegment = newNeutralSegment.copy()
 
     # Then looping on all the blocks
     for block in self.listBlock:
 
       # Then loopping on all the segments
-      for segment in block.listSegment:
+      for segment in block.listSegment:        
 
-        # In the case where the segment is the focus of the block
-        if segment.focus:
-
-          # Looping on all the parameters of the block
-          for parameter in settings.globals.listAllParameters:
+        # Looping on all the parameters of the block
+        for parameter in settings.globals.listAllParameters:
+          # In the case where the segment is the focus of the block
+          if segment.focus:
             segment.setForcedParameter(parameterName=parameter,
                                        parameterValue=newFocusSegment[parameter])
+          else: 
+            segment.setForcedParameter(parameterName=parameter,
+                                       parameterValue=newNeutralSegment[parameter])
             
     # finalising the Set - Just to make sure that the durations are right
     newSet.finalise()

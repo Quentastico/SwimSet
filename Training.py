@@ -211,12 +211,10 @@ class Training:
 
       firstSet = self.setTypes[selSetType](distance=listRepeatDistance[0],
                                               standardInit=True,
-                                              neutralSegment=metaSet.neutralSegment,
+                                              neutralSegment=metaSet.listNeutralSegments[0],
                                               focusSegment=metaSet.listFocusSegments[0], 
                                               verbose=self.verbose)
-      self.listSet.append(firstSet)
-
-      
+      self.listSet.append(firstSet)     
       
       # 5. Then we create the following sets by copying the first set using the newFocusCopy() method of set
       if len(listRepeatDistance) > 1:
@@ -224,7 +222,8 @@ class Training:
           if self.verbose >= 2:
             print("SET " + str(i+2) + " Creation")
             print("Set type: " + selSetType)
-          newSet = firstSet.newFocusCopy(newFocusSegment=metaSet.listFocusSegments[i+1])
+          newSet = firstSet.newFocusCopy(newFocusSegment=metaSet.listFocusSegments[i+1], 
+                                         newNeutralSegment=metaSet.listNeutralSegment[i+1])
           self.listSet.append(newSet)
           
 
