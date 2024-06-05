@@ -287,25 +287,32 @@ class IncreasingDecreasingDistanceSet(Set):
 
                     indexBlock = 0
 
+                    # Getting the constraits created by the changing segment on the non-changing segment
+                    constraintBaseSegment = firstBlock.listSegment[changingSegmentIndex].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
+
+                    # Changing all the first blocks with two segments (the changing one and the varying one)
                     for block in self.listBlock[:-1]:
 
                         # Changing segment
-                        block.listSegment[0].setForcedParameter(parameterName=variationSegment.selParameter,
+                        block.listSegment[changingSegmentIndex].setForcedParameter(parameterName=variationSegment.selParameter,
                                                                 parameterValue=variationSegment.selParameterVariation[indexBlock])
                         
                         # Then marking the changing segment as the "focus segment"
                         block.listSegment[changingSegmentIndex].focus = True
 
-                        # Getting the constraits created by the changing segment on the non-changing segment
-                        constraintBaseSegment = block.listSegment[0].getBaseSegmentParameters(selParameter=variationSegment.selParameter)
-
                         # Changing all the parameters values in the non-changing segment
                         for parameter in settings.globals.listAllParameters:
 
-                            block.listSegment[1].setForcedParameter(parameterName=parameter,
+                            block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                     parameterValue=constraintBaseSegment[parameter])
 
                         indexBlock += 1
+
+                    # Then changing the last block as per the constraint given by the variation
+                    for parameter in settings.globals.listAllParameters:
+
+                        self.listBlock[indexBlock].listSegment[0].setForcedParameter(parameterName=parameter,
+                                                                parameterValue=constraintBaseSegment[parameter])
 
             else: 
 
