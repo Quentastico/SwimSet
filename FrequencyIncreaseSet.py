@@ -55,7 +55,7 @@ class FrequencyIncreaseSet(Set):
         if self.selCombo is not None:
             n = self.selCombo[0]
             d = self.selCombo[1]
-            for i in np.floor(0.5*(np.power(n,2) + np.power(n,3))):
+            for i in int(0.5*(np.power(n,2) + np.power(n,3))):
                 self.listBlockDistance.append(d)
 
     # Method to create the blocks
