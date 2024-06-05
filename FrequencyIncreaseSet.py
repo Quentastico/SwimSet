@@ -80,6 +80,10 @@ class FrequencyIncreaseSet(Set):
             if baseSegment.equipment == "pullBuoyAndPaddles":
                 baseSegment.setForcedParameter(parameterName="equipment", parameterValue="No equipment")
 
+            # DEBUG
+            print("Base segment characteristics")
+            baseSegment.info()
+
             # 2. Then we determine what can vary from this segment
             varyingParameters = baseSegment.getVaryingParameters()
 
@@ -89,6 +93,10 @@ class FrequencyIncreaseSet(Set):
                                         nBlocks=2, 
                                         standardInit=True)
             self.variationSegment = variationSegment
+
+            # DEBUG
+            print("What is allowed for this segment to vary")
+            print(variationSegment)
 
             # 4. We then change the value of baseSegment parameter which is supposed to change
             baseSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[0])
