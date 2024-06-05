@@ -96,7 +96,7 @@ class FrequencyIncreaseSet(Set):
 
             # DEBUG
             print("What is allowed for this segment to vary")
-            print(variationSegment)
+            print(variationSegment.varyingParameters)
 
             # 4. We then change the value of baseSegment parameter which is supposed to change
             baseSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[0])
