@@ -76,9 +76,12 @@ class FrequencyIncreaseSet(Set):
             baseSegment = Segment(distance=self.selCombo[1])
             baseSegment.setRandomAll()
 
-            # Note that we need to remove the pullBuoyandPaddles option for this one as otherwise there won't be any option for a variation
+            # Note that we need to remove the pullBuoyandPaddles and drill options for this one 
+            # as otherwise there won't be any option for a variation
             if baseSegment.equipment == "pullBuoyAndPaddles":
                 baseSegment.setForcedParameter(parameterName="equipment", parameterValue="No equipment")
+            if baseSegment.drill == "drill":
+                baseSegment.setForcedParameter(parameterName="drill", paramaterValue = "No drill")
 
             # DEBUG
             print("Base segment characteristics")
