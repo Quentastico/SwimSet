@@ -83,10 +83,6 @@ class FrequencyIncreaseSet(Set):
             if baseSegment.drill == "drill":
                 baseSegment.setForcedParameter(parameterName="drill", parameterValue = "No drill")
 
-            # DEBUG
-            print("Base segment characteristics")
-            baseSegment.info()
-
             # 2. Then we determine what can vary from this segment
             varyingParameters = baseSegment.getVaryingParameters()
 
@@ -96,19 +92,6 @@ class FrequencyIncreaseSet(Set):
                                         nBlocks=2, 
                                         standardInit=True)
             self.variationSegment = variationSegment
-
-            # DEBUG
-            print("What is allowed for this segment to vary")
-            print(variationSegment.varyingParameters)
-
-            print("What is selected as a parameter")
-            print(variationSegment.selParameter)
-
-            print("What values are okay for this parameter")
-            print(variationSegment.selParameterValues)
-
-            print("What values are selected for this specific variation")
-            print(variationSegment.selParameterVariation)
 
 
             # 4. We then change the value of baseSegment parameter which is supposed to change
