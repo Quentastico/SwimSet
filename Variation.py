@@ -135,6 +135,10 @@ class Variation:
         # Case 4: This is a drill variation
         if self.selParameter == "drill":
             self.createDrillVariation()
+
+        # Case 5: This is a kick variation
+        if self.selParameter == "kick":
+            self.createKickVariation()
     
     # Definition of a stroke or equipment variation (this function should only be called by createVariation)
     def createStrokeEquipmentVariation(self):
@@ -285,6 +289,16 @@ class Variation:
         # Here the strategy is simply to offer to go through drill 1, drill 2, etc. 
         for i in np.arange(self.nBlocks):
             self.selParameterVariation.append("drill " + str(i+1))
+
+    # Method that creates a kick variation
+    def createKickVariation(self):
+
+        # Here the strategy is simply to alternate between kick and no kicks
+        for i in np.arange(self.nBlocks):
+            if np.floor(i/2) == i/2:
+                self.selParameterVariation.append(settings.globals.kickTypes[0]) # "kick"
+            else:
+                self.selParameterVariation.append(settings.globals.kickTypes[1]) #"No kick"
 
     # Method that create a copy of the variation
     def copy(self):
