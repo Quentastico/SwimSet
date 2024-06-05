@@ -22,7 +22,7 @@ class MetaSet:
     def selectNeutralSegment(self):
 
         # Here just copying the neutral segment
-        self.neutralSegment = settings.globals.metaSetNeutralSegment
+        self.neutralSegment = settings.globals.metaSetNeutralSegment.copy()
 
     # Method to select the focus segment
     def selectFocusSegment(self):
@@ -110,7 +110,7 @@ class MetaSet:
 
             # Then calculaing the list of the neutral segments in case of an equipment used in the focus segment
             for focusSegment in listFocusSegments:
-                neutralSegment = self.neutralSegment
+                neutralSegment = self.neutralSegment.copy()
                 neutralSegment["equipment"] = focusSegment["equipment"]
                 self.listNeutralSegments.append(neutralSegment)
 
