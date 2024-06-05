@@ -212,10 +212,10 @@ class Segment:
           parameterValue = "drill"
 
       # Extracting the relevant values of the parameters
-      relBaseTimeTypes = settings.globals.baseTimeTypes[parameter]
+      relBaseTimeTypes = globalsDefault.baseTimeTypes[parameter]
 
       # Extracting the relevant values of the times for this parameter
-      relBaseTimes = settings.globals.baseTimes[parameter]
+      relBaseTimes = globalsDefault.baseTimes[parameter]
 
       # Finding the position of the parameter value in relBaseTimeTypes
       indexParameterValue = relBaseTimeTypes.index(parameterValue)
@@ -232,14 +232,14 @@ class Segment:
     # Calculating the final multiplicative factor
 
     # First setting the "basis" multiplicative factor on the 100m free time entered by the user. 
-    totalMultFactor = settings.globals.baseTime / globalsDefault.baseTime
+    totalMultFactor = 1
 
     # Then multiplying the factor based on the other strokes. 
     for parameter in multFactors.keys():
       totalMultFactor *= multFactors[parameter]
 
     # Calculating the duration
-    duration = globalsDefault.baseTime * totalMultFactor * self.distance / settings.globals.baseTimeParameters["distance"]
+    duration = settings.globals.baseTime * totalMultFactor * self.distance / settings.globals.baseTimeParameters["distance"]
 
     # rounding up the duration at +/-5 seconds
     durationMinutes, durationSeconds = convertDuration(duration)

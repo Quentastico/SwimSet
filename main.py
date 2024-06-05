@@ -4,6 +4,7 @@ import urllib
 from Training import Training
 from utils import extractFromJSON
 import settings
+import globalsDefault
 
 @functions_framework.http
 def generateTraining(req):

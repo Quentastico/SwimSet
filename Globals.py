@@ -128,15 +128,6 @@ class Globals:
         self.drillProba = extractFromJSON("drillProba", self.drillProba, requestJSON, requestArgs)
         self.strokeProba = extractFromJSON("strokeProba", self.strokeProba, requestJSON, requestArgs)
         self.baseTime = extractFromJSON("baseTime", self.baseTime, requestJSON, requestArgs)
-        self.baseTimeBreaststroke = extractFromJSON("baseTimeBreaststroke", self.baseTimeBreaststroke, requestJSON, requestArgs)
-        self.baseTimeBackstroke = extractFromJSON("baseTimeBackstroke", self.baseTimeBackstroke, requestJSON, requestArgs)
-        self.baseTimeButterfly = extractFromJSON("baseTimeButterfly", self.baseTimeButterfly, requestJSON, requestArgs)
-        self.baseTimeIM = extractFromJSON("baseTimeIM", self.baseTimeIM, requestJSON, requestArgs)
-        self.baseTimePullBuoyAndPaddles = extractFromJSON("baseTimePullBuoyAndPaddles", self.baseTimePullBuoyAndPaddles, requestJSON, requestArgs)
-        self.baseTimeFins = extractFromJSON("baseTimeFins", self.baseTimeFins, requestJSON, requestArgs)
-        self.baseTimeWithDrill = extractFromJSON("baseTimeWithDrill", self.baseTimeWithDrill, requestJSON, requestArgs)
-        self.baseTimeWithKicks = extractFromJSON("baseTimeWithKicks", self.baseTimeWithKicks, requestJSON, requestArgs)
-        self.baseTimeIntensity5Excluded = extractFromJSON("baseTimeIntensity5Excluded", self.baseTimeIntensity5Excluded, requestJSON, requestArgs)
 
         # Redefining the calculated global variables
 
@@ -145,28 +136,6 @@ class Globals:
                                           "intensity": [np.arange(self.minIntensity, self.maxIntensity+1, self.stepIntensity), []],
                                           "drill": [self.drillTypes, self.drillProba],
                                           "kick": [self.kickTypes, self.kickProba]}
-        
-        self.baseTimeStroke = [self.baseTime, self.baseTimeBreaststroke, self.baseTimeBackstroke, self.baseTimeButterfly, self.baseTimeIM]
-
-        self.baseTimeEquipment = [self.baseTimePullBuoyAndPaddles, self.baseTimeFins, self.baseTime]
-
-        self.baseTimeDrill = [self.baseTimeWithDrill, self.baseTime]
-
-        self.baseTimeKick = [self.baseTimeWithKicks, self.baseTime]
-
-        self.baseTimeIntensity = [self.baseTimeIntensity5Excluded[0],
-                                  self.baseTime,
-                                  self.baseTimeIntensity5Excluded[1],
-                                  self.baseTimeIntensity5Excluded[2],
-                                  self.baseTimeIntensity5Excluded[3],
-                                  self.baseTimeIntensity5Excluded[4],
-                                  self.baseTimeIntensity5Excluded[5]]
-        
-        self.baseTimes = {"stroke": self.baseTimeStroke,
-                          "equipment": self.baseTimeEquipment,
-                          "drill": self.baseTimeDrill,
-                          "kick": self.baseTimeKick,
-                          "intensity": self.baseTimeIntensity}
         
 
 
