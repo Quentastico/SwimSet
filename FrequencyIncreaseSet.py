@@ -53,11 +53,10 @@ class FrequencyIncreaseSet(Set):
 
         # 3. Then we determine the size of each block
         if self.selCombo is not None:
-
             n = self.selCombo[0]
             d = self.selCombo[1]
-            for i in np.arange(n):
-                self.listBlockDistance.append(n * (n-i) * d)
+            for i in np.floor(0.5*(np.power(n,2) + np.power(n,3))):
+                self.listBlockDistance.append(d)
 
     # Method to create the blocks
     def createBlocks(self):
@@ -65,6 +64,7 @@ class FrequencyIncreaseSet(Set):
         # In a first part of the code, we will aime to create the "base segment" and the "special segment"
         # The base segment will repeat multiple times
         # The special segment will not repeat as often, but will be the focus of the swimmer
+        # Note that these will be contained in blocks of single segments
         # We have two ways to generate these two segments
         # Either randomly 
         # Or according to a meta-pattern if we are in a meta set
@@ -92,7 +92,6 @@ class FrequencyIncreaseSet(Set):
                                         nBlocks=2, 
                                         standardInit=True)
             self.variationSegment = variationSegment
-
 
             # 4. We then change the value of baseSegment parameter which is supposed to change
             baseSegment.setForcedParameter(parameterName=variationSegment.selParameter, parameterValue=variationSegment.selParameterVariation[0])
@@ -130,26 +129,29 @@ class FrequencyIncreaseSet(Set):
         n = self.selCombo[0]
         d = self.selCombo[1]
 
-        # 8.2. Looping all all the blocks
-        for blockDistance in self.listBlockDistance:
+        # 8.2. then creating the two blocks of interest
+        baseBlock = Block(distance=d, nSegments=1)
+        baseBlock.listSegmentDistance = [d]
+        baseBlock.listSegment = [baseSegment.copy()]
 
-            # Calculating the number of segments in this block
-            nSegments = int(blockDistance/d)
+        specialBlock = Block(distance=d, nSegments=1)
+        specialBlock.listSegmentDistance = [d]
+        specialBlock.listSegment = [specialSegment.copy()]
 
-            # Creating the block and setting the list of segment distance within the block
-            newBlock = Block(distance=blockDistance, nSegments=nSegments)
-            for i in np.arange(nSegments):
-                newBlock.listSegmentDistance.append(d)
+        # Here we are looping on the total number of meta-blocks
+        # The first meta-bloc will have n*n segments
+        # The second meta-block will have n*(n-1) segments
+        # ...
+        # The last meta blocks will have n segments
+        for i in np.arange(n, 0, -1):
 
-            # Then we create the "subblock" which contains a total of nSegment/n segments
-            subBlocks = []
-            for i in np.arange(int(nSegments/n)-1):
-                subBlocks.append(baseSegment)
-            subBlocks.append(specialSegment)
+            for _ in np.arange(n):
 
-            # We then repeat the subBlock n times in the Block
-            for i in np.arange(n):
-                newBlock.listSegment += subBlocks
+                for p in np.arange(i):
 
-            self.listBlock.append(newBlock)
+                    # Test to determine if this is a focus one
+                    if np.floor((p+1)/i) == (p+1)/i:
+                        self.listBlock.append(specialBlock.copy())
+                    else: 
+                        self.listBlock.append(baseBlock.copy())
 
