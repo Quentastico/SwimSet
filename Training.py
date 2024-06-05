@@ -223,7 +223,7 @@ class Training:
             print("SET " + str(i+2) + " Creation")
             print("Set type: " + selSetType)
           newSet = firstSet.newFocusCopy(newFocusSegment=metaSet.listFocusSegments[i+1], 
-                                         newNeutralSegment=metaSet.listNeutralSegment[i+1])
+                                         newNeutralSegment=metaSet.listNeutralSegments[i+1])
           self.listSet.append(newSet)
           
 
