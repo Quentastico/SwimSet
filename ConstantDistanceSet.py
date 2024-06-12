@@ -261,3 +261,20 @@ class ConstantDistanceSet(Set):
                         # Changing the values of the neutral segment(s)
                         block.listSegment[nonChangingSegmentIndex].setForcedParameter(parameterName=parameter,
                                                                                       parameterValue=self.neutralSegment[parameter])
+
+            # Finally in this block, we need to remove segments which have a distance of 0m
+            for block in self.listBlock:   
+
+                for segment in block.listSegment: 
+
+                    if segment.distance == 0:
+                        block.listSegment.remove(segment)
+                        block.listSegmentDistance.remove(segment.distance)
+                        block.nSegments -= 1
+
+            # And then, just to keep things 100% clean, we also remove the null values in the listSegmentDistance
+            for item in self.listSegmentDistance:
+                for element in item:
+                    if element == 0:
+                        item.remove(element)             
+            
