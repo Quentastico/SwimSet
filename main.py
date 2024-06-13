@@ -7,7 +7,7 @@ import settings
 import globalsDefault
 
 @functions_framework.http
-def generateTraining(req):
+def generate(req):
 
     # Extracting the data from the json
     requestJSON = req.get_json(silent=True)
